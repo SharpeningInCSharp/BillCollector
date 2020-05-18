@@ -61,7 +61,8 @@ namespace CashRegister
 			{
 				expence.CreateGuid();
 
-				var outputThread = Task.Factory.StartNew(() => OutputData(expence), TaskCreationOptions.LongRunning);
+				//TODO: повыситиь приоритет этого потока
+				var outputThread = Task.Run(() => OutputData(expence));
 
 				Task.Run(() => ShowLoadingAmination(outputThread));
 			}
@@ -80,7 +81,7 @@ namespace CashRegister
 
 		private void ShowLoadingAmination(Task runningOutputTask)
 		{
-			const int Timeout = 300;
+			const int Timeout = 100;
 			const string initialText = "Loading";
 			Dispatcher.Invoke(() => LoadingTextBlock.Visibility = Visibility.Visible);
 			while (runningOutputTask.Status != TaskStatus.RanToCompletion)
@@ -103,7 +104,7 @@ namespace CashRegister
 		{
 			var fileCreationTask = ToPDFConverter.CreateAsync(this.expence);
 			fileCreationTask.Wait();
-			var updateTask = DataBase.AddAsync(expence);		//SOLVE:check null exception, what's happened with DB?
+			var updateTask = DataBase.AddAsync(expence);
 			var fileUploadTask = CloudBillProvider.UploadAsync(this.expence.Bill.Path);     //Doen't work yet
 			Task.WaitAll(new Task[] { updateTask, fileUploadTask });
 			return fileUploadTask;

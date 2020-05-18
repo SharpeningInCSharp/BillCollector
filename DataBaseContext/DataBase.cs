@@ -1,6 +1,5 @@
 ﻿using DataBaseContext.Entities;
 using GoodInfo;
-using Org.BouncyCastle.Math.EC.Rfc7748;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,6 +56,7 @@ namespace DataBaseContext
 					Goods = ToEntityGoodList(expence.Goods),
 					IdentityGuid = expence.IdentityGuid,
 					BillEntity = ToEntityType(expence.Bill) as BillEntity,
+					//SOLVE: add bill and recusrion call for Add
 				},
 
 				_ => new ArgumentException(),
@@ -76,26 +76,14 @@ namespace DataBaseContext
 
 		private static bool CheckExictance(Entities.DataBaseContext db, IEntity entity)
 		{
-			switch (entity.EntityType)
+			return entity.EntityType switch
 			{
-				case EntityType.Bill when entity is Bill bill:
-					return db.Bills.ToList().Count(b => b.DataPath == bill.Path) == 0;
-
-				case EntityType.Expence when entity is Expence expence:
-					return db.Expences.ToList().Count(e => e.IdentityGuid == expence.IdentityGuid) == 0;
-
-				default:
-					throw new ArgumentException();
-			}
-
-			//return entity.EntityType switch
-			//{
-			//	EntityType.Bill when entity is Bill bill =>
-			//					db.Bills.ToList().Count(b => b.DataPath == bill.Path) == 0,
-			//	EntityType.Expence when entity is Expence expence =>
-			//					db.Expences.ToList().Count(e => e.IdentityGuid == expence.IdentityGuid) == 0,
-			//	_ => throw new ArgumentException(),
-			//};
+				EntityType.Bill when entity is Bill bill =>
+								db.Bills.ToList().Count(b => b.DataPath == bill.Path) == 0,
+				EntityType.Expence when entity is Expence expence =>
+								db.Expences.ToList().Count(e => e.IdentityGuid == expence.IdentityGuid) == 0,
+				_ => throw new ArgumentException(),
+			};
 		}
 	}
 }
