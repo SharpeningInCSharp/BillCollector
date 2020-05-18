@@ -8,51 +8,6 @@
         Title="MainWindow" Height="600" Width="800"
         DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <StackPanel x:Name="mainPanel">
-        <!--<ctrl:PiePiece x:Name="MyPiece1" Angle="60" DefaultBrush="Blue"/>
-        <ctrl:PiePiece x:Name="MyPiece" Angle="90" DefaultBrush="Red"/>-->
-        
-        <!--<Rectangle Fill="Red" Height="200" Width="200" RenderTransformOrigin="0.5,0.5">
-            <Rectangle.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="37.949"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Rectangle.RenderTransform>
-        </Rectangle>
-        <Rectangle Fill="Blue" Height="100" RadiusX="50" RadiusY="50" Margin="292,242,300,242" RenderTransformOrigin="0.5,0.5">
-            <Rectangle.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleX="1" ScaleY="1" CenterX="0" CenterY="0"/>
-                    <SkewTransform AngleX="-1.688"/>
-                    <RotateTransform Angle="-13.585"/>
-                    <TranslateTransform X="-1.433" Y="0.346"/>
-                </TransformGroup>
-            </Rectangle.RenderTransform>
-        </Rectangle>-->
-        <!--<Path x:Name="tmpPath"/>-->
-        <!-- <Path Stroke="Red"
-              StrokeThickness="1"
-              Fill="Red"
-              MouseEnter="Path_MouseEnter" MouseLeave="Path_MouseLeave"
-              x:Name="MainPath">
-            <Path.Data>
-                <GeometryGroup>
-                    <PathGeometry>
-                        <PathFigure StartPoint="{Binding Center}" IsFilled="False" x:Name="Geometry" IsClosed="False">
-                            <LineSegment Point="170,150"/>
-                            <BezierSegment Point1="170,150" Point2="182.9409,151.7037" Point3="195,156.6987"/>
-                            <LineSegment Point="{Binding Center}"/>
-                        </PathFigure>
-                    </PathGeometry>
-                </GeometryGroup>
-            </Path.Data>
-            <Path.RenderTransform>
-                <TransformGroup>
-                    <RotateTransform x:Name="SectorRotation" Angle="30" CenterX="{Binding Center.X}" CenterY="{Binding Center.Y}"/>
-                </TransformGroup>
-            </Path.RenderTransform>
-        </Path>-->
+       
     </StackPanel>
 </Window>

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using DataBaseContext.OutputTools;
+using DataBaseContext.Entities;
 
 namespace DataBaseContext
 {
@@ -14,6 +15,18 @@ namespace DataBaseContext
 		{
 			Goods = new Dictionary<Good, int>();
 			Date = DateTime.Now;
+		}
+
+		internal Expence(ExpenceEntity expenceEntity) : base(EntityType.Expence)
+		{
+			foreach (var item in expenceEntity.Goods)
+			{
+				var g = new Good(item.Good.Type, item.Good.Name, item.Good.Price);
+				Goods.Add(g, item.Amount);
+			}
+
+			Date = expenceEntity.Date;
+			IdentityGuid = expenceEntity.IdentityGuid;
 		}
 
 		[Key]

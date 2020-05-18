@@ -21,12 +21,11 @@ namespace AdditionalControls
 	/// </summary>
 	public partial class PieDiagram : UserControl
 	{
-		private List<Expence> expences;
 		public List<Expence> ItemsSource
 		{
 			set
 			{
-				expences = value;
+				
 				Initialize();
 			}
 		}
@@ -46,15 +45,17 @@ namespace AdditionalControls
 		}
 
 		//TODO: add validation
-		public PieDiagram(List<Expence> expences, DateTime dateTime) : this()
+		public PieDiagram(DateTime dateTime) : this()
 		{
 			Initial = dateTime;
-			this.expences = new List<Expence>(expences);
+			DataBase.Select(dateTime);
 		}
 
-		public PieDiagram(List<Expence> expences, DateTime initial, DateTime final) : this(expences, initial)
+		public PieDiagram(DateTime initial, DateTime final) : this()
 		{
+			Initial = initial;
 			Final = final;
+			DataBase.Select(initial, final);
 		}
 
 		private void InitializeLegend()

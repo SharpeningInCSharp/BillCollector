@@ -14,6 +14,18 @@ namespace DataBaseContext
 			return await Task.Run(() => Add(data));
 		}
 
+		public static List<Expence> Select(DateTime currentDate)
+		{
+			using var db = new Entities.DataBaseContext();
+			return db.Expences.Where(x => x.Date == currentDate).Select(x => new Expence(x)).ToList();
+		}
+
+		public static List<Expence> Select(DateTime initialDate, DateTime finalDate)
+		{
+			using var db = new Entities.DataBaseContext();
+			return db.Expences.Where(x => x.Date >= initialDate && x.Date <= finalDate).Select(x => new Expence(x)).ToList();
+		}
+
 		private static bool Add(IEntity data)
 		{
 			using var db = new Entities.DataBaseContext();
@@ -41,7 +53,7 @@ namespace DataBaseContext
 				{
 					Date = expence.Date,
 					Goods = ToEntityGoodList(expence.Goods),
-					IdentitiGuid = expence.IdentityGuid,
+					IdentityGuid = expence.IdentityGuid,
 					//SOLVE: add bill and recusrion call for Add
 				},
 
@@ -67,7 +79,7 @@ namespace DataBaseContext
 				EntityType.Bill when entity is Bill bill =>
 								db.Bills.ToList().Count(b => b.DataPath == bill.Path) == 0,
 				EntityType.Expence when entity is Expence expence =>
-								db.Expences.ToList().Count(e => e.IdentitiGuid == expence.IdentityGuid) == 0,
+								db.Expences.ToList().Count(e => e.IdentityGuid == expence.IdentityGuid) == 0,
 				_ => throw new ArgumentException(),
 			};
 		}

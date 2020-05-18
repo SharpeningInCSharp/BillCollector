@@ -22,6 +22,6 @@ namespace DataBaseContext.Entities
 
 		public List<ExpenceItemEntity> Goods { get; set; }
 
-		public Guid? IdentitiGuid { get; set; } = null;
+		public Guid? IdentityGuid { get; set; } = null;
 	}
 }
