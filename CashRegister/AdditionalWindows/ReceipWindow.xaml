@@ -24,7 +24,9 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Image Grid.Column="0" x:Name="QrImage"/>
-            <!--Animation-->
+            <Path Grid.Column="1" x:Name="TimeOutPath">
+                
+            </Path>
         </Grid>
     </Grid>
 </Window>

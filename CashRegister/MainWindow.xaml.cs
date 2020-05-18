@@ -6,6 +6,9 @@ using Microsoft.Win32;
 using DataBaseContext.OutputTools;
 using DataBaseContext.InputTools;
 using CashRegister.AdditionalWindows;
+using System;
+using System.Windows.Documents;
+using System.Threading;
 
 namespace CashRegister
 {
@@ -57,19 +60,44 @@ namespace CashRegister
 			else
 			{
 				expence.CreateGuid();
+
+				//TODO: повыситиь приоритет этого потока
 				var outputThread = Task.Run(() => OutputData(expence));
 
-				while (outputThread.Status != TaskStatus.RanToCompletion)
-				{
-					//Animation.Visibility = Visibility.Visible;
-				}
-				//Animation.Visibility = Visibility.Hidden;
+				Task.Run(() => ShowLoadingAmination(outputThread));
+			}
+		}
 
+		private void OpenReceipWin()
+		{
+			Dispatcher.Invoke(() =>
+			{
 				//var receipWin = new ReceipWindow(expence, outputThread.Result);	//Doen't work yet
 				var receipWin = new ReceipWindow(expence, "Tmp");
 				expence = new Expence();
 				receipWin.ShowDialog();
+			});
+		}
+
+		private void ShowLoadingAmination(Task runningOutputTask)
+		{
+			const int Timeout = 100;
+			const string initialText = "Loading";
+			Dispatcher.Invoke(() => LoadingTextBlock.Visibility = Visibility.Visible);
+			while (runningOutputTask.Status != TaskStatus.RanToCompletion)
+			{
+				Dispatcher.Invoke(() => LoadingTextBlock.Text = initialText);
+				Thread.Sleep(Timeout);
+				Dispatcher.Invoke(() => LoadingTextBlock.Text = initialText + ".");
+				Thread.Sleep(Timeout);
+				Dispatcher.Invoke(() => LoadingTextBlock.Text = initialText + "..");
+				Thread.Sleep(Timeout);
+				Dispatcher.Invoke(() => LoadingTextBlock.Text = initialText + "...");
+				Thread.Sleep(Timeout);
 			}
+			Dispatcher.Invoke(() => LoadingTextBlock.Visibility = Visibility.Hidden);
+
+			OpenReceipWin();
 		}
 
 		private Task<string> OutputData(Expence expence)

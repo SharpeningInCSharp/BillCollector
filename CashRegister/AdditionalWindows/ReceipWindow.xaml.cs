@@ -1,9 +1,12 @@
 ﻿using DataBaseContext;
+using iText.Layout.Renderer;
 using QRCoder;
 using System;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -15,6 +18,8 @@ namespace CashRegister.AdditionalWindows
 	/// </summary>
 	public partial class ReceipWindow : Window
 	{
+		private const int TimeOut = 60;
+
 		public ReceipWindow()
 		{
 			InitializeComponent();
@@ -32,6 +37,26 @@ namespace CashRegister.AdditionalWindows
 			receipOutputDataGrid.ItemsSource = items;
 			TotalPriceTB.Text = expence.Sum.ToString();
 			CreateQr(url);
+			StartCountDownAsync();
+		}
+
+		private void StartCountDownAsync()
+		{
+			Task.Run(() => StartCountDown());
+		}
+
+		private void StartCountDown()
+		{
+			for(int i=TimeOut;i>=0;i--)
+			{
+				Draw(i);
+				Thread.Sleep(1000);
+			}
+		}
+
+		private void Draw(int i)
+		{
+			//throw new NotImplementedException();
 		}
 
 		private void CreateQr(string url)

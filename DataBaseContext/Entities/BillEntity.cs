@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataBaseContext.Entities
@@ -12,9 +11,6 @@ namespace DataBaseContext.Entities
 
 		[Key]
 		public int Id { get; set; }
-
-		[Required]
-		public DateTime Created { get; set; }
 
 		[Required]
 		public string DataPath { get; set; }

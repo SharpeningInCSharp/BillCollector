@@ -13,6 +13,15 @@
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
+
+        <TextBlock x:Name="LoadingTextBlock" 
+                   FontSize="14" 
+                   Background="Transparent" Foreground="Black" 
+                   Grid.ColumnSpan="2"
+                   VerticalAlignment="Center" HorizontalAlignment="Center"
+                   Panel.ZIndex="10"
+                   Visibility="Hidden"/>
+
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition/>
