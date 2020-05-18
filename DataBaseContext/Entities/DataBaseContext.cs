@@ -18,7 +18,7 @@ namespace DataBaseContext.Entities
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=PRINJ_Thesis;Trusted_Connection=True;");
+			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=BillCollector;Trusted_Connection=True;");
 		}
 	}
 }
