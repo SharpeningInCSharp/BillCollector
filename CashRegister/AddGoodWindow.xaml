@@ -6,10 +6,11 @@
         xmlns:local="clr-namespace:CashRegister"
         xmlns:goods="clr-namespace:GoodInfo;assembly=GoodInfo"
         mc:Ignorable="d"
-        Icon="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\CashIcon.png"
+        Icon="C:\Users\aleks\Source\Repos\BillCollector\CashRegister\Resources\CashIcon.png"
         Title="Add good" Height="250" Width="660"
         Background="#FF5860FA">
-    <!--Icon="C:\Users\aleks\Source\Repos\BillCollector\CashRegister\Resources\CashIcon.png"-->
+    <!--Icon="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\CashIcon.png"-->
+    
     <Grid>
         <!--Grid with UI controls for input-->
         <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -59,8 +60,8 @@
                 x:Name="AddButton"
                 Click="AddButton_Click"
                 Style="{StaticResource AddButton}">
-                <Image Source="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\AddIcon.png"/>
-                <!--<Image Source="C:\Users\aleks\Source\Repos\BillCollector\CashRegister\Resources\AddIcon.png"/>-->
+                <!--<Image Source="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\AddIcon.png"/>-->
+                <Image Source="C:\Users\aleks\Source\Repos\BillCollector\CashRegister\Resources\AddIcon.png"/>
             </Button>
         </Grid>
     </Grid>

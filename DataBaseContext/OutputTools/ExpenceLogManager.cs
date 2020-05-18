@@ -10,8 +10,8 @@ namespace DataBaseContext.OutputTools
 {
 	public static class ExpenceLogManager
 	{
-		private static string logPath = @"C:\Users\User\source\repos\BillCollector\DataBaseContext\OutputTools\Resources\GoodLog.dat";
-		//private static string logPath = @"C:\Users\aleks\Source\Repos\BillCollector\DataBaseContext\OutputTools\Resources\GoodLog.dat";
+		//private static string logPath = @"C:\Users\User\source\repos\BillCollector\DataBaseContext\OutputTools\Resources\GoodLog.dat";
+		private static string logPath = @"C:\Users\aleks\Source\Repos\BillCollector\DataBaseContext\OutputTools\Resources\GoodLog.dat";
 		private static readonly object locker = new object();
 
 		/// <summary>

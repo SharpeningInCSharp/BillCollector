@@ -48,6 +48,7 @@ namespace CashRegister
 				TotalPriceTextBlock.Text = expence.Sum.ToString();
 			}
 			);
+
 		}
 
 		//TODO: LoadingAnimation
@@ -81,7 +82,7 @@ namespace CashRegister
 
 		private void ShowLoadingAmination(Task runningOutputTask)
 		{
-			const int Timeout = 100;
+			const int Timeout = 200;
 			const string initialText = "Loading";
 			Dispatcher.Invoke(() => LoadingTextBlock.Visibility = Visibility.Visible);
 			while (runningOutputTask.Status != TaskStatus.RanToCompletion)
