@@ -1,0 +1,75 @@
+﻿using DataBaseContext.Entities;
+using GoodInfo;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace DataBaseContext
+{
+	public static class DataBase
+	{
+		public static async Task<bool> AddAsync(IEntity data)
+		{
+			return await Task.Run(() => Add(data));
+		}
+
+		private static bool Add(IEntity data)
+		{
+			using var db = new Entities.DataBaseContext();
+			if (CheckExictance(db, data))
+			{
+				var entity = ToEntityType(data);
+				db.Add(entity);
+				db.SaveChanges();
+				return true;
+			}
+
+			return false;
+		}
+
+		private static object ToEntityType(IEntity data)
+		{
+			return data.EntityType switch
+			{
+				EntityType.Bill when data is Bill bill => new BillEntity
+				{
+					DataPath = bill.Path,
+				},
+
+				EntityType.Expence when data is Expence expence => new ExpenceEntity
+				{
+					Date = expence.Date,
+					Goods = ToEntityGoodList(expence.Goods),
+					IdentitiGuid = expence.IdentityGuid,
+					//SOLVE: add bill and recusrion call for Add
+				},
+
+				_ => new ArgumentException(),
+			};
+		}
+
+		private static List<ExpenceItemEntity> ToEntityGoodList(Dictionary<Good, int> goods)
+		{
+			var result = new List<ExpenceItemEntity>();
+			foreach (var item in goods)
+			{
+				result.Add(new ExpenceItemEntity(new GoodEntity(item.Key), item.Value));
+			}
+
+			return result;
+		}
+
+		private static bool CheckExictance(Entities.DataBaseContext db, IEntity entity)
+		{
+			return entity.EntityType switch
+			{
+				EntityType.Bill when entity is Bill bill =>
+								db.Bills.ToList().Count(b => b.DataPath == bill.Path) == 0,
+				EntityType.Expence when entity is Expence expence =>
+								db.Expences.ToList().Count(e => e.IdentitiGuid == expence.IdentityGuid) == 0,
+				_ => throw new ArgumentException(),
+			};
+		}
+	}
+}

@@ -1,0 +1,88 @@
+﻿<Window x:Class="CashRegister.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CashRegister"
+        mc:Ignorable="d"
+        Icon="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\CashIcon.png"
+        Title="Cash" Height="400" Width="800">
+    <Grid Background="#FF5860FA">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+            <DataGrid Grid.Row="0" x:Name="goodListDataGrid" 
+                      CanUserDeleteRows="False"/>
+            <StackPanel Orientation="Horizontal" Grid.Row="1"
+                        VerticalAlignment="Center" HorizontalAlignment="Right">
+                <TextBlock Text="Total price, P:" Style="{StaticResource ItemTitleTextBlock}"/>
+                <TextBlock x:Name="TotalPriceTextBlock" Style="{StaticResource ItemTitleTextBlock}"
+                           Text="0" Foreground="Black"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <!--Control buttons-->
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <Button x:Name="AddGoodButton" 
+                            Style="{StaticResource AddButton}"
+                            Click="AddGoodButton_Click"
+                            ToolTip="Add good">
+                        <Image Source="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\AddIcon.png"/>
+                    </Button>
+
+                    <Button x:Name="RemoveButton" Click="RemoveButton_Click" 
+                            Style="{StaticResource AddButton}">
+                        <Image Source="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\RemoveIcon.png"/>
+                    </Button>
+
+                    <Button x:Name="LoadReceip"
+                        Click="LoadReceip_Click"
+                             Style="{StaticResource AddButton}">
+                        <Image Source="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\OpenDirIcon.png" />
+                        <Button.ToolTip>
+                            <ToolTip>
+                                <StackPanel>
+                                    <TextBlock Text="Watch sample:"/>
+                                    <Image Source="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\ReceipSampleImage.png"/>
+                                </StackPanel>
+                            </ToolTip>
+                        </Button.ToolTip>
+                    </Button>
+                    <!--Settings button-->
+                    <Button x:Name="SettingsButton"
+                            Click="SettingsButton_Click"
+                            Style="{StaticResource AddButton}"
+                            Background="Transparent"
+                            ToolTip="Settings">
+                        <Image Source="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\SettingsIcon.png"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <Button Grid.Row="1" x:Name="CreateReceip"
+                    Margin="4,4,10,10"
+                    HorizontalAlignment="Right" 
+                    VerticalAlignment="Bottom"
+                    Click="CreateReceip_Click"
+                    Height="100" MaxHeight="100"
+                    Width="100" MaxWidth="100"
+                    Background="LightGreen"
+                    ToolTip="Create receip">
+                <Image Source="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\CreateFileIcon.png"/>
+            </Button>
+
+        </Grid>
+    </Grid>
+</Window>

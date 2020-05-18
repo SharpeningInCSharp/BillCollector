@@ -1,0 +1,55 @@
+﻿<Window x:Class="CashRegister.AdditionalWindows.LogEditorWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CashRegister.AdditionalWindows"
+        mc:Ignorable="d"
+        Icon="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\SettingsIcon.png"
+        Title="Edit log" Height="450" Width="800"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <DataGrid Grid.Column="0" x:Name="LogDataGrid" 
+                      SelectionChanged="LogDataGrid_SelectionChanged"
+                      LostFocus="LogDataGrid_LostFocus"
+                      CanUserReorderColumns="False" CanUserSortColumns="False"/>
+            <StackPanel Margin="4,10,20,4" Grid.Column="1"  
+                        HorizontalAlignment="Right" VerticalAlignment="Top"
+                        Orientation="Horizontal" RenderTransformOrigin="0.5,0.5">
+                <CheckBox x:Name="ReplaceCheckBox"
+                          VerticalAlignment="Center"
+                          Margin="4,4,10,4"
+                          ToolTip="Tip - replace data, otherwise - add"/>
+                <Button Grid.Row="1" x:Name="LoadNwButton"
+                        Click="LoadNwButton_Click"
+                        ToolTip="Upload new log file\n.dat only"
+                        Margin="4"
+                        Style="{StaticResource AddButton}">
+                    <Image Source="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\OpenDirIcon.png"/>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <Button Grid.Row="1" x:Name="SaveButton"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top" Click="SaveButton_Click"
+                Style="{StaticResource AddButton}"
+                Background="LightGreen"
+                Margin="4"
+                Height="80"
+                Width="80"
+                MaxHeight="80"
+                MaxWidth="80">
+            <Image Source="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\SaveIcon.png" />
+        </Button>
+    </Grid>
+</Window>
