@@ -11,7 +11,8 @@ namespace DataBaseContext.OutputTools
 		private const string PostHeaderInfo = "Bla-bla-bla-bla-bla-bla-bla-bla-bla-bla-bla-bla-bla\nBla-bla-bla-bla-bla-bla-bla-bla-bla-bla-bla-bla";
 		private const int MainFontSize = 14;
 		private readonly static string Separator = new string('*', 20);
-		private readonly static string DirPath = @"C:\Users\User\source\repos\BillCollector\DataBaseContext\Bills\";
+		//private readonly static string DirPath = @"C:\Users\User\source\repos\BillCollector\DataBaseContext\Bills\";
+		private readonly static string DirPath = @"C:\Users\aleks\Source\Repos\BillCollector\DataBaseContext\Bills\";
 
 		public static async Task CreateAsync(Expence expence)
 		{
@@ -26,7 +27,8 @@ namespace DataBaseContext.OutputTools
 		/// <param name="expence"></param>
 		private static string Create(Expence expence)
 		{
-			var filePath = System.IO.Path.Combine(DirPath, expence.IdentityGuid.ToString());
+			var filePath = System.IO.Path.Combine(DirPath, expence.IdentityGuid.ToString() + ".pdf");
+
 			var pdfWriter = new PdfWriter(filePath);
 			var pdfDoc = new PdfDocument(pdfWriter);
 			var doc = new Document(pdfDoc);

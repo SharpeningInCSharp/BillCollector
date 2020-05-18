@@ -67,7 +67,7 @@ namespace CashRegister
 			}
 			else
 			{
-				MessageBox.Show(ErrorMessage());
+				MessageBox.Show(message);
 			}
 		}
 
@@ -150,7 +150,6 @@ namespace CashRegister
 		private void GoodNameTB_TextChanged(object sender, TextChangedEventArgs e)
 		{
 			var str = ((TextBox)sender).Text;
-			//SOLVE: check it:null value
 			PackToSelectedData(ItemUses.Where(x => x.Name.StartsWith(str, StringComparison.CurrentCultureIgnoreCase)).
 										OrderByDescending(x=>x.Times));
 		}

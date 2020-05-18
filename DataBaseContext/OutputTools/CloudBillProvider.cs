@@ -34,14 +34,14 @@ namespace DataBaseContext.OutputTools
 
 		private static void Upload(string path)
 		{
-			Console.WriteLine("Authorization");
-			var authorizationTask = Task.Run(() => Authorization()).Result;
-			IList<GFile> res = authorizationTask.Files.List().Execute().Files;
-			Console.WriteLine("Reading files");
-			foreach(var item in res)
-			{
-				Console.WriteLine($"Name: {item.Name} Id {item.Id}");
-			}
+			//Console.WriteLine("Authorization");
+			//var authorizationTask = Task.Run(() => Authorization()).Result;
+			//IList<GFile> res = authorizationTask.Files.List().Execute().Files;
+			//Console.WriteLine("Reading files");
+			//foreach(var item in res)
+			//{
+			//	Console.WriteLine($"Name: {item.Name} Id {item.Id}");
+			//}
 			//var createBillTask = Task.Run(() => CreateBillFile(expence));
 
 			//Task.WhenAll(authorizationTask, createBillTask);

@@ -1,26 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Automation.Text;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using GoodInfo;
 using DataBaseContext;
 using Microsoft.Win32;
 using DataBaseContext.OutputTools;
 using DataBaseContext.InputTools;
-using System.Reflection.Metadata.Ecma335;
 using CashRegister.AdditionalWindows;
 
 namespace CashRegister
@@ -64,7 +48,6 @@ namespace CashRegister
 		}
 
 		//TODO: LoadingAnimation
-		//TODO: edit removment method
 		private void CreateReceip_Click(object sender, RoutedEventArgs e)
 		{
 			if (expence.ItemsCount == 0)
@@ -74,14 +57,15 @@ namespace CashRegister
 			else
 			{
 				expence.CreateGuid();
-				//var outputThread = Task.Run(() => OutputData(expence));
+				var outputThread = Task.Run(() => OutputData(expence));
 
-				//while (outputThread.Status == TaskStatus.Running)
-				//{
-				//	//Animation.Visibility = Visibility.Visible;
-				//}
-				////Animation.Visibility = Visibility.Hidden;
-				//var receipWin = new ReceipWindow(expence, outputThread.Result);
+				while (outputThread.Status != TaskStatus.RanToCompletion)
+				{
+					//Animation.Visibility = Visibility.Visible;
+				}
+				//Animation.Visibility = Visibility.Hidden;
+
+				//var receipWin = new ReceipWindow(expence, outputThread.Result);	//Doen't work yet
 				var receipWin = new ReceipWindow(expence, "Tmp");
 				expence = new Expence();
 				receipWin.ShowDialog();
@@ -93,7 +77,7 @@ namespace CashRegister
 			var fileCreationTask = ToPDFConverter.CreateAsync(this.expence);
 			fileCreationTask.Wait();
 			var updateTask = DataBase.AddAsync(expence);
-			var fileUploadTask = CloudBillProvider.UploadAsync(this.expence.Bill.Path);
+			var fileUploadTask = CloudBillProvider.UploadAsync(this.expence.Bill.Path);     //Doen't work yet
 			Task.WaitAll(new Task[] { updateTask, fileUploadTask });
 			return fileUploadTask;
 		}
@@ -139,26 +123,28 @@ namespace CashRegister
 
 		private void RemoveButton_Click(object sender, RoutedEventArgs e)
 		{
-			if (goodListDataGrid.SelectedItems.Count == 0)
+			if (expence.ItemsCount > 0)
 			{
-				var res = MessageBox.Show("All goods'll be deleted", "Warning", MessageBoxButton.YesNo);
-				if (res == MessageBoxResult.Yes)
+				if (goodListDataGrid.SelectedItems.Count == 0)
 				{
-					expence.Clear();
-				}
-			}
-			else
-			{
-				foreach (var item in goodListDataGrid.SelectedItems)
-				{
-					if (item is Expence.ExpenceSelection selection)
+					var res = MessageBox.Show("All goods'll be deleted", "Warning", MessageBoxButton.YesNo);
+					if (res == MessageBoxResult.Yes)
 					{
-						expence.Remove(selection);
+						expence.Clear();
 					}
 				}
+				else
+				{
+					foreach (var item in goodListDataGrid.SelectedItems)
+					{
+						if (item is Expence.ExpenceSelection selection)
+						{
+							expence.Remove(selection);
+						}
+					}
+				}
+				Refresh();
 			}
-
-			Refresh();
 		}
 	}
 }

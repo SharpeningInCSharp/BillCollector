@@ -13,11 +13,14 @@ namespace DataBaseContext
 
 		public Expence() : base(EntityType.Expence)
 		{
+			Goods = new Dictionary<Good, int>();
 			Date = DateTime.Now;
 		}
 
 		internal Expence(ExpenceEntity expenceEntity) : base(EntityType.Expence)
 		{
+			Goods = new Dictionary<Good, int>();
+
 			foreach (var item in expenceEntity.Goods)
 			{
 				var g = new Good(item.Good.Type, item.Good.Name, item.Good.Price);
@@ -30,7 +33,7 @@ namespace DataBaseContext
 
 		public DateTime Date { get; }
 
-		internal Dictionary<Good, int> Goods => new Dictionary<Good, int>();
+		internal Dictionary<Good, int> Goods { get; }
 
 		public Guid? IdentityGuid { get; private set; } = null;
 
