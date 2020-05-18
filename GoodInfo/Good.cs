@@ -3,13 +3,26 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace GoodInfo
 {
-	public class Good : IEquatable<Good>, IComparable<Good>, IComparable
+	/// <summary>
+	/// Good abstraction
+	/// </summary>
+	public partial class Good
 	{
+		/// <summary>
+		/// Good name
+		/// </summary>
 		public string Name { get; private set; }
 
+		/// <summary>
+		/// Good type
+		/// </summary>
 		public GoodType Type { get; private set; }
 
+		/// <summary>
+		/// Good price
+		/// </summary>
 		public decimal Price { get; private set; }
+
 
 		public Good(GoodType type, string name, decimal price)
 		{
@@ -28,24 +41,45 @@ namespace GoodInfo
 			Price = price;
 		}
 
+		/// <summary>
+		/// Name auto correction
+		/// </summary>
+		/// <param name="name">ref to input good name to be edited</param>
 		private void NameToCapital(ref string name)
 		{
 			name = char.ToUpper(name[0]) + name.Substring(1);
 		}
 
+		/// <summary>
+		/// Change type name
+		/// </summary>
+		/// <param name="newType">new goodType</param>
 		public void ChangeTypeTo(GoodType newType)
 		{
 			Type = newType;
 		}
 
+		/// <summary>
+		/// Change good name
+		/// </summary>
+		/// <param name="newName">new name</param>
 		public void Rename(string newName)
 		{
-			if (DataValidation.CapitalName(newName))
+			if (DataValidation.CapitalName(newName)==false)
 			{
-				Name = newName;
+				NameToCapital(ref newName);
 			}
+
+			Name = newName;
 		}
-		
+
+	}
+
+	/// <summary>
+	/// Good interfaces part
+	/// </summary>
+	public partial class Good : IEquatable<Good>, IComparable<Good>, IComparable
+	{
 		public override bool Equals(object obj)
 		{
 			if (obj is Good good)

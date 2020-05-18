@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="InputTools\Migrations\20200518132233_NewInit.cs" />
+    <Compile Remove="InputTools\Migrations\20200518132233_NewInit.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Google.Apis" Version="1.45.0" />
     <PackageReference Include="Google.Apis.Auth" Version="1.45.0" />
     <PackageReference Include="Google.Apis.Core" Version="1.45.0" />
