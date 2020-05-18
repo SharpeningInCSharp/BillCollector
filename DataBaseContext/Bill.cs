@@ -1,16 +1,10 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace DataBaseContext
 {
 	public class Bill : IEntity
 	{
-		internal Bill() : base(EntityType.Bill)
-		{
-			
-		}
-
-		public Bill(string path) : this()
+		public Bill(string path) : base(EntityType.Bill)
 		{
 			if (path is null)
 				throw new ArgumentException($"{path} can't be null");
@@ -18,10 +12,6 @@ namespace DataBaseContext
 			Path = path;
 		}
 
-		[Key]
-		public int Id { get; set; }
-
-		[Required]
 		public string Path { get; }
 	}
 }

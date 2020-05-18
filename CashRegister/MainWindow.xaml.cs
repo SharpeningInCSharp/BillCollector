@@ -30,7 +30,8 @@ namespace CashRegister
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		private Expence Expence { get; set; } = new Expence();
+		private Expence expence = new Expence();
+
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -46,51 +47,53 @@ namespace CashRegister
 
 		private void AddWin_NewGoodAdded(Good obj)
 		{
-			Expence.Add(obj);
+			expence.Add(obj);
 			Refresh();
 		}
 
 		private void Refresh()
 		{
-			var items = Expence.SelectAll();
+			var items = expence.SelectAll();
 
 			Dispatcher.Invoke(() =>
 			{
 				goodListDataGrid.ItemsSource = items;
-				TotalPriceTextBlock.Text = items.Sum(x => x.TotalPrice).ToString();
+				TotalPriceTextBlock.Text = expence.Sum.ToString();
 			}
 			);
 		}
 
 		//TODO: LoadingAnimation
+		//TODO: edit removment method
 		private void CreateReceip_Click(object sender, RoutedEventArgs e)
 		{
-			if (Expence.ItemsCount == 0)
+			if (expence.ItemsCount == 0)
 			{
 				MessageBox.Show("Bill can't be empty! Add any amount of goods.");
 			}
 			else
 			{
-				Expence.CreateGuid();
-				var outputThread = Task.Run(() => OutputData(Expence));
+				expence.CreateGuid();
+				//var outputThread = Task.Run(() => OutputData(expence));
 
-				while (outputThread.Status == TaskStatus.Running)
-				{
-					//Animation.Visibility = Visibility.Visible;
-				}
-				//Animation.Visibility = Visibility.Hidden;
-				var receipWin = new ReceipWindow(Expence, outputThread.Result);
-				Expence = new Expence();
+				//while (outputThread.Status == TaskStatus.Running)
+				//{
+				//	//Animation.Visibility = Visibility.Visible;
+				//}
+				////Animation.Visibility = Visibility.Hidden;
+				//var receipWin = new ReceipWindow(expence, outputThread.Result);
+				var receipWin = new ReceipWindow(expence, "Tmp");
+				expence = new Expence();
 				receipWin.ShowDialog();
 			}
 		}
 
 		private Task<string> OutputData(Expence expence)
 		{
-			var fileCreationTask = ToPDFConverter.CreateAsync(Expence);
+			var fileCreationTask = ToPDFConverter.CreateAsync(this.expence);
 			fileCreationTask.Wait();
 			var updateTask = DataBase.AddAsync(expence);
-			var fileUploadTask = CloudBillProvider.UploadAsync(Expence.Bill.Path);
+			var fileUploadTask = CloudBillProvider.UploadAsync(this.expence.Bill.Path);
 			Task.WaitAll(new Task[] { updateTask, fileUploadTask });
 			return fileUploadTask;
 		}
@@ -119,7 +122,7 @@ namespace CashRegister
 
 		private void ReadFile(string path)
 		{
-			Expence.Clear();
+			expence.Clear();
 			foreach (var item in ReadReceipFromTxt.Read(path))
 			{
 				AddWin_NewGoodAdded(item);
@@ -141,7 +144,7 @@ namespace CashRegister
 				var res = MessageBox.Show("All goods'll be deleted", "Warning", MessageBoxButton.YesNo);
 				if (res == MessageBoxResult.Yes)
 				{
-					Expence.Clear();
+					expence.Clear();
 				}
 			}
 			else
@@ -150,7 +153,7 @@ namespace CashRegister
 				{
 					if (item is Expence.ExpenceSelection selection)
 					{
-						Expence.Remove(selection);
+						expence.Remove(selection);
 					}
 				}
 			}

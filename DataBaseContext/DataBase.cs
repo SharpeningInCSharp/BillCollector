@@ -20,10 +20,10 @@ namespace DataBaseContext
 			return db.Expences.Where(x => x.Date == currentDate).Select(x => new Expence(x)).ToList();
 		}
 
-		public static List<Expence> Select(DateTime initialDate, DateTime finalDate)
+		public static IEnumerable<Expence> Select(DateTime initialDate, DateTime finalDate)
 		{
 			using var db = new Entities.DataBaseContext();
-			return db.Expences.Where(x => x.Date >= initialDate && x.Date <= finalDate).Select(x => new Expence(x)).ToList();
+			return db.Expences.Where(x => x.Date >= initialDate && x.Date <= finalDate).Select(x => new Expence(x));
 		}
 
 		private static bool Add(IEntity data)

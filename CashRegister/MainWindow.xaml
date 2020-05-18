@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CashRegister"
         mc:Ignorable="d"
-        Icon="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\CashIcon.png"
+        Icon="C:\Users\aleks\Source\Repos\BillCollector\CashRegister\Resources\CashIcon.png"
         Title="Cash" Height="400" Width="800">
+    <!--Icon="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\CashIcon.png"-->
     <Grid Background="#FF5860FA">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
@@ -39,23 +40,27 @@
                             Style="{StaticResource AddButton}"
                             Click="AddGoodButton_Click"
                             ToolTip="Add good">
-                        <Image Source="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\AddIcon.png"/>
+                        <!--<Image Source="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\AddIcon.png"/>-->
+                        <Image Source="C:\Users\aleks\Source\Repos\BillCollector\CashRegister\Resources\AddIcon.png"/>
                     </Button>
 
                     <Button x:Name="RemoveButton" Click="RemoveButton_Click" 
                             Style="{StaticResource AddButton}">
-                        <Image Source="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\RemoveIcon.png"/>
+                        <!--<Image Source="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\RemoveIcon.png"/>-->
+                        <Image Source="C:\Users\aleks\Source\Repos\BillCollector\CashRegister\Resources\RemoveIcon.png"/>
                     </Button>
 
                     <Button x:Name="LoadReceip"
                         Click="LoadReceip_Click"
                              Style="{StaticResource AddButton}">
-                        <Image Source="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\OpenDirIcon.png" />
+                        <!--<Image Source="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\OpenDirIcon.png" />-->
+                        <Image Source="C:\Users\aleks\Source\Repos\BillCollector\CashRegister\Resources\OpenDirIcon.png"/>
                         <Button.ToolTip>
                             <ToolTip>
                                 <StackPanel>
                                     <TextBlock Text="Watch sample:"/>
-                                    <Image Source="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\ReceipSampleImage.png"/>
+                                    <!--<Image Source="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\ReceipSampleImage.png"/>-->
+                                    <Image Source="C:\Users\aleks\Source\Repos\BillCollector\CashRegister\Resources\ReceipSampleImage.png"/>
                                 </StackPanel>
                             </ToolTip>
                         </Button.ToolTip>
@@ -66,7 +71,8 @@
                             Style="{StaticResource AddButton}"
                             Background="Transparent"
                             ToolTip="Settings">
-                        <Image Source="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\SettingsIcon.png"/>
+                        <!--<Image Source="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\SettingsIcon.png"/>-->
+                        <Image Source="C:\Users\aleks\Source\Repos\BillCollector\CashRegister\Resources\SettingsIcon.png"/>
                     </Button>
                 </StackPanel>
             </Grid>
@@ -80,7 +86,8 @@
                     Width="100" MaxWidth="100"
                     Background="LightGreen"
                     ToolTip="Create receip">
-                <Image Source="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\CreateFileIcon.png"/>
+                <!--<Image Source="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\CreateFileIcon.png"/>-->
+                <Image Source="C:\Users\aleks\Source\Repos\BillCollector\CashRegister\Resources\CreateFileIcon.png"/>
             </Button>
 
         </Grid>

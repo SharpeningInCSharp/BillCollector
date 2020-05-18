@@ -10,57 +10,8 @@ namespace DataBaseContext.OutputTools
 {
 	public static class ExpenceLogManager
 	{
-		[Serializable]
-		public class GoodUseFrequence : IEquatable<string>, IEquatable<GoodUseFrequence>
-		{
-			public string Name { get; set; }
-
-			public int Times { get; private set; }
-
-			public GoodType Type
-			{
-				get;
-				private set;
-			}
-
-			internal GoodUseFrequence(GoodType goodType, string name, int times)
-			{
-				Name = name;
-				Times = times;
-				Type = goodType;
-			}
-
-			public void IncreaseTime()
-			{
-				Times++;
-			}
-
-			public void ChangeName(string name)
-			{
-				if (GoodInfo.DataValidation.CapitalName(name))
-					Name = name;
-			}
-
-			public void ChangeType(string type)
-			{
-				if (Enum.TryParse(typeof(GoodType), type, out var result))
-				{
-					Type = (GoodType)result;
-				}
-			}
-
-			public bool Equals(string other)
-			{
-				return Name.Equals(other);
-			}
-
-			public bool Equals(GoodUseFrequence other)
-			{
-				return Equals(other.Name);
-			}
-		}
-
-		private static string LogPath { get; set; } = @"C:\Users\User\source\repos\BillCollector\DataBaseContext\OutputTools\Resources\GoodLog.dat";
+		//private static string logPath = @"C:\Users\User\source\repos\BillCollector\DataBaseContext\OutputTools\Resources\GoodLog.dat";
+		private static string logPath = @"C:\Users\aleks\Source\Repos\BillCollector\DataBaseContext\OutputTools\Resources\GoodLog.dat";
 		private static readonly object locker = new object();
 
 		/// <summary>
@@ -109,7 +60,7 @@ namespace DataBaseContext.OutputTools
 			lock (locker)
 			{
 				DistincData(frequentGoods);
-				using var bWriter = new FileStream(LogPath, FileMode.OpenOrCreate);
+				using var bWriter = new FileStream(logPath, FileMode.OpenOrCreate);
 				var bFormatter = new BinaryFormatter();
 				bFormatter.Serialize(bWriter, frequentGoods);
 			}
@@ -163,9 +114,9 @@ namespace DataBaseContext.OutputTools
 		{
 			lock (locker)
 			{
-				if (File.Exists(LogPath))
+				if (File.Exists(logPath))
 				{
-					using var bReader = new FileStream(LogPath, FileMode.Open);
+					using var bReader = new FileStream(logPath, FileMode.Open);
 
 					var bFormatter = new BinaryFormatter();
 
@@ -191,20 +142,20 @@ namespace DataBaseContext.OutputTools
 
 		private static void SetNewPath(string path, bool replace, Action<string> output)
 		{
-			var prevPath = LogPath;
-			LogPath = path;
+			var prevPath = logPath;
+			logPath = path;
 
 			var logInput = LoadData();
 			if (logInput == null)           //meaning error occured
 			{
-				LogPath = prevPath;
+				logPath = prevPath;
 				output?.Invoke("Error occured.");
 			}
 			else
 			{
 				if (replace == false)
 				{
-					LogPath = prevPath;
+					logPath = prevPath;
 					var existed = LoadData();
 					Save(existed.Union(logInput).ToList());
 				}

@@ -20,7 +20,7 @@ namespace CashRegister
 
 		private bool NameValid = false;
 		private bool PriceValid = false;
-		private List<ExpenceLogManager.GoodUseFrequence> ItemUses;
+		private List<GoodUseFrequence> ItemUses;
 
 		public AddGoodWindow()
 		{
@@ -115,7 +115,7 @@ namespace CashRegister
 			PackToSelectedData(ItemUses);
 		}
 
-		private void PackToSelectedData(IEnumerable<ExpenceLogManager.GoodUseFrequence> goodUses)
+		private void PackToSelectedData(IEnumerable<GoodUseFrequence> goodUses)
 		{
 			Dispatcher.Invoke(() =>
 			{

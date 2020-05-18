@@ -1,7 +1,6 @@
 ﻿using GoodInfo;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using DataBaseContext.OutputTools;
 using DataBaseContext.Entities;
@@ -10,10 +9,10 @@ namespace DataBaseContext
 {
 	public class Expence : IEntity
 	{
-		//TODO: make extra internal entities Expence and Bill to work with but on the minimalAbstraction with opened get; set;
+		public decimal Sum => Goods.Sum(x => x.Key.Price * x.Value);
+
 		public Expence() : base(EntityType.Expence)
 		{
-			Goods = new Dictionary<Good, int>();
 			Date = DateTime.Now;
 		}
 
@@ -29,14 +28,9 @@ namespace DataBaseContext
 			IdentityGuid = expenceEntity.IdentityGuid;
 		}
 
-		[Key]
-		public int Id { get; set; }
-
-		[Required]
 		public DateTime Date { get; }
 
-		[Required]
-		internal Dictionary<Good, int> Goods { get; private set; }
+		internal Dictionary<Good, int> Goods => new Dictionary<Good, int>();
 
 		public Guid? IdentityGuid { get; private set; } = null;
 
@@ -66,13 +60,8 @@ namespace DataBaseContext
 		public List<ExpenceSelection> SelectAll()
 		{
 			int temp = 0;
-			var itemsList = Goods.Select(x => new ExpenceSelection(++temp, x.Key.Name, x.Key.Price, x.Value, x.Key)).ToList();
+			var itemsList = Goods.Select(x => new ExpenceSelection(++temp, x.Value, x.Key)).ToList();
 			return itemsList;
-		}
-
-		public Good First(string goodName)
-		{
-			return Goods.FirstOrDefault(x => x.Key.Name == goodName).Key;
 		}
 
 		public void Remove(ExpenceSelection expence)
@@ -87,6 +76,11 @@ namespace DataBaseContext
 			Goods.Clear();
 		}
 
+		public IEnumerable<GoodUseFrequence> GetGoodsByGoodType(GoodType goodType)
+		{
+			return Goods.Where(x => x.Key.Type == goodType).Select(x => new GoodUseFrequence(x.Key));
+		}
+
 		public void CreateGuid()
 		{
 			if (IdentityGuid.HasValue == false)
@@ -97,14 +91,14 @@ namespace DataBaseContext
 
 		public class ExpenceSelection
 		{
-			internal ExpenceSelection(int num, string item, decimal price, int amount, Good good)
+			internal ExpenceSelection(int num, int amount, Good good)
 			{
 				Num = num;
-				this.item = item;
-				Price = price;
+				this.item = good.Name;
+				Price = good.Price;
 				Amount = amount;
 				this.good = good;
-				TotalPrice = price * amount;
+				TotalPrice = Price * amount;
 			}
 
 			public int Num { get; }
@@ -124,7 +118,7 @@ namespace DataBaseContext
 
 			public decimal Price { get; }
 
-			public int Amount { get; }
+			public int Amount { get; private set; }
 
 			public decimal TotalPrice { get; }
 		}

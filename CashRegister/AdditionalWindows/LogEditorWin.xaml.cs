@@ -23,7 +23,7 @@ namespace CashRegister.AdditionalWindows
 	/// </summary>
 	public partial class LogEditorWin : Window
 	{
-		public List<ExpenceLogManager.GoodUseFrequence> LogItems { get; set; }
+		public List<GoodUseFrequence> LogItems { get; set; }
 
 		private class LogSelection
 		{
@@ -37,6 +37,7 @@ namespace CashRegister.AdditionalWindows
 			OnInitialize();
 		}
 
+		//SOLVE: check type edition
 		private async void OnInitialize()
 		{
 			await Task.Run(() => Initialize());
