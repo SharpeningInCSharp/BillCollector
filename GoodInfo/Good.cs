@@ -3,7 +3,10 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace GoodInfo
 {
-	public class Good : IEquatable<Good>, IComparable<Good>, IComparable
+	/// <summary>
+	/// Good abstraction
+	/// </summary>
+	public partial class Good
 	{
 		public string Name { get; private set; }
 
@@ -45,7 +48,13 @@ namespace GoodInfo
 				Name = newName;
 			}
 		}
-		
+	}
+
+	/// <summary>
+	/// Good interfaces
+	/// </summary>
+	public partial class Good : IEquatable<Good>, IComparable<Good>, IComparable
+	{
 		public override bool Equals(object obj)
 		{
 			if (obj is Good good)
