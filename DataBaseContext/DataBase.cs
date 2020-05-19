@@ -3,7 +3,6 @@ using GoodInfo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace DataBaseContext
@@ -56,7 +55,6 @@ namespace DataBaseContext
 					Goods = ToEntityGoodList(expence.Goods),
 					IdentityGuid = expence.IdentityGuid,
 					BillEntity = ToEntityType(expence.Bill) as BillEntity,
-					//SOLVE: add bill and recusrion call for Add
 				},
 
 				_ => new ArgumentException(),
@@ -75,7 +73,7 @@ namespace DataBaseContext
 		}
 
 		private static bool CheckExictance(Entities.DataBaseContext db, IEntity entity)
-		{
+		{		
 			return entity.EntityType switch
 			{
 				EntityType.Bill when entity is Bill bill =>

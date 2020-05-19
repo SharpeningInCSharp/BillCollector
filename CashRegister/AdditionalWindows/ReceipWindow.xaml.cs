@@ -32,6 +32,7 @@ namespace CashRegister.AdditionalWindows
 				x.Amount,
 				x.Item,
 				x.Price,
+				x.TotalPrice,
 			});
 
 			receipOutputDataGrid.ItemsSource = items;

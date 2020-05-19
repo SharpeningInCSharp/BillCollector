@@ -14,5 +14,18 @@ namespace DataBaseContext.OutputTools
 		{
 			return goodUses.First(x => x.Name == name);
 		}
+
+		public static T GetItem<T>(this IEnumerable<T> items, T currentItem)
+		{
+			foreach(var item in items)
+			{
+				if(item.Equals(currentItem))
+				{
+					return item;
+				}
+			}
+
+			return default;
+		}
 	}
 }

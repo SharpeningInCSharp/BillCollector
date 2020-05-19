@@ -38,7 +38,7 @@ namespace AdditionalControls
 				throw new ArgumentException();
 
 			Initial = dateTime;
-			Initialize(DataBase.Select(dateTime));
+			//Initialize(DataBase.Select(dateTime));
 		}
 
 		public PieDiagram(DateTime initial, DateTime final) : this()
@@ -48,21 +48,8 @@ namespace AdditionalControls
 
 			Initial = initial;
 			Final = final;
-			Task.Run(() => Initialize(DataBase.Select(initial, final)));
 		}
 
-		private void Initialize(IEnumerable<Expence> data)
-		{
-			var totalPrice = data.Sum(x => x.Sum);
-
-			var foods = data.Select(x => x.GetGoodsByGoodType(GoodType.Food));
-			var enter = data.Select(x => x.GetGoodsByGoodType(GoodType.Entertainment));
-			var house = data.Select(x => x.GetGoodsByGoodType(GoodType.House));
-			var other = data.Select(x => x.GetGoodsByGoodType(GoodType.Other));
-			var transport = data.Select(x => x.GetGoodsByGoodType(GoodType.Transport));
-			
-			InitializePiePieces();
-		}
 
 		private void InitializePiePieces()
 		{

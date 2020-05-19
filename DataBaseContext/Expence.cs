@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using DataBaseContext.OutputTools;
 using DataBaseContext.Entities;
+using System.Diagnostics.CodeAnalysis;
+using System.ComponentModel;
 
 namespace DataBaseContext
 {
@@ -79,9 +81,9 @@ namespace DataBaseContext
 			Goods.Clear();
 		}
 
-		public IEnumerable<GoodUseFrequence> GetGoodsByGoodType(GoodType goodType)
+		public IEnumerable<ExpenceSelection> GetGoodsByGoodType(GoodType goodType)
 		{
-			return Goods.Where(x => x.Key.Type == goodType).Select(x => new GoodUseFrequence(x.Key));
+			return Goods.Where(x => x.Key.Type == goodType).Select(x => new ExpenceSelection(0, x.Value, x.Key));
 		}
 
 		public void CreateGuid()
@@ -92,12 +94,12 @@ namespace DataBaseContext
 			}
 		}
 
-		public class ExpenceSelection
+		public partial class ExpenceSelection
 		{
 			internal ExpenceSelection(int num, int amount, Good good)
 			{
 				Num = num;
-				this.item = good.Name;
+				item = good.Name;
 				Price = good.Price;
 				Amount = amount;
 				this.good = good;
@@ -124,6 +126,42 @@ namespace DataBaseContext
 			public int Amount { get; private set; }
 
 			public decimal TotalPrice { get; }
+
+			public void IncreaseAmount(int amount)
+			{
+				if (amount > 0)
+					Amount += amount;
+			}
+		}
+
+		public partial class ExpenceSelection : IEquatable<ExpenceSelection>
+		{
+			public override bool Equals(object obj)
+			{
+				if (obj is ExpenceSelection expence)
+					return Equals(expence);
+
+				return false;
+			}
+
+			public override int GetHashCode()
+			{
+				return HashCode.Combine(Item, Price, good.Type);
+			}
+
+			public override string ToString()
+			{
+				return $"{Amount}x{Item} - {Price}\t{TotalPrice}";
+			}
+
+			public bool Equals(ExpenceSelection other)
+			{
+				if (other is null)
+					return false;
+
+				return good.Equals(other.good);
+			}
+
 		}
 	}
 }

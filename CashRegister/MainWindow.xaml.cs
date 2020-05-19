@@ -9,6 +9,8 @@ using CashRegister.AdditionalWindows;
 using System;
 using System.Windows.Documents;
 using System.Threading;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace CashRegister
 {
@@ -18,6 +20,7 @@ namespace CashRegister
 	public partial class MainWindow : Window
 	{
 		private Expence expence = new Expence();
+		public List<Expence.ExpenceSelection> Items { get; private set; }
 
 		public MainWindow()
 		{
@@ -40,18 +43,17 @@ namespace CashRegister
 
 		private void Refresh()
 		{
-			var items = expence.SelectAll();
+			Items = expence.SelectAll();
 
 			Dispatcher.Invoke(() =>
 			{
-				goodListDataGrid.ItemsSource = items;
+				goodListDataGrid.ItemsSource = Items;
 				TotalPriceTextBlock.Text = expence.Sum.ToString();
 			}
 			);
 
 		}
 
-		//TODO: LoadingAnimation
 		private void CreateReceip_Click(object sender, RoutedEventArgs e)
 		{
 			if (expence.ItemsCount == 0)
@@ -61,9 +63,13 @@ namespace CashRegister
 			else
 			{
 				expence.CreateGuid();
-
-				//TODO: повыситиь приоритет этого потока
-				var outputThread = Task.Run(() => OutputData(expence));
+				
+				//Используется Thread потому что требуется долговременное вычисление с заданием приоритета
+				Thread outputThread = new Thread(() => OutputData(expence))
+				{
+					Priority = ThreadPriority.Highest,
+				};
+				outputThread.Start();
 
 				Task.Run(() => ShowLoadingAmination(outputThread));
 			}
@@ -77,15 +83,16 @@ namespace CashRegister
 				var receipWin = new ReceipWindow(expence, "Tmp");
 				expence = new Expence();
 				receipWin.ShowDialog();
+				Refresh();
 			});
 		}
 
-		private void ShowLoadingAmination(Task runningOutputTask)
+		private void ShowLoadingAmination(Thread runningOutputThread)
 		{
 			const int Timeout = 200;
 			const string initialText = "Loading";
 			Dispatcher.Invoke(() => LoadingTextBlock.Visibility = Visibility.Visible);
-			while (runningOutputTask.Status != TaskStatus.RanToCompletion)
+			while ((runningOutputThread.ThreadState == ThreadState.Aborted || runningOutputThread.ThreadState == ThreadState.Stopped) == false)
 			{
 				Dispatcher.Invoke(() => LoadingTextBlock.Text = initialText);
 				Thread.Sleep(Timeout);
@@ -101,14 +108,13 @@ namespace CashRegister
 			OpenReceipWin();
 		}
 
-		private Task<string> OutputData(Expence expence)
+		private void OutputData(Expence expence)
 		{
 			var fileCreationTask = ToPDFConverter.CreateAsync(this.expence);
 			fileCreationTask.Wait();
 			var updateTask = DataBase.AddAsync(expence);
 			var fileUploadTask = CloudBillProvider.UploadAsync(this.expence.Bill.Path);     //Doen't work yet
 			Task.WaitAll(new Task[] { updateTask, fileUploadTask });
-			return fileUploadTask;
 		}
 
 		private void LoadReceip_Click(object sender, RoutedEventArgs e)

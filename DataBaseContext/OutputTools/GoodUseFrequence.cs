@@ -4,7 +4,7 @@ using System;
 namespace DataBaseContext.OutputTools
 {
 	[Serializable]
-	public class GoodUseFrequence : IEquatable<string>, IEquatable<GoodUseFrequence>
+	public sealed partial class GoodUseFrequence
 	{
 		public string Name { get; private set; }
 
@@ -31,12 +31,6 @@ namespace DataBaseContext.OutputTools
 			Times++;
 		}
 
-		public void IncreaseTimeFor(int times)
-		{
-			if (times > 0)
-				Times += times;
-		}
-
 		public void ChangeName(string name)
 		{
 			if (GoodInfo.DataValidation.CapitalName(name))
@@ -49,6 +43,22 @@ namespace DataBaseContext.OutputTools
 			{
 				Type = (GoodType)result;
 			}
+		}
+	}
+
+	public sealed partial class GoodUseFrequence : IEquatable<string>, IEquatable<GoodUseFrequence>
+	{
+		public override bool Equals(object obj)
+		{
+			if (obj is null)
+				return false;
+
+			return Equals(obj as GoodUseFrequence);
+		}
+
+		public override int GetHashCode()
+		{
+			return HashCode.Combine(Name, Type);
 		}
 
 		public bool Equals(string other)

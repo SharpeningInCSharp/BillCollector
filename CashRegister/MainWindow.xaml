@@ -27,8 +27,16 @@
                 <RowDefinition/>
                 <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
-            <DataGrid Grid.Row="0" x:Name="goodListDataGrid" 
-                      CanUserDeleteRows="False"/>
+            <DataGrid Grid.Row="0" x:Name="goodListDataGrid"
+                      AutoGenerateColumns="False"
+                      ItemsSource="{Binding Source=Items}"
+                      CanUserDeleteRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Item" Binding="{Binding Path=Item}"/>
+                    <DataGridTextColumn Header="Amount" Binding="{Binding Path=Amount}"/>
+                    <DataGridTextColumn Header="Price" Binding="{Binding Path=Price}"/>
+                </DataGrid.Columns>
+            </DataGrid>
             <StackPanel Orientation="Horizontal" Grid.Row="1"
                         VerticalAlignment="Center" HorizontalAlignment="Right">
                 <TextBlock Text="Total price, P:" Style="{StaticResource ItemTitleTextBlock}"/>
@@ -85,7 +93,6 @@
                     </Button>
                 </StackPanel>
             </Grid>
-
             <Button Grid.Row="1" x:Name="CreateReceip"
                     Margin="4,4,10,10"
                     HorizontalAlignment="Right" 
