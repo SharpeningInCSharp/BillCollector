@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DataBaseContext.OutputTools;
 using DataBaseContext.Entities;
-using System.Diagnostics.CodeAnalysis;
-using System.ComponentModel;
+using DataBaseContext.Diagrams;
 
 namespace DataBaseContext
 {
@@ -124,7 +123,7 @@ namespace DataBaseContext
 			public decimal Price { get; }
 
 			public int Amount { get; private set; }
-
+	
 			public decimal TotalPrice { get; }
 
 			public void IncreaseAmount(int amount)
@@ -134,8 +133,11 @@ namespace DataBaseContext
 			}
 		}
 
-		public partial class ExpenceSelection : IEquatable<ExpenceSelection>
+		//TODO: what to do with this simular props? (GetTotal and TotalPrice)
+		public partial class ExpenceSelection : IEquatable<ExpenceSelection>, IScopeSelectionItem
 		{
+			public decimal GetTotal => TotalPrice;
+
 			public override bool Equals(object obj)
 			{
 				if (obj is ExpenceSelection expence)

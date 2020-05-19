@@ -27,6 +27,8 @@ namespace BillCollector
 			TempMethod();
 		}
 		
+
+		//SOLVE: contains calendar to choose dates range; or some other UI to creareDiagrams
 		private void TempMethod()
 		{
 

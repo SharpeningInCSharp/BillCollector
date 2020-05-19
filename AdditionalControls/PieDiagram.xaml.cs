@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DataBaseContext.Diagrams;
 
 namespace AdditionalControls
 {
@@ -22,6 +23,10 @@ namespace AdditionalControls
 	/// </summary>
 	public partial class PieDiagram : UserControl
 	{
+
+		/// <summary>
+		/// List of selected items 
+		/// </summary>
 		public DateTime Initial { get; }
 		public DateTime? Final { get; }
 
@@ -32,23 +37,10 @@ namespace AdditionalControls
 		}
 
 		//TODO: add validation
-		public PieDiagram(DateTime dateTime) : this()
-		{
-			if (DataBaseContext.DataValidation.IsDateValid(dateTime) == false)
-				throw new ArgumentException();
-
-			Initial = dateTime;
-			//Initialize(DataBase.Select(dateTime));
-		}
-
-		public PieDiagram(DateTime initial, DateTime final) : this()
-		{
-			if (DataBaseContext.DataValidation.IsDateValid(initial) == false || (DataBaseContext.DataValidation.IsDateValid(final) == false))
-				throw new ArgumentException();
-
-			Initial = initial;
-			Final = final;
-		}
+		//public PieDiagram(Scopes<GoodType> scopes) : this()
+		//{
+			
+		//}
 
 
 		private void InitializePiePieces()
