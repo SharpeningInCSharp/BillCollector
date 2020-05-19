@@ -39,6 +39,11 @@ namespace AdditionalControls
 			}
 		}
 
+		public delegate void PiePieceHandler(PiePiece sender);
+		public event PiePieceHandler MouseIn;
+		public event PiePieceHandler MouseOut;
+
+		public int Num { get; }
 		public Point Center { get; private set; } = new Point(100, 100);
 
 		private const double factor = Math.PI / 180;
@@ -50,9 +55,10 @@ namespace AdditionalControls
 			InitializeComponent();
 		}
 
-		public PiePiece(double angle, Brush brush)
+		public PiePiece(int i, double angle, SolidColorBrush brush)
 		{
 			InitializeComponent();
+			Num = i;
 			DefaultBrush = brush;
 			Angle = angle;
 		}
@@ -78,12 +84,14 @@ namespace AdditionalControls
 		{
 			((Path)sender).StrokeThickness = 3;
 			((Path)sender).Fill = Brushes.LightBlue;
+			MouseIn?.Invoke(this);
 		}
 
 		private void Path_MouseLeave(object sender, MouseEventArgs e)
 		{
 			((Path)sender).StrokeThickness = 1;
 			((Path)sender).Fill = DefaultBrush;
+			MouseOut?.Invoke(this);
 		}
 
 		public void Rotate(double angle)

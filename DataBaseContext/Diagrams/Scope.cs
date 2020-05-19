@@ -6,7 +6,6 @@ using DataBaseContext.OutputTools;
 
 namespace DataBaseContext.Diagrams
 {
-	//SOLVE: to templated
 	/// <summary>
 	/// 
 	/// </summary>

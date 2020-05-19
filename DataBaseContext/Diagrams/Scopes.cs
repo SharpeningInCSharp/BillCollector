@@ -11,25 +11,39 @@ namespace DataBaseContext.Diagrams
 	/// Capable to output general info about scopes and about each of them
 	/// </summary>
 	/// <typeparam name="EType">Enum type</typeparam>
+	/// <typeparam name="DType">Data type</typeparam>
 	public partial class Scopes<EType, DType>
 						where EType : Enum
 						where DType : IScopeSelectionItem
 	{
-		public decimal TotalSum => scopes.Sum(x => x.Sum);
-		public List<string> TotalInfo { get; private set; }
+		public bool IsEmpty => TotalSum == 0;
 		public DateTime InitialDate { get; }
 		public DateTime? FinalDate { get; }
+		public List<string> EnumStringValues { get; } = new List<string>();
+		public Type EnumType { get; }
+		public decimal TotalSum => scopes.Sum(x => x.Sum);
+
+		public List<string> TotalInfo { get; private set; }
+
 		private readonly List<Scope<DType>> scopes = new List<Scope<DType>>();
 
 		/// <summary>
 		/// Scope for current date
 		/// </summary>
-		/// <param name="currentlDate"></param>
-		/// <param name="enumeration">Enum of values</param>
-		public Scopes(Func<EType, List<DType>> dataProvider, EType enumeration, DateTime currentlDate)
+		/// <param name="dataProvider">Function, that returns IEnumerable<<typeparamref name="DType">> from db/></param>
+		/// <param name="enumType"></param>
+		/// <param name="currentDate"></param>
+		public Scopes(Func<EType, DateTime, DateTime?, IEnumerable<DType>> dataProvider, Type enumType, DateTime currentDate)
 		{
-			InitialDate = currentlDate;
-			Initialize(enumeration, dataProvider);
+			if (enumType.IsEnum == false)
+				throw new ArgumentException($"Type {enumType} must be Enum!");
+
+			if (enumType != typeof(EType))
+				throw new ArgumentException($"Enum type must be {typeof(EType)} not {enumType}");
+
+			EnumType = enumType;
+			InitialDate = currentDate;
+			Initialize(enumType, dataProvider);
 		}
 
 		/// <summary>
@@ -38,19 +52,21 @@ namespace DataBaseContext.Diagrams
 		/// <param name="initialDate">Start of range</param>
 		/// <param name="finalDate">End of range</param>
 		/// <param name="enumeration">Enum of values</param>
-		public Scopes(Func<EType, List<DType>> dataProvider, EType enumeration, DateTime initialDate, DateTime finalDate)
+		public Scopes(Func<EType, DateTime, DateTime?, IEnumerable<DType>> dataProvider, Type enumType, DateTime initialDate, DateTime finalDate)
 		{
 			InitialDate = initialDate;
 			FinalDate = finalDate;
-			Initialize(enumeration, dataProvider);
+			Initialize(enumType, dataProvider);
 		}
 
-		private void Initialize(EType enumeration, Func<EType, List<DType>> dataProvider)
+		private void Initialize(Type enumType, Func<EType, DateTime, DateTime?, IEnumerable<DType>> dataProvider)
 		{
-			var values = Enum.GetValues(enumeration.GetType());
+			var values = Enum.GetValues(enumType);
 			foreach (var value in values)
 			{
-				var result = dataProvider.Invoke((EType)value);
+				EnumStringValues.Add(value.ToString());
+
+				var result = dataProvider.Invoke((EType)value, InitialDate, FinalDate);
 				Scope<DType> scope;
 				if (FinalDate.HasValue)
 				{
@@ -106,7 +122,5 @@ namespace DataBaseContext.Diagrams
 				}
 			}
 		}
-
-		//SOLVE: WARNING! Is total price updating with amount increasing?
 	}
 }

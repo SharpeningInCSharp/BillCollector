@@ -119,7 +119,10 @@ namespace CashRegister
 
 		private void LoadReceip_Click(object sender, RoutedEventArgs e)
 		{
-			var openFileDialog = new OpenFileDialog();
+			var openFileDialog = new OpenFileDialog
+			{
+				InitialDirectory = @"C:\Users\aleks\source\repos\BillCollector\ReceipsSamples"
+			};
 			var val = openFileDialog.ShowDialog();
 			if (val.HasValue && val.Value)
 			{

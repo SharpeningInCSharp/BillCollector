@@ -102,7 +102,6 @@ namespace DataBaseContext
 				Price = good.Price;
 				Amount = amount;
 				this.good = good;
-				TotalPrice = Price * amount;
 			}
 
 			public int Num { get; }
@@ -123,8 +122,8 @@ namespace DataBaseContext
 			public decimal Price { get; }
 
 			public int Amount { get; private set; }
-	
-			public decimal TotalPrice { get; }
+
+			public decimal TotalPrice => Price * Amount;
 
 			public void IncreaseAmount(int amount)
 			{

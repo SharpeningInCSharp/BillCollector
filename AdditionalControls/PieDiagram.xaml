@@ -16,6 +16,13 @@
         <Grid>
             
         </Grid>
-        <TextBlock x:Name="piePieceInfo" Grid.Column="2"/>
+        <StackPanel Grid.Column="2">
+            <TextBlock x:Name="piePieceHeaderTextBlock"
+                       TextAlignment="Center"
+                       FontSize="20"/>
+            <TextBlock x:Name="piePieceInfoTextBlock"
+                       FontSize="14"/>
+        </StackPanel>
+      
     </Grid>
 </UserControl>
