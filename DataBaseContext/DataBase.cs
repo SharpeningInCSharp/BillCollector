@@ -31,7 +31,7 @@ namespace DataBaseContext
 		private static bool Add(IEntity data)
 		{
 			using var db = new Entities.DataBaseContext();
-			if (CheckExictance(db, data))
+			if (CheckExistance(db, data))
 			{
 				var entity = ToEntityType(data);
 				db.Add(entity);
@@ -67,15 +67,38 @@ namespace DataBaseContext
 		private static List<ExpenceItemEntity> ToEntityGoodList(Dictionary<Good, int> goods)
 		{
 			var result = new List<ExpenceItemEntity>();
+			using var db = new Entities.DataBaseContext();
 			foreach (var item in goods)
 			{
-				result.Add(new ExpenceItemEntity(new GoodEntity(item.Key), item.Value));
+				var good = new GoodEntity(item.Key);
+				if (CheckAdditionalItemsExistance(db, good) != -1)
+				{
+					good = db.GoodEntities.Single(GoodExistenceCondition(good));
+				}
+				else
+				{
+					db.GoodEntities.Add(good);
+				}
+
+				var dicItem = new ExpenceItemEntity(good, item.Value);
+				if (CheckAdditionalItemsExistance(db, dicItem) != -1)
+				{
+					dicItem = db.ExpenceItemEntities.Single(i => i.Amount == dicItem.Amount &&
+																			AreEqual(i.Good, dicItem.Good) == true);
+				}
+				else
+				{
+					db.ExpenceItemEntities.Add(dicItem);
+				}
+
+				result.Add(dicItem);
 			}
 
+			db.SaveChanges();
 			return result;
 		}
 
-		private static bool CheckExictance(Entities.DataBaseContext db, IEntity entity)
+		private static bool CheckExistance(Entities.DataBaseContext db, IEntity entity)
 		{
 			return entity.EntityType switch
 			{
@@ -86,6 +109,30 @@ namespace DataBaseContext
 				_ => throw new ArgumentException(),
 			};
 		}
+
+		private static int CheckAdditionalItemsExistance<T>(Entities.DataBaseContext db, T data)
+		{
+			if (data is GoodEntity goodEntity)
+			{
+				var item = db.GoodEntities.ToList().SingleOrDefault(GoodExistenceCondition(goodEntity));
+				return item is null ? -1 : item.Id;
+			}
+			else if (data is ExpenceItemEntity expenceItemEntity)
+			{
+				var item = db.ExpenceItemEntities.ToList().SingleOrDefault(i => i.Amount == expenceItemEntity.Amount &&
+																			AreEqual(i.Good, expenceItemEntity.Good) == true);
+				return item is null ? -1 : item.Id;
+			}
+
+			throw new ArgumentException($"Can't find Entity {data}");
+		}
+
+		private static Func<GoodEntity, bool> GoodExistenceCondition(GoodEntity good2)
+		{
+			return g => g.Name == good2.Name && g.Price == good2.Price && g.Type == good2.Type;
+		}
+
+		private static bool AreEqual(GoodEntity good1, GoodEntity good2) => good1.Name == good2.Name && good1.Price == good2.Price && good1.Type == good2.Type;
 
 		public static IEnumerable<Expence.ExpenceSelection> SelectAndDistinct(GoodType goodType, DateTime initialDate, DateTime? finalDate)
 		{
