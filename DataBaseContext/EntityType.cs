@@ -4,6 +4,7 @@
 	{
 		Bill,
 		Expence,
-		UserAccount
+		ExpenceItem,
+		Good,
 	}
 }
