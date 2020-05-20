@@ -6,6 +6,7 @@ namespace GoodInfo
 	/// <summary>
 	/// Good abstraction
 	/// </summary>
+	[Serializable]
 	public partial class Good
 	{
 		public string Name { get; private set; }

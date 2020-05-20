@@ -24,7 +24,7 @@ namespace DataBaseContext.Entities
 
 		public string Name { get; set; }
 
-		public GoodType Type { get; }
+		public GoodType Type { get; set; }
 
 		public decimal Price { get; set; }
 	}

@@ -18,12 +18,12 @@ namespace DataBaseContext
 		public static IEnumerable<Expence> Select(DateTime currentDate)
 		{
 			using var db = new Entities.DataBaseContext();
-			return db.Expences.Where(x => x.Date.Day == currentDate.Day).Select(x => new Expence(x)).ToList();
+			var ans = db.Expences.Where(x => x.Date.Day == currentDate.Day).ToList();
+			return ans.Select(x => new Expence(x));
 		}
 
 		public static IEnumerable<Expence> Select(DateTime initialDate, DateTime finalDate)
 		{
-			//TODO: remake this request
 			using var db = new Entities.DataBaseContext();
 			return db.Expences.Where(x => x.Date >= initialDate && x.Date <= finalDate).Select(x => new Expence(x));
 		}
@@ -42,7 +42,6 @@ namespace DataBaseContext
 			return false;
 		}
 
-		//TODO: add extra tables: ExpenceEntityItem...
 		private static object ToEntityType(IEntity data)
 		{
 			return data.EntityType switch
@@ -55,7 +54,7 @@ namespace DataBaseContext
 				EntityType.Expence when data is Expence expence => new ExpenceEntity
 				{
 					Date = expence.Date,
-					Goods = ToEntityGoodList(expence.Goods),
+					Goods = /*ToEntityGoodList(expence.Goods)*/expence.Goods,
 					IdentityGuid = expence.IdentityGuid,
 					BillEntity = ToEntityType(expence.Bill) as BillEntity,
 				},
@@ -67,34 +66,34 @@ namespace DataBaseContext
 		private static List<ExpenceItemEntity> ToEntityGoodList(Dictionary<Good, int> goods)
 		{
 			var result = new List<ExpenceItemEntity>();
-			using var db = new Entities.DataBaseContext();
+			//using var db = new Entities.DataBaseContext();
 			foreach (var item in goods)
 			{
 				var good = new GoodEntity(item.Key);
-				if (CheckAdditionalItemsExistance(db, good) != -1)
-				{
-					good = db.GoodEntities.Single(GoodExistenceCondition(good));
-				}
-				else
-				{
-					db.GoodEntities.Add(good);
-				}
+				//if (CheckAdditionalItemsExistance(db, good) != -1)
+				//{
+				//	good = db.GoodEntities.ToList().Single(GoodExistenceCondition(good));
+				//}
+				//else
+				//{
+				//	db.GoodEntities.Add(good);
+				//}
 
 				var dicItem = new ExpenceItemEntity(good, item.Value);
-				if (CheckAdditionalItemsExistance(db, dicItem) != -1)
-				{
-					dicItem = db.ExpenceItemEntities.Single(i => i.Amount == dicItem.Amount &&
-																			AreEqual(i.Good, dicItem.Good) == true);
-				}
-				else
-				{
-					db.ExpenceItemEntities.Add(dicItem);
-				}
+				//if (CheckAdditionalItemsExistance(db, dicItem) != -1)
+				//{
+				//	dicItem = db.ExpenceItemEntities.ToList().Single(i => i.Amount == dicItem.Amount &&
+				//															AreEqual(i.Good, dicItem.Good) == true);
+				//}
+				//else
+				//{
+				//	db.ExpenceItemEntities.Add(dicItem);
+				//}
 
 				result.Add(dicItem);
 			}
 
-			db.SaveChanges();
+			//db.SaveChanges();
 			return result;
 		}
 
@@ -119,24 +118,23 @@ namespace DataBaseContext
 			}
 			else if (data is ExpenceItemEntity expenceItemEntity)
 			{
-				var item = db.ExpenceItemEntities.ToList().SingleOrDefault(i => i.Amount == expenceItemEntity.Amount &&
-																			AreEqual(i.Good, expenceItemEntity.Good) == true);
+				var item = db.ExpenceItemEntities.ToList().SingleOrDefault(ExpenceItemCondition(expenceItemEntity));
 				return item is null ? -1 : item.Id;
 			}
 
 			throw new ArgumentException($"Can't find Entity {data}");
 		}
 
-		private static Func<GoodEntity, bool> GoodExistenceCondition(GoodEntity good2)
-		{
-			return g => g.Name == good2.Name && g.Price == good2.Price && g.Type == good2.Type;
-		}
+		private static Func<ExpenceItemEntity, bool> ExpenceItemCondition(ExpenceItemEntity expenceItemEntity) => i => i.Amount == expenceItemEntity.Amount &&
+																													AreEqual(i.Good, expenceItemEntity.Good) == true;
+
+		private static Func<GoodEntity, bool> GoodExistenceCondition(GoodEntity good2) => g => g.Name == good2.Name && g.Price == good2.Price && g.Type == good2.Type;
 
 		private static bool AreEqual(GoodEntity good1, GoodEntity good2) => good1.Name == good2.Name && good1.Price == good2.Price && good1.Type == good2.Type;
 
 		public static IEnumerable<Expence.ExpenceSelection> SelectAndDistinct(GoodType goodType, DateTime initialDate, DateTime? finalDate)
 		{
-			//TODO: check selection requests
+			//SOLVE:goodType is unapplied
 			IEnumerable<List<Expence.ExpenceSelection>> items;
 			if (finalDate.HasValue)
 			{
