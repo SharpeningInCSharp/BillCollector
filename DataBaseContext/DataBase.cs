@@ -54,7 +54,7 @@ namespace DataBaseContext
 				EntityType.Expence when data is Expence expence => new ExpenceEntity
 				{
 					Date = expence.Date,
-					Goods = /*ToEntityGoodList(expence.Goods)*/expence.Goods,
+					Goods = ToEntityGoodList(expence.Goods),//expence.Goods,
 					IdentityGuid = expence.IdentityGuid,
 					BillEntity = ToEntityType(expence.Bill) as BillEntity,
 				},

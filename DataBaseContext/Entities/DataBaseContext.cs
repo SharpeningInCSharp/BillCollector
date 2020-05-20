@@ -24,7 +24,7 @@ namespace DataBaseContext.Entities
 			modelBuilder.Entity<ExpenceEntity>(b => 
 			b.Property(e => e.Goods).HasConversion(
 					s => JsonConvert.SerializeObject(s, Formatting.None),
-					d => JsonConvert.DeserializeObject<Dictionary<Good, int>>(d)
+					d => JsonConvert.DeserializeObject<List<ExpenceItemEntity>>(d)
 					)
 			);
 
@@ -33,7 +33,7 @@ namespace DataBaseContext.Entities
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=BillCollector_Tesis;Trusted_Connection=True;");
+			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=BillCollector_Base;Trusted_Connection=True;");
 		}
 	}
 }

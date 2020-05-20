@@ -21,8 +21,7 @@ namespace DataBaseContext.Entities
 
 		[Required]
 
-		//public List<ExpenceItemEntity> Goods { get; set; }
-		public Dictionary<Good, int > Goods { get; set; }
+		public List<ExpenceItemEntity> Goods { get; set; }
 
 		public Guid? IdentityGuid { get; set; } = null;
 
