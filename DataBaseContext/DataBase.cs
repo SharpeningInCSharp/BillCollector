@@ -135,14 +135,14 @@ namespace DataBaseContext
 		public static IEnumerable<Expence.ExpenceSelection> SelectAndDistinct(GoodType goodType, DateTime initialDate, DateTime? finalDate)
 		{
 			//SOLVE:goodType is unapplied
-			IEnumerable<List<Expence.ExpenceSelection>> items;
+			IEnumerable<IEnumerable<Expence.ExpenceSelection>> items;
 			if (finalDate.HasValue)
 			{
-				items = Select(initialDate, finalDate.Value).Select(x => x.SelectAll());
+				items = Select(initialDate, finalDate.Value).Select(x => x.SelectAll().Where(x => x.Type == goodType));
 			}
 			else
 			{
-				items = Select(initialDate).Select(x => x.SelectAll());
+				items = Select(initialDate).Select(x => x.SelectAll().Where(x => x.Type == goodType));
 			}
 
 			Distinct(items, out List<Expence.ExpenceSelection> result);
@@ -150,7 +150,7 @@ namespace DataBaseContext
 			return result;
 		}
 
-		private static void Distinct(IEnumerable<List<Expence.ExpenceSelection>> items, out List<Expence.ExpenceSelection> result)
+		private static void Distinct(IEnumerable<IEnumerable<Expence.ExpenceSelection>> items, out List<Expence.ExpenceSelection> result)
 		{
 			result = new List<Expence.ExpenceSelection>();
 

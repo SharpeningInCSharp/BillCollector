@@ -8,14 +8,13 @@ namespace AdditionalControls
 	/// </summary>
 	public partial class PieLegendItem : UserControl
 	{
-		public Brush Color { get; }
-		public string Title { get; }
-
 		public PieLegendItem(Brush color, string title)
 		{
 			InitializeComponent();
-			Color = color;
-			Title = title;
+			ItemColor.Background = color;
+			ItemName.Text = title;
 		}
+
+		//TODO: isMouseOn - Invoke event and select this item on diagram
 	}
 }

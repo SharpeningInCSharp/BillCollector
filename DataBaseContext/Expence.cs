@@ -61,11 +61,10 @@ namespace DataBaseContext
 			ExpenceLogManager.SaveDataAsync(good);
 		}
 
-		public List<ExpenceSelection> SelectAll()
+		public IEnumerable<ExpenceSelection> SelectAll()
 		{
 			int temp = 0;
-			var itemsList = Goods.Select(x => new ExpenceSelection(++temp, x.Value, x.Key)).ToList();
-			return itemsList;
+			return Goods.Select(x => new ExpenceSelection(++temp, x.Value, x.Key)); ;
 		}
 
 		public void Remove(ExpenceSelection expence)
@@ -101,8 +100,11 @@ namespace DataBaseContext
 				item = good.Name;
 				Price = good.Price;
 				Amount = amount;
+				Type = good.Type;
 				this.good = good;
 			}
+
+			public GoodType Type { get; }
 
 			public int Num { get; }
 
@@ -152,7 +154,7 @@ namespace DataBaseContext
 
 			public override string ToString()
 			{
-				return $"{Amount}x{Item} - {Price}\t{TotalPrice}";
+				return $"{Amount} x {Item} - {Price}\t\t\t\t{TotalPrice}";
 			}
 
 			public bool Equals(ExpenceSelection other)

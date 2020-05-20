@@ -25,6 +25,8 @@ namespace DataBaseContext.Diagrams
 
 		internal Scope(IEnumerable<DType> items, DateTime dateTime)
 		{
+			//TODO: add per cent
+			//TODO: current entity
 			Items = items;
 			InitialDate = dateTime;
 			Sum = Items.Sum(x => x.GetTotal);

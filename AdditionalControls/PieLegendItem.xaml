@@ -5,17 +5,19 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AdditionalControls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
-             DataContext="{Binding RelativeSource={RelativeSource Self}}">
-    <StackPanel Orientation="Horizontal" Margin="4,10,4,10">
-        <Border x:Name="ItemColor" Background="{Binding Color}"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel Orientation="Horizontal" Margin="4,6,4,0">
+        <Border x:Name="ItemColor"
+                Height="30"
+                Width="30"
                 MaxHeight="30" MaxWidth="30"
-                HorizontalAlignment="Center"/>
-        <TextBlock x:Name="ItemName" Text="{Binding Title}" 
-                   Margin="4"
+                HorizontalAlignment="Center"
+                BorderThickness="0"/>
+        <TextBlock x:Name="ItemName"
+                   Margin="4,0,4,0"
                    HorizontalAlignment="Center" 
                    VerticalAlignment="Center"
-                   Foreground="LightGray"
-                   FontSize="24"/>
+                   Foreground="Black"
+                   FontSize="18"/>
     </StackPanel>
 </UserControl>

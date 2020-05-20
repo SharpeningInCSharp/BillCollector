@@ -44,11 +44,11 @@ namespace AdditionalControls
 		public event PiePieceHandler MouseOut;
 
 		public int Num { get; }
-		public Point Center { get; private set; } = new Point(100, 100);
+		public Point Center { get; private set; } = new Point(0, 0);
 
 		private const double factor = Math.PI / 180;
 
-		private const double R = 50;
+		private const double R = 200;
 
 		public PiePiece()
 		{
@@ -66,18 +66,13 @@ namespace AdditionalControls
 		private void Builder()
 		{
 			Geometry.Segments.Clear();
-			//if (angle <= 90)
-			//{
+			bool isLargeArc = angle > 180;
+
 			Geometry.Segments.Add(new LineSegment(new Point(Center.X, Center.Y - R), true));
 			Geometry.Segments.Add(new ArcSegment(new Point(Center.X + R * Math.Sin(Angle * factor), Center.Y - R * Math.Cos(Angle * factor)),
 								new Size(R, R),
-								rotationAngle: 0, false, SweepDirection.Clockwise, true));
+								rotationAngle: 0, isLargeArc: isLargeArc, SweepDirection.Clockwise, true));
 			Geometry.Segments.Add(new LineSegment(new Point(Center.X, Center.Y), true));
-			//}
-			//else
-			//{
-			//	//Build and unite parts less 90 + autoRotareThem
-			//}
 		}
 
 		private void Path_MouseEnter(object sender, MouseEventArgs e)

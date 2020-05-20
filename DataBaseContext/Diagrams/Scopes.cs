@@ -118,7 +118,7 @@ namespace DataBaseContext.Diagrams
 			{
 				foreach (var item in category)
 				{
-					OutputHandler?.Invoke(item);
+					OutputHandler?.Invoke(item + "\n");
 				}
 			}
 		}

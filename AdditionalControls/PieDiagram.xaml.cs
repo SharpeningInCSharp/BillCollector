@@ -21,11 +21,10 @@ namespace AdditionalControls
 
 		private readonly List<PiePiece> piePieces = new List<PiePiece>();
 		private const int FullAngle = 360;
-		
+
 		public Scopes<GoodType, Expence.ExpenceSelection> Scopes { get; }
 		public SolidColorBrush[] UsersBrushes { get; }
 
-		//TODO: add check: if scopes are empty
 		public PieDiagram(Scopes<GoodType, Expence.ExpenceSelection> scopes, SolidColorBrush[] brushes)
 		{
 			if (scopes.Count() < brushes.Length)
@@ -51,30 +50,38 @@ namespace AdditionalControls
 		private void InitializePiePieces()
 		{
 			var generalVol = Scopes.TotalSum;
-			//TODO: add general angle
+			var genAngle = 0.0;
 			for (int i = 0; i < Scopes.Count(); i++)
 			{
-				var angle = Convert.ToDouble((generalVol * FullAngle) / Scopes[i].Sum);
-				var piePiece = new PiePiece(i, angle, UsersBrushes[i]);
-				piePiece.MouseIn += PiePiece_MouseIn;
-				piePiece.MouseOut += PiePiece_MouseOut;
-				piePieces.Add(piePiece);
+				if (Scopes[i].Sum != 0)
+				{
+					var angle = Convert.ToDouble((Scopes[i].Sum * FullAngle) / generalVol);
+					var piePiece = new PiePiece(i, angle, UsersBrushes[i]);
+					piePiece.MouseIn += PiePiece_MouseIn;
+					piePiece.MouseOut += PiePiece_MouseOut;
+					piePiece.Rotate(genAngle);
+					genAngle += angle;
+					piePieces.Add(piePiece);
+					PiecesGrid.Children.Add(piePiece);
+				}
 			}
 		}
 
 		private void PiePiece_MouseOut(PiePiece sender)
 		{
+			piePieceHeaderTextBlock.Text = "General info";
+			piePieceInfoTextBlock.Text = "";
+			Scopes.OutputData((output) => piePieceInfoTextBlock.Text += output);
 
 		}
 
 		private void PiePiece_MouseIn(PiePiece sender)
 		{
 			int num = sender.Num;
-			piePieceHeaderTextBlock.Text = Scopes.EnumStringValues[num];
-			Scopes[num].OutputData((output) =>
-			{
-				piePieceInfoTextBlock.Text += output;
-			});
+			piePieceInfoTextBlock.Text = "";
+			piePieceHeaderTextBlock.Text = $"{Scopes.EnumStringValues[num]} ()";
+			Scopes[num].OutputData((output) => piePieceInfoTextBlock.Text += output);
+
 		}
 
 		private void InitializeLegend()

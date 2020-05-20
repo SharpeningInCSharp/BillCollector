@@ -12,16 +12,16 @@
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0" x:Name="legend"/>
-        <Grid>
-            
-        </Grid>
-        <StackPanel Grid.Column="2">
+        <StackPanel Margin="60" Grid.Column="0" x:Name="legend" Background="LightGray"/>
+        <Grid Margin="200,400,0,0" Grid.Column="1" x:Name="PiecesGrid" 
+              VerticalAlignment="Center" HorizontalAlignment="Center"
+              Background="BlanchedAlmond"/>
+        <StackPanel Grid.Column="2" Margin="10" Background="Azure">
             <TextBlock x:Name="piePieceHeaderTextBlock"
                        TextAlignment="Center"
-                       FontSize="20"/>
+                       FontSize="28"/>
             <TextBlock x:Name="piePieceInfoTextBlock"
-                       FontSize="14"/>
+                       FontSize="18"/>
         </StackPanel>
       
     </Grid>

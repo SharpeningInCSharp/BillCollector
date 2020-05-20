@@ -6,11 +6,8 @@ using Microsoft.Win32;
 using DataBaseContext.OutputTools;
 using DataBaseContext.InputTools;
 using CashRegister.AdditionalWindows;
-using System;
-using System.Windows.Documents;
 using System.Threading;
 using System.Collections.Generic;
-using System.Globalization;
 
 namespace CashRegister
 {
@@ -20,7 +17,7 @@ namespace CashRegister
 	public partial class MainWindow : Window
 	{
 		private Expence expence = new Expence();
-		public List<Expence.ExpenceSelection> Items { get; private set; }
+		public IEnumerable<Expence.ExpenceSelection> Items { get; private set; }
 
 		public MainWindow()
 		{
