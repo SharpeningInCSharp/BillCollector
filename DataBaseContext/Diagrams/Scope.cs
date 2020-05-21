@@ -1,23 +1,26 @@
-﻿using GoodInfo;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using DataBaseContext.OutputTools;
 
 namespace DataBaseContext.Diagrams
 {
 	/// <summary>
 	/// 
 	/// </summary>
+	/// <typeparam name="EType">Enum class</typeparam>
 	/// <typeparam name="DType">Data type</typeparam>
-	public partial class Scope<DType>
+	public partial class Scope<EType, DType>
+				where EType : Enum
 				where DType : IScopeSelectionItem
 	{
-		public decimal Sum { get; private set; }
+		public decimal Sum { get; private set; } = 0;
+
+		public decimal PerCent { get; private set; } = 0;
+
+		public EType EnumMember { get; private set; }
 
 		private IEnumerable<DType> Items { get; }
-
-		internal List<string> ItemsLog => Items.Select(x => x.ToString()).ToList();
 
 		public DateTime InitialDate { get; }
 
@@ -25,8 +28,6 @@ namespace DataBaseContext.Diagrams
 
 		internal Scope(IEnumerable<DType> items, DateTime dateTime)
 		{
-			//TODO: add per cent
-			//TODO: current entity
 			Items = items;
 			InitialDate = dateTime;
 			Sum = Items.Sum(x => x.GetTotal);
@@ -41,19 +42,29 @@ namespace DataBaseContext.Diagrams
 		{
 			return Items.OrderByDescending(x => x.GetTotal).Take(3);
 		}
+
+		internal void SetPerCent(decimal perCent)
+		{
+			PerCent = Math.Round(perCent, 3);
+		}
+
+		internal void SetEnumMem(EType eType)
+		{
+			EnumMember = eType;
+		}
 	}
 
-	public partial class Scope<DType> : IStringOutputData
+	public partial class Scope<EType, DType> : IStringOutputData
 	{
 		/// <summary>
 		/// Using Handler output line by line items
 		/// </summary>
 		/// <param name="OutputHandler"></param>
-		public void OutputData(Action<string> OutputHandler)
+		public void OutputData(Action<string, string> OutputHandler)
 		{
-			foreach (var item in ItemsLog)
+			foreach (var item in Items)
 			{
-				OutputHandler?.Invoke(item + "\n");
+				OutputHandler?.Invoke(item.ToString(), item.GetTotal.ToString("C2"/*,CultureInfo.CreateSpecificCulture()*/));
 			}
 		}
 	}

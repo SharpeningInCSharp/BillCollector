@@ -22,7 +22,7 @@ namespace AdditionalControls
 		private readonly List<PiePiece> piePieces = new List<PiePiece>();
 		private const int FullAngle = 360;
 
-		public Scopes<GoodType, Expence.ExpenceSelection> Scopes { get; }
+		public Scopes<GoodType, Expence.ExpenceSelection> Scopes { get; private set; }
 		public SolidColorBrush[] UsersBrushes { get; }
 
 		public PieDiagram(Scopes<GoodType, Expence.ExpenceSelection> scopes, SolidColorBrush[] brushes)
@@ -45,6 +45,33 @@ namespace AdditionalControls
 
 			InitializeLegend();
 			InitializePiePieces();
+			ShowGeneralInfo();
+		}
+
+		public void LoadNew(Scopes<GoodType, Expence.ExpenceSelection> scopes)
+		{
+			ClearPie();
+
+			if (scopes is null)
+				throw new ArgumentNullException($"{nameof(scopes)} was null!");
+
+			Scopes = scopes;
+
+			if (Scopes.IsEmpty)
+			{
+				MessageBox.Show("There's no data for this period");
+				return;
+			}
+
+			InitializePiePieces();
+			ShowGeneralInfo();
+		}
+
+		private void ClearPie()
+		{
+			piePieces.Clear();
+			PiecesGrid.Children.Clear();
+			DiagramInfo.Clear();
 		}
 
 		private void InitializePiePieces()
@@ -69,27 +96,52 @@ namespace AdditionalControls
 
 		private void PiePiece_MouseOut(PiePiece sender)
 		{
-			piePieceHeaderTextBlock.Text = "General info";
-			piePieceInfoTextBlock.Text = "";
-			Scopes.OutputData((output) => piePieceInfoTextBlock.Text += output);
+			ShowGeneralInfo();
 
+		}
+
+		private void ShowGeneralInfo()
+		{
+			piePieceHeaderTextBlock.Text = "General info";
+
+			DiagramInfo.Clear();
+			DiagramInfo.Note = "Here is the most expensive items";
+			DiagramInfo.Header = Scopes.TotalSum.ToString("C2");
+			Scopes.OutputData((col1, col2) => DiagramInfo.Add(col1, col2));
 		}
 
 		private void PiePiece_MouseIn(PiePiece sender)
 		{
 			int num = sender.Num;
-			piePieceInfoTextBlock.Text = "";
-			piePieceHeaderTextBlock.Text = $"{Scopes.EnumStringValues[num]} ()";
-			Scopes[num].OutputData((output) => piePieceInfoTextBlock.Text += output);
+			var curScope = Scopes[num];
+			piePieceHeaderTextBlock.Text = $"{curScope.EnumMember}";
 
+			DiagramInfo.Clear();
+			DiagramInfo.Header = $"{Scopes[num].Sum:C2} ({curScope.PerCent: #0.##%})";
+			Scopes[num].OutputData((col1,col2) => DiagramInfo.Add(col1, col2));
 		}
 
 		private void InitializeLegend()
 		{
 			for (int i = 0; i < Scopes.EnumStringValues.Count; i++)
 			{
-				legend.Children.Add(new PieLegendItem(UsersBrushes[i], Scopes.EnumStringValues[i]));
+				var legendItem = new PieLegendItem(i, UsersBrushes[i], Scopes.EnumStringValues[i]);
+				legendItem.MouseOn += LegendItem_MouseOn;
+				legendItem.MouseOut += LegendItem_MouseOut;
+				legend.Children.Add(legendItem);
 			}
+		}
+
+		private void LegendItem_MouseOut(int num)
+		{
+			if (num >= 0 && num < piePieces.Count)
+				piePieces[num].Unselect();
+		}
+
+		private void LegendItem_MouseOn(int num)
+		{
+			if (num >= 0 && num < piePieces.Count)
+				piePieces[num].Select();
 		}
 	}
 }

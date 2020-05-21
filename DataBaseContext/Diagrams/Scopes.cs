@@ -10,7 +10,7 @@ namespace DataBaseContext.Diagrams
 	/// Contais general info about scopes and about each of them
 	/// Capable to output general info about scopes and about each of them
 	/// </summary>
-	/// <typeparam name="EType">Enum type</typeparam>
+	/// <typeparam name="EType">Enum class</typeparam>
 	/// <typeparam name="DType">Data type</typeparam>
 	public partial class Scopes<EType, DType>
 						where EType : Enum
@@ -25,26 +25,7 @@ namespace DataBaseContext.Diagrams
 
 		public List<string> TotalInfo { get; private set; }
 
-		private readonly List<Scope<DType>> scopes = new List<Scope<DType>>();
-
-		/// <summary>
-		/// Scope for current date
-		/// </summary>
-		/// <param name="dataProvider">Function, that returns IEnumerable<<typeparamref name="DType">> from db/></param>
-		/// <param name="enumType"></param>
-		/// <param name="currentDate"></param>
-		public Scopes(Func<EType, DateTime, DateTime?, IEnumerable<DType>> dataProvider, Type enumType, DateTime currentDate)
-		{
-			if (enumType.IsEnum == false)
-				throw new ArgumentException($"Type {enumType} must be Enum!");
-
-			if (enumType != typeof(EType))
-				throw new ArgumentException($"Enum type must be {typeof(EType)} not {enumType}");
-
-			EnumType = enumType;
-			InitialDate = currentDate;
-			Initialize(enumType, dataProvider);
-		}
+		private readonly List<Scope<EType, DType>> scopes = new List<Scope<EType, DType>>();
 
 		/// <summary>
 		/// Scope for range of dates
@@ -52,8 +33,14 @@ namespace DataBaseContext.Diagrams
 		/// <param name="initialDate">Start of range</param>
 		/// <param name="finalDate">End of range</param>
 		/// <param name="enumeration">Enum of values</param>
-		public Scopes(Func<EType, DateTime, DateTime?, IEnumerable<DType>> dataProvider, Type enumType, DateTime initialDate, DateTime finalDate)
+		public Scopes(Func<EType, DateTime, DateTime?, IEnumerable<DType>> dataProvider, Type enumType, DateTime initialDate, DateTime? finalDate)
 		{
+			if (enumType.IsEnum == false)
+				throw new ArgumentException($"Type {enumType} must be Enum!");
+
+			if (enumType != typeof(EType))
+				throw new ArgumentException($"Enum type must be {typeof(EType)} not {enumType}");
+
 			InitialDate = initialDate;
 			FinalDate = finalDate;
 			Initialize(enumType, dataProvider);
@@ -65,33 +52,44 @@ namespace DataBaseContext.Diagrams
 			foreach (var value in values)
 			{
 				EnumStringValues.Add(value.ToString());
-
-				var result = dataProvider.Invoke((EType)value, InitialDate, FinalDate);
-				Scope<DType> scope;
+				var eType = (EType)value;
+				var result = dataProvider.Invoke(eType, InitialDate, FinalDate);
+				Scope<EType, DType> scope;
 				if (FinalDate.HasValue)
 				{
-					scope = new Scope<DType>(result, InitialDate, FinalDate.Value);
+					scope = new Scope<EType, DType>(result, InitialDate, FinalDate.Value);
 
 				}
 				else
 				{
-					scope = new Scope<DType>(result, InitialDate);
+					scope = new Scope<EType, DType>(result, InitialDate);
 				}
 
+				scope.SetEnumMem(eType);
 				scopes.Add(scope);
 			}
+
+			if (IsEmpty == false)
+				SetPerCents();
 		}
 
+		private void SetPerCents()
+		{
+			foreach (var item in scopes)
+			{
+				item.SetPerCent(item.Sum / TotalSum);
+			}
+		}
 	}
 
-	public partial class Scopes<EType, DType> : IEnumerable<Scope<DType>>, IEnumerable, IStringOutputData
+	public partial class Scopes<EType, DType> : IEnumerable<Scope<EType, DType>>, IEnumerable, IStringOutputData
 	{
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return scopes.GetEnumerator();
 		}
 
-		public Scope<DType> this[int ind]
+		public Scope<EType, DType> this[int ind]
 		{
 			get
 			{
@@ -102,7 +100,7 @@ namespace DataBaseContext.Diagrams
 			}
 		}
 
-		public IEnumerator<Scope<DType>> GetEnumerator()
+		public IEnumerator<Scope<EType, DType>> GetEnumerator()
 		{
 			return scopes.GetEnumerator();
 		}
@@ -111,14 +109,14 @@ namespace DataBaseContext.Diagrams
 		/// Returns top-3 the most expensive items in each category
 		/// </summary>
 		/// <param name="OutputHandler">Handler for output</param>
-		public void OutputData(Action<string> OutputHandler)
+		public void OutputData(Action<string, string> OutputHandler)
 		{
-			var categories = scopes.Select(x => x.GetTopExpensive().Select(x => x.ToString()));
+			var categories = scopes.Select(x => x.GetTopExpensive());
 			foreach (var category in categories)
 			{
 				foreach (var item in category)
 				{
-					OutputHandler?.Invoke(item + "\n");
+					OutputHandler?.Invoke(item.ToString(), item.GetTotal.ToString("C2"));
 				}
 			}
 		}

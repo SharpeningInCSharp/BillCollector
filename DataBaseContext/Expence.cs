@@ -154,7 +154,7 @@ namespace DataBaseContext
 
 			public override string ToString()
 			{
-				return $"{Amount} x {Item} - {Price}\t\t\t\t{TotalPrice}";
+				return $"{Amount} x {Item} - {Price}";
 			}
 
 			public bool Equals(ExpenceSelection other)

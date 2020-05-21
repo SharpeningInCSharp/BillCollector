@@ -24,8 +24,22 @@ namespace DataBaseContext
 
 		public static IEnumerable<Expence> Select(DateTime initialDate, DateTime finalDate)
 		{
+			//DateToPropriateType(ref initialDate);
+			DateToPropriateType(ref finalDate);
 			using var db = new Entities.DataBaseContext();
-			return db.Expences.Where(x => x.Date >= initialDate && x.Date <= finalDate).Select(x => new Expence(x));
+			var res = db.Expences.Where(x => x.Date >= initialDate && x.Date <= finalDate).ToList();
+			return res.Select(x => new Expence(x));
+		}
+
+		/// <summary>
+		/// Sets time to the end of day
+		/// </summary>
+		/// <param name="date1">date to be edited</param>
+		private static void DateToPropriateType(ref DateTime date1)
+		{
+			var dH = 24 - date1.Hour;		//hours delta to midnight
+			var dM = 60 - date1.Minute;     //minutes delta to midnight
+			date1 = date1.AddHours(dH).AddMinutes(dM);
 		}
 
 		private static bool Add(IEntity data)
@@ -109,32 +123,31 @@ namespace DataBaseContext
 			};
 		}
 
-		private static int CheckAdditionalItemsExistance<T>(Entities.DataBaseContext db, T data)
-		{
-			if (data is GoodEntity goodEntity)
-			{
-				var item = db.GoodEntities.ToList().SingleOrDefault(GoodExistenceCondition(goodEntity));
-				return item is null ? -1 : item.Id;
-			}
-			else if (data is ExpenceItemEntity expenceItemEntity)
-			{
-				var item = db.ExpenceItemEntities.ToList().SingleOrDefault(ExpenceItemCondition(expenceItemEntity));
-				return item is null ? -1 : item.Id;
-			}
+		//private static int CheckAdditionalItemsExistance<T>(Entities.DataBaseContext db, T data)
+		//{
+		//	if (data is GoodEntity goodEntity)
+		//	{
+		//		var item = db.GoodEntities.ToList().SingleOrDefault(GoodExistenceCondition(goodEntity));
+		//		return item is null ? -1 : item.Id;
+		//	}
+		//	else if (data is ExpenceItemEntity expenceItemEntity)
+		//	{
+		//		var item = db.ExpenceItemEntities.ToList().SingleOrDefault(ExpenceItemCondition(expenceItemEntity));
+		//		return item is null ? -1 : item.Id;
+		//	}
 
-			throw new ArgumentException($"Can't find Entity {data}");
-		}
+		//	throw new ArgumentException($"Can't find Entity {data}");
+		//}
 
-		private static Func<ExpenceItemEntity, bool> ExpenceItemCondition(ExpenceItemEntity expenceItemEntity) => i => i.Amount == expenceItemEntity.Amount &&
-																													AreEqual(i.Good, expenceItemEntity.Good) == true;
+		//private static Func<ExpenceItemEntity, bool> ExpenceItemCondition(ExpenceItemEntity expenceItemEntity) => i => i.Amount == expenceItemEntity.Amount &&
+		//																											AreEqual(i.Good, expenceItemEntity.Good) == true;
 
-		private static Func<GoodEntity, bool> GoodExistenceCondition(GoodEntity good2) => g => g.Name == good2.Name && g.Price == good2.Price && g.Type == good2.Type;
+		//private static Func<GoodEntity, bool> GoodExistenceCondition(GoodEntity good2) => g => g.Name == good2.Name && g.Price == good2.Price && g.Type == good2.Type;
 
-		private static bool AreEqual(GoodEntity good1, GoodEntity good2) => good1.Name == good2.Name && good1.Price == good2.Price && good1.Type == good2.Type;
+		//private static bool AreEqual(GoodEntity good1, GoodEntity good2) => good1.Name == good2.Name && good1.Price == good2.Price && good1.Type == good2.Type;
 
 		public static IEnumerable<Expence.ExpenceSelection> SelectAndDistinct(GoodType goodType, DateTime initialDate, DateTime? finalDate)
 		{
-			//SOLVE:goodType is unapplied
 			IEnumerable<IEnumerable<Expence.ExpenceSelection>> items;
 			if (finalDate.HasValue)
 			{

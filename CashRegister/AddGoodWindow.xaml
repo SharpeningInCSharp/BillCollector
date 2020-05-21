@@ -10,10 +10,16 @@
         Title="Add good" Height="250" Width="660"
         Background="#FF5860FA">
     <!--Icon="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\CashIcon.png"-->
-    
-    <Grid>
+
+    <Grid x:Name="MainGrid" Focusable="True" 
+          MouseDown="Grid_MouseDown"
+          Background="Transparent">
         <!--Grid with UI controls for input-->
-        <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid Grid.Row="1" 
+              HorizontalAlignment="Center" VerticalAlignment="Center"
+              Focusable="True"
+              MouseDown="Grid_MouseDown"
+              Background="Transparent">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>

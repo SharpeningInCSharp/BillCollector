@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace AdditionalControls
 {
@@ -75,18 +68,34 @@ namespace AdditionalControls
 			Geometry.Segments.Add(new LineSegment(new Point(Center.X, Center.Y), true));
 		}
 
+		/// <summary>
+		/// Visually select this item and display binding data
+		/// </summary>
+		public void Select()
+		{
+			MainPath.StrokeThickness = 3;
+			MainPath.Fill = Brushes.LightBlue;
+			MouseIn?.Invoke(this);
+		}
+
+		/// <summary>
+		/// Vosially unselect this item
+		/// </summary>
+		public void Unselect()
+		{
+			MainPath.StrokeThickness = 1;
+			MainPath.Fill = DefaultBrush;
+			MouseOut?.Invoke(this);
+		}
+
 		private void Path_MouseEnter(object sender, MouseEventArgs e)
 		{
-			((Path)sender).StrokeThickness = 3;
-			((Path)sender).Fill = Brushes.LightBlue;
-			MouseIn?.Invoke(this);
+			Select();
 		}
 
 		private void Path_MouseLeave(object sender, MouseEventArgs e)
 		{
-			((Path)sender).StrokeThickness = 1;
-			((Path)sender).Fill = DefaultBrush;
-			MouseOut?.Invoke(this);
+			Unselect();
 		}
 
 		public void Rotate(double angle)

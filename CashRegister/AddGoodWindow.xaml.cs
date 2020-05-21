@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using DataBaseContext.OutputTools;
+using System.Windows.Input;
 
 namespace CashRegister
 {
@@ -159,5 +160,9 @@ namespace CashRegister
 			TopFrequentGoodsPopup.IsOpen = false;
 		}
 
+		private void Grid_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		{
+			MainGrid.Focus();
+		}
 	}
 }

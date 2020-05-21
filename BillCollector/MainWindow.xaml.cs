@@ -5,6 +5,10 @@ using AdditionalControls;
 using DataBaseContext.Diagrams;
 using DataBaseContext;
 using GoodInfo;
+using System.Windows.Controls;
+using System.Linq;
+using System.Collections.Generic;
+using System.Windows.Input;
 
 namespace BillCollector
 {
@@ -13,25 +17,52 @@ namespace BillCollector
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		//public System.Windows.Point Center { get; private set; } = new System.Windows.Point(170, 200);
-		//private const double factor = Math.PI / 180;
-		//private const double R = 50;
+		public DateTime StartDareTime { get; } = DateTime.Today;
+		public PieDiagram diagram;
 
-		private readonly SolidColorBrush[] UserBrushes = new SolidColorBrush[] {Brushes.Red, Brushes.Blue, Brushes.Green, Brushes.Purple, Brushes.Cyan, Brushes.Orange };
+		private Func<GoodType, DateTime, DateTime?, IEnumerable<Expence.ExpenceSelection>> dataProvider;
+		private readonly SolidColorBrush[] UserBrushes = new SolidColorBrush[] { Brushes.Red, Brushes.Blue, Brushes.Green, Brushes.Purple, Brushes.Cyan, Brushes.Orange };
 
 		public MainWindow()
 		{
 			InitializeComponent();
-			//mainPanel.Children.Add(new PieDiagram())
-			TempMethod();
+
+			Display();
 		}
 
-		//SOLVE: contains calendar or smth to choose dates range; or some other UI to creareDiagrams
-		private void TempMethod()
+		private void Display()
 		{
-			var sc = new Scopes<GoodType, Expence.ExpenceSelection>(DataBase.SelectAndDistinct, typeof(GoodType), DateTime.Today);
-			var diag = new PieDiagram(sc, UserBrushes);
-			mainPanel.Children.Add(diag);
+			dataProvider = DataBase.SelectAndDistinct;
+			Calendar.DisplayDateEnd = Calendar.SelectedDate = DateTime.Today;
+			Calendar.DisplayDateStart = new DateTime(2019, 1, 1);
+			Initialize();
+		}
+
+		private void Initialize()
+		{
+			var sc = new Scopes<GoodType, Expence.ExpenceSelection>(dataProvider, typeof(GoodType), DateTime.Today, null);
+			diagram = new PieDiagram(sc, UserBrushes);
+			Grid.SetRow(diagram, 0);
+			Grid.SetColumn(diagram, 1);
+			mainGrid.Children.Add(diagram);
+		}
+
+		private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (diagram != null)
+			{
+				Mouse.Capture(null);
+
+				var dates = Calendar.SelectedDates.OrderBy(x => x.Date);
+				DateTime initial = dates.First();
+				DateTime? final = dates.Last();
+
+				if (initial == final.Value)
+					final = null;
+
+				var sc = new Scopes<GoodType, Expence.ExpenceSelection>(dataProvider, typeof(GoodType), initial, final);
+				diagram.LoadNew(sc);
+			}
 		}
 	}
 }
