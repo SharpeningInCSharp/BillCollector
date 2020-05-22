@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 using System;
-using AdditionalControls;
+using DiagramControls;
 using DataBaseContext.Diagrams;
 using DataBaseContext;
 using GoodInfo;
@@ -33,14 +33,18 @@ namespace BillCollector
 		private void Display()
 		{
 			dataProvider = DataBase.SelectAndDistinct;
-			Calendar.DisplayDateEnd = Calendar.SelectedDate = DateTime.Today;
+
 			Calendar.DisplayDateStart = new DateTime(2019, 1, 1);
 			Initialize();
 		}
 
 		private void Initialize()
 		{
-			var sc = new Scopes<GoodType, Expence.ExpenceSelection>(dataProvider, typeof(GoodType), DateTime.Today, null);
+			DateTime lastExpenceD;
+			Calendar.SelectedDate = lastExpenceD = DataBase.GetLastExpenceDate();
+			Calendar.DisplayDateEnd = DateTime.Today;
+
+			var sc = new Scopes<GoodType, Expence.ExpenceSelection>(dataProvider, typeof(GoodType), lastExpenceD, null);
 			diagram = new PieDiagram(sc, UserBrushes);
 			Grid.SetRow(diagram, 0);
 			Grid.SetColumn(diagram, 1);

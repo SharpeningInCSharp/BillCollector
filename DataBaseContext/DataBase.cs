@@ -56,6 +56,13 @@ namespace DataBaseContext
 			return false;
 		}
 
+		public static DateTime GetLastExpenceDate()
+		{
+			using var db = new Entities.DataBaseContext();
+			var items = db.Expences.ToList();
+			return items.Select(x => x.Date).OrderByDescending(x => x).First();
+		}
+
 		private static object ToEntityType(IEntity data)
 		{
 			return data.EntityType switch

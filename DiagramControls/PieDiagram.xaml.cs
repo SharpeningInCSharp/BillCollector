@@ -1,14 +1,14 @@
-﻿using GoodInfo;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using DataBaseContext.Diagrams;
-using System.Windows;
 using DataBaseContext;
+using DataBaseContext.Diagrams;
+using GoodInfo;
 
-namespace AdditionalControls
+namespace DiagramControls
 {
 	/// <summary>
 	/// Логика взаимодействия для PieDiagram.xaml
@@ -50,6 +50,9 @@ namespace AdditionalControls
 
 		public void LoadNew(Scopes<GoodType, Expence.ExpenceSelection> scopes)
 		{
+			if (legend.Children.Count == 0)
+				InitializeLegend();
+
 			ClearPie();
 
 			if (scopes is null)
@@ -118,7 +121,7 @@ namespace AdditionalControls
 
 			DiagramInfo.Clear();
 			DiagramInfo.Header = $"{Scopes[num].Sum:C2} ({curScope.PerCent: #0.##%})";
-			Scopes[num].OutputData((col1,col2) => DiagramInfo.Add(col1, col2));
+			Scopes[num].OutputData((col1, col2) => DiagramInfo.Add(col1, col2));
 		}
 
 		private void InitializeLegend()

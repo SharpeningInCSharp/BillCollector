@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Icon="C:\Users\aleks\Source\Repos\BillCollector\CashRegister\Resources\SettingsIcon.png"
         Title="Edit log" Height="450" Width="800"
-        DataContext="{Binding RelativeSource={RelativeSource Self}}">
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Background="#2B798F">
     <!--Icon ="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\SettingsIcon.png"-->
     <Grid>
         <Grid.RowDefinitions>
@@ -22,6 +23,7 @@
             <DataGrid Grid.Column="0" x:Name="LogDataGrid" 
                       SelectionChanged="LogDataGrid_SelectionChanged"
                       LostFocus="LogDataGrid_LostFocus"
+                      Background="#88C9DB"
                       CanUserReorderColumns="False" CanUserSortColumns="False"/>
             <StackPanel Margin="4,10,20,4" Grid.Column="1"  
                         HorizontalAlignment="Right" VerticalAlignment="Top"
@@ -45,7 +47,9 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top" Click="SaveButton_Click"
                 Style="{StaticResource AddButton}"
-                Background="LightGreen"
+                Background="#8F7A4A"
+                BorderBrush="Black"
+                BorderThickness="1"
                 Margin="4"
                 Height="80"
                 Width="80"

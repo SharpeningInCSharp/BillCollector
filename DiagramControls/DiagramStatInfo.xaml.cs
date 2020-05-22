@@ -1,10 +1,20 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
-namespace AdditionalControls
+namespace DiagramControls
 {
 	/// <summary>
-	/// Displays data in two columns
+	/// Логика взаимодействия для DiagramStatInfo.xaml
 	/// </summary>
 	public partial class DiagramStatInfo : UserControl
 	{
@@ -56,13 +66,6 @@ namespace AdditionalControls
 				TextAlignment = TextAlignment.Right,
 			};
 
-			//var rd = new RowDefinition()
-			//{
-			//	Height = new GridLength(30, GridUnitType.Auto),
-
-			//};
-			//MainGrid.RowDefinitions.Add(rd);
-			
 			MainGrid.RowDefinitions.Add(new RowDefinition());
 
 			Grid.SetColumn(column1Tb, 0);

@@ -3,15 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:ctrl ="clr-namespace:AdditionalControls;assembly=AdditionalControls"
         mc:Ignorable="d"
+        WindowStyle="SingleBorderWindow"
         Icon="C:\Users\aleks\Source\Repos\BillCollector\BillCollector\Resources\DiagramWinIcon.png"
         Title="Expence statistic" Height="600" Width="800"
         MinHeight="700"
         MinWidth="1200"
         WindowState="Maximized"
         DataContext="{Binding RelativeSource={RelativeSource Self}}">
-    <Grid x:Name="mainGrid">
+    <Grid x:Name="mainGrid"
+          Background="#2B798F">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
@@ -20,6 +21,7 @@
                   Margin="20,20,0,0"
                   IsTodayHighlighted ="False"
                   SelectionMode="SingleRange"
-                  SelectedDatesChanged="Calendar_SelectedDatesChanged"/>
+                  SelectedDatesChanged="Calendar_SelectedDatesChanged"
+                  Background="#88C9DB"/>
     </Grid>
 </Window>

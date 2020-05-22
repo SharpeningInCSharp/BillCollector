@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataBaseContext", "DataBase
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashRegister", "CashRegister\CashRegister.csproj", "{1BBDDA5D-D46B-4E90-962E-5F4890E481C0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdditionalControls", "AdditionalControls\AdditionalControls.csproj", "{2766082F-AAAB-4A71-8047-A792DA75E725}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiagramControls", "DiagramControls\DiagramControls.csproj", "{ACB94884-888F-48ED-BE23-E31B7016821D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{1BBDDA5D-D46B-4E90-962E-5F4890E481C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BBDDA5D-D46B-4E90-962E-5F4890E481C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BBDDA5D-D46B-4E90-962E-5F4890E481C0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2766082F-AAAB-4A71-8047-A792DA75E725}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2766082F-AAAB-4A71-8047-A792DA75E725}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2766082F-AAAB-4A71-8047-A792DA75E725}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2766082F-AAAB-4A71-8047-A792DA75E725}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACB94884-888F-48ED-BE23-E31B7016821D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACB94884-888F-48ED-BE23-E31B7016821D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACB94884-888F-48ED-BE23-E31B7016821D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACB94884-888F-48ED-BE23-E31B7016821D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

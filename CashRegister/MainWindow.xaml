@@ -8,7 +8,7 @@
         Icon="C:\Users\aleks\Source\Repos\BillCollector\CashRegister\Resources\CashIcon.png"
         Title="Cash" Height="400" Width="800">
     <!--Icon="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\CashIcon.png"-->
-    <Grid Background="#FF5860FA">
+    <Grid Background="#2B798F">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="2*"/>
@@ -30,6 +30,7 @@
             <DataGrid Grid.Row="0" x:Name="goodListDataGrid"
                       AutoGenerateColumns="False"
                       ItemsSource="{Binding Source=Items}"
+                      Background="#88C9DB"
                       CanUserDeleteRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Item" Binding="{Binding Path=Item}"/>
@@ -100,7 +101,9 @@
                     Click="CreateReceip_Click"
                     Height="100" MaxHeight="100"
                     Width="100" MaxWidth="100"
-                    Background="LightGreen"
+                    BorderBrush="Black"
+                    BorderThickness="1"
+                    Background="#8F7A4A"
                     ToolTip="Create receip">
                 <!--<Image Source="C:\Users\User\source\repos\BillCollector\CashRegister\Resources\CreateFileIcon.png"/>-->
                 <Image Source="C:\Users\aleks\Source\Repos\BillCollector\CashRegister\Resources\CreateFileIcon.png"/>
