@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Input;
+using System.Threading.Tasks;
 
 namespace BillCollector
 {
@@ -18,11 +19,15 @@ namespace BillCollector
 	public partial class MainWindow : Window
 	{
 		public DateTime StartDareTime { get; } = DateTime.Today;
+		private readonly DateTime InitialDate = new DateTime(2019, 1, 1);
 		public PieDiagram diagram;
 
 		private Func<GoodType, DateTime, DateTime?, IEnumerable<Expence.ExpenceSelection>> dataProvider;
 		private readonly SolidColorBrush[] UserBrushes = new SolidColorBrush[] { Brushes.Red, Brushes.Blue, Brushes.Green, Brushes.Purple, Brushes.Cyan, Brushes.Orange };
 
+		//SOLVE: update button
+		//SOLVE: add list of bills
+		//SOLVE: add button to load bill
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -30,12 +35,32 @@ namespace BillCollector
 			Display();
 		}
 
-		private void Display()
+		private async void Display()
 		{
 			dataProvider = DataBase.SelectAndDistinct;
 
-			Calendar.DisplayDateStart = new DateTime(2019, 1, 1);
+			Calendar.DisplayDateStart = new DateTime(InitialDate.Year, InitialDate.Month, InitialDate.Day);
+
 			Initialize();
+
+			await Task.Run(() => CrossOutEmptyDates());
+		}
+
+		private void CrossOutEmptyDates()
+		{
+			var avaialbleDates = DataBase.GetAvailableDates();
+			var currentDate = DateTime.Today;
+			while (currentDate != InitialDate)
+			{
+				if (avaialbleDates.Count(x => x.Year == currentDate.Year &&
+										x.Month == currentDate.Month &&
+										x.Day == currentDate.Day) == 0)     // if there's no such date
+				{
+					Dispatcher.Invoke(() => Calendar.BlackoutDates.Add(new CalendarDateRange(currentDate)));
+				}
+
+				currentDate = currentDate.AddDays(-1);
+			}
 		}
 
 		private void Initialize()
