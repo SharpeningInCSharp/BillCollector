@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashRegister", "CashRegiste
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiagramControls", "DiagramControls\DiagramControls.csproj", "{ACB94884-888F-48ED-BE23-E31B7016821D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillsWebManager", "BillsWebManager\BillsWebManager.csproj", "{70FA93AB-09B7-4AD9-8231-65CE0AE9D28A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{ACB94884-888F-48ED-BE23-E31B7016821D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACB94884-888F-48ED-BE23-E31B7016821D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACB94884-888F-48ED-BE23-E31B7016821D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70FA93AB-09B7-4AD9-8231-65CE0AE9D28A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70FA93AB-09B7-4AD9-8231-65CE0AE9D28A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70FA93AB-09B7-4AD9-8231-65CE0AE9D28A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70FA93AB-09B7-4AD9-8231-65CE0AE9D28A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
