@@ -42,6 +42,17 @@ namespace DataBaseContext
 			date1 = date1.AddHours(dH).AddMinutes(dM);
 		}
 
+		/// <summary>
+		/// Returns expence dates
+		/// </summary>
+		/// <returns>IEnumerable of uniq dates</returns>
+		public static IEnumerable<DateTime> GetAvailableDates()
+		{
+			using var db = new Entities.DataBaseContext();
+			var res = db.Expences.ToList();
+			return res.Select(x => x.Date).Distinct();
+		}
+
 		private static bool Add(IEntity data)
 		{
 			using var db = new Entities.DataBaseContext();
