@@ -10,14 +10,21 @@ namespace DataBaseContext.OutputTools
 	{
 		private const string Header = "Receip";
 		private const string PreDate = "Purchase time:";
-		private const string PostHeaderInfo = "Bla-bla-bla-bla-bla-bla-bla-bla-bla-bla-bla-bla-bla";
-		private const int HeaderFontSize = 24;
-		private const int MainFontSize = 14;
-		private const int HeaderTopMargin = 20;
-		private const int TotalTextFontSize = 20;
-		private const int TotalSumFontSize = 18;
-		private readonly static string Separator = new string('*', 33);
+		private const string PostHeaderInfo = "Provided by union of trading companies.";
+		private const string PreSumText = "TOTAL:";
 
+		private const int DocTopMargin = 20;
+		private const int DocRightMargin = 6;
+		private const int DocButtomMargin = 6;
+		private const int DocLeftMargin = 4;
+
+		private const int HeaderFontSize = 20;
+		private const int MainFontSize = 12;
+		private const int TotalSumFontSize = 14;
+		
+		private readonly static string Separator = new string('*', 50);
+
+		//SOLVE: tip days with no data
 		//private readonly static string DirPath = @"C:\Users\User\source\repos\BillCollector\DataBaseContext\Bills\";
 		private readonly static string DirPath = @"C:\Users\aleks\Source\Repos\BillCollector\DataBaseContext\Bills\";
 
@@ -38,11 +45,10 @@ namespace DataBaseContext.OutputTools
 
 			var pdfDoc = new PdfDocument(new PdfWriter(filePath));
 			var doc = new Document(pdfDoc, PageSize.B7);
-			///SOLVE: apply B7 - size, add Margin before Header. Find out problem with crossed sum. Out Date in format: hh.mm dd.mm.yy.
-			///then figure out Separator length OR find way to fill hole line with it
+			doc.SetMargins(DocTopMargin, DocRightMargin, DocButtomMargin, DocLeftMargin);
+
 			doc.Add(new Paragraph(Header).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
-										.SetFontSize(HeaderFontSize)
-										.SetMarginTop(HeaderTopMargin));
+										.SetFontSize(HeaderFontSize));
 			doc.Add(new Paragraph(PostHeaderInfo));
 
 			doc.Add(new Paragraph(Separator));
@@ -53,14 +59,13 @@ namespace DataBaseContext.OutputTools
 											.SetFontSize(MainFontSize));
 			}
 			doc.Add(new Paragraph(Separator));
-			
-			var sumParagraph = new Paragraph().SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT);
-			sumParagraph.Add("TOTAL:").SetFontSize(TotalTextFontSize).SetUnderline();
-			sumParagraph.Add($"{expence.Sum:C2}").SetFontSize(TotalSumFontSize);
-			doc.Add(sumParagraph);
 
-			doc.Add(new Paragraph($"{PreDate} {expence.Date:hh:mm dd.mm.yyyy}")
-					.SetTextAlignment(iText.Layout.Properties.TextAlignment.RIGHT)
+			doc.Add(new Paragraph($"{PreSumText} {expence.Sum:C2}").SetBold()
+																.SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+																.SetFontSize(TotalSumFontSize));
+
+			doc.Add(new Paragraph($"{PreDate} {expence.Date:HH:mm dd.mm.yyyy}")
+					.SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
 					.SetFontSize(MainFontSize));
 
 			doc.Close();
