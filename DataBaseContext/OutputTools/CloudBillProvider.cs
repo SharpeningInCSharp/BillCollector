@@ -16,7 +16,7 @@ using GFile = Google.Apis.Drive.v3.Data.File;
 namespace DataBaseContext.OutputTools
 {
 	/// <summary>
-	/// Uses to connect with GoogleDrive
+	/// Uses to connect to my website
 	/// </summary>
 	public static class CloudBillProvider
 	{
