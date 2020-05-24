@@ -107,7 +107,7 @@ namespace CashRegister
 
 		private void OutputData(Expence expence)
 		{
-			var fileCreationTask = ToPDFConverter.CreateAsync(this.expence);
+			var fileCreationTask = PdfManager.CreateAsync(this.expence);
 			fileCreationTask.Wait();
 			var updateTask = DataBase.AddAsync(expence);
 			var fileUploadTask = CloudBillProvider.UploadAsync(this.expence.Bill.Path);     //Doen't work yet

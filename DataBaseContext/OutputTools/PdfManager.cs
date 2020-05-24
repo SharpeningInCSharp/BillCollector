@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataBaseContext.OutputTools
 {
-	public static class ToPDFConverter
+	public static class PdfManager
 	{
 		private const string Header = "Receip";
 		private const string PostHeaderInfo = "Bla-bla-bla-bla-bla-bla-bla-bla-bla-bla-bla-bla-bla,\nBla-bla-bla-bla-bla-bla-bla-bla-bla-bla-bla-bla";
