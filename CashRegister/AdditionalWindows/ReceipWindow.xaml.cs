@@ -19,7 +19,8 @@ namespace CashRegister.AdditionalWindows
 	/// </summary>
 	public partial class ReceipWindow : Window
 	{
-		private const int TimeOut = 60;
+		private const int TimeOut = 30;
+		private readonly CancellationTokenSource tokenSource = new CancellationTokenSource();
 
 		public ReceipWindow()
 		{
@@ -44,26 +45,28 @@ namespace CashRegister.AdditionalWindows
 
 		private void StartCountDownAsync()
 		{
-			Task.Run(() => StartCountDown());
+			Task.Run(() => StartCountDown(), tokenSource.Token);
 		}
 
 		private void StartCountDown()
 		{
-			for(int i=TimeOut;i>=0;i--)
+			for (int i = TimeOut; i >= 0; i--)
 			{
-				Draw(i);
+				Dispatcher.Invoke(() => TimeOutTextBlock.Text = i.ToString());
 				Thread.Sleep(1000);
 			}
-		}
 
-		private void Draw(int i)
-		{
-			//throw new NotImplementedException();
+			Dispatcher.Invoke(() => Close());
 		}
 
 		private void CreateQr(string url)
 		{
 			QrImage.Source = QrManager.CreateQr(url);
+		}
+
+		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			tokenSource.Cancel();
 		}
 	}
 }
