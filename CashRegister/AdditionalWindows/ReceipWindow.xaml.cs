@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using DataBaseContext.OutputTools;
 
 namespace CashRegister.AdditionalWindows
 {
@@ -62,24 +63,7 @@ namespace CashRegister.AdditionalWindows
 
 		private void CreateQr(string url)
 		{
-			var qg = new QRCodeGenerator();
-			var qR = new QRCode(qg.CreateQrCode(url, QRCodeGenerator.ECCLevel.Q));
-
-			///не костыль! Нужно привести System.Drawing.Bitmap к Syste.Windows.Controls.Image, заумные методы привести не могут. 
-			///поэтому или в ручную по пикселям копировать или сохранить и подгрузить
-			string path = "temp.png";
-			using (var stream = new FileStream(path, FileMode.Create))
-			{
-				qR.GetGraphic(50).Save(stream, ImageFormat.Png);
-			}
-
-			var bitI = new BitmapImage();
-			bitI.BeginInit();
-			bitI.UriSource = new Uri(path, UriKind.Relative);
-			bitI.CacheOption = BitmapCacheOption.OnLoad;
-			bitI.EndInit();
-
-			QrImage.Source = bitI;
+			QrImage.Source = QrManager.CreateQr(url);
 		}
 	}
 }

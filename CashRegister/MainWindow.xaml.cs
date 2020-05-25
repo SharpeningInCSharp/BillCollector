@@ -60,31 +60,32 @@ namespace CashRegister
 			else
 			{
 				expence.CreateGuid();
-				
-				//Используется Thread потому что требуется долговременное вычисление с заданием приоритета
-				Thread outputThread = new Thread(() => OutputData(expence))
+
+				//Используется Thread потому что требуется долговременное вычисление с заданием высокого приоритета
+				string path = "";
+				Thread outputThread = new Thread(() => OutputData(expence, out path))
 				{
 					Priority = ThreadPriority.Highest,
 				};
 				outputThread.Start();
 
-				Task.Run(() => ShowLoadingAmination(outputThread));
+				Task.Run(() => ShowLoadingAmination(outputThread, ref path));
 			}
 		}
 
-		private void OpenReceipWin()
+		private void OpenReceipWin(string path)
 		{
 			Dispatcher.Invoke(() =>
 			{
 				//var receipWin = new ReceipWindow(expence, outputThread.Result);	//Doen't work yet
-				var receipWin = new ReceipWindow(expence, "Tmp");
+				var receipWin = new ReceipWindow(expence, path);
 				expence = new Expence();
 				receipWin.ShowDialog();
 				Refresh();
 			});
 		}
 
-		private void ShowLoadingAmination(Thread runningOutputThread)
+		private void ShowLoadingAmination(Thread runningOutputThread, ref string path)
 		{
 			const int Timeout = 200;
 			const string initialText = "Loading";
@@ -102,16 +103,16 @@ namespace CashRegister
 			}
 			Dispatcher.Invoke(() => LoadingTextBlock.Visibility = Visibility.Hidden);
 
-			OpenReceipWin();
+			OpenReceipWin(path);
 		}
 
-		private void OutputData(Expence expence)
+		private void OutputData(Expence expence, out string path)
 		{
 			var fileCreationTask = PdfManager.CreateAsync(this.expence);
 			fileCreationTask.Wait();
 			var updateTask = DataBase.AddAsync(expence);
-			var fileUploadTask = CloudBillProvider.UploadAsync(this.expence.Bill.Path);     //Doen't work yet
-			Task.WaitAll(new Task[] { updateTask, fileUploadTask });
+			path = this.expence.Bill.Path;
+			Task.WaitAll(new Task[] { updateTask });
 		}
 
 		private void LoadReceip_Click(object sender, RoutedEventArgs e)
