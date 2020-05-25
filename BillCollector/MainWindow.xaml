@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         WindowStyle="SingleBorderWindow"
         Icon="C:\Users\aleks\Source\Repos\BillCollector\BillCollector\Resources\DiagramWinIcon.png"
-        Title="Expence statistic" Height="600" Width="800"
+        Title="Expence statistic"
         MinHeight="700"
         MinWidth="1200"
         WindowState="Maximized"

@@ -77,7 +77,6 @@ namespace CashRegister
 		{
 			Dispatcher.Invoke(() =>
 			{
-				//var receipWin = new ReceipWindow(expence, outputThread.Result);	//Doen't work yet
 				var receipWin = new ReceipWindow(expence, path);
 				expence = new Expence();
 				receipWin.ShowDialog();
