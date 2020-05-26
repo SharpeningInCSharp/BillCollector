@@ -11,17 +11,27 @@
         MinWidth="1200"
         WindowState="Maximized"
         DataContext="{Binding RelativeSource={RelativeSource Self}}">
-    <Grid x:Name="mainGrid"
-          Background="#2B798F">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Calendar x:Name="Calendar" Grid.Column="0" 
-                  Margin="20,20,0,0"
-                  IsTodayHighlighted ="False"
-                  SelectionMode="SingleRange"
-                  SelectedDatesChanged="Calendar_SelectedDatesChanged"
-                  Background="#88C9DB"/>
+    <Grid Background="#2B798F">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="90"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <Button x:Name="LoadBillsButton" 
+                    Margin="0"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Click="LoadBillsButton_Click">
+                <TextBlock Text="Bills" FontSize="50"/>
+            </Button>
+            <Button Name="LoadStatisticButton"
+                    Margin="0"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Click="LoadStatisticButton_Click">
+                <TextBlock Text="Statistic" FontSize="50"/>
+            </Button>
+        </StackPanel>
+        <Frame Grid.Row="1" Name="PageFrame" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>
