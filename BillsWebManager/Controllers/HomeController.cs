@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using BillsWebManager.Models;
+using System.IO;
 
 namespace BillsWebManager.Controllers
 {
@@ -32,6 +33,13 @@ namespace BillsWebManager.Controllers
 		public IActionResult Error()
 		{
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+		}
+
+		public void DownloadFile(string path)
+		{
+			var fileName = System.IO.Path.GetFileName(path);
+
+			Response.ContentType = fileName;
 		}
 	}
 }
