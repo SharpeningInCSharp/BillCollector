@@ -9,17 +9,17 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using BillCollector.Pages.PageUIItems;
 
 namespace BillCollector.Pages
 {
 	/// <summary>
 	/// Логика взаимодействия для StatisticPage.xaml
 	/// </summary>
-	public partial class StatisticPage : DateManagerBasePage
+	public partial class StatisticPage : Page, IDateManagmentPage
 	{
 		public DateTime StartDareTime { get; } = DateTime.Today;
-		private PieDiagram diagram;
+		private readonly DateTime InitialDate = IDateManagmentPage.InitialDate;
+		public PieDiagram diagram;
 
 		private readonly Func<GoodType, DateTime, DateTime?, IEnumerable<Expence.ExpenceSelection>> dataProvider;
 		private readonly SolidColorBrush[] UserBrushes = new SolidColorBrush[] { Brushes.Red, Brushes.Blue, Brushes.Green, Brushes.Purple, Brushes.Cyan, Brushes.Orange };
@@ -33,7 +33,35 @@ namespace BillCollector.Pages
 			Display();
 		}
 
-		protected sealed override void Initialize()
+		private async void Display()
+		{
+			Calendar.DisplayDateStart = new DateTime(InitialDate.Year, InitialDate.Month, InitialDate.Day);
+
+			Initialize();
+
+			//await Task.Run(() => CrossOutEmptyDates());
+			//'cause DateRange can be really big
+			await Task.Run(() => ((IDateManagmentPage)this).CrossOutEmptyDatesAsync(Dispatcher, Calendar));			
+		}
+
+		//private void CrossOutEmptyDates()
+		//{
+		//	var avaialbleDates = DataBase.GetAvailableDates();
+		//	var currentDate = DateTime.Today;
+		//	while (currentDate != InitialDate)
+		//	{
+		//		if (avaialbleDates.Count(x => x.Year == currentDate.Year &&
+		//								x.Month == currentDate.Month &&
+		//								x.Day == currentDate.Day) == 0)     // if there's no such date
+		//		{
+		//			Dispatcher.Invoke(() => Calendar.BlackoutDates.Add(new CalendarDateRange(currentDate)));
+		//		}
+
+		//		currentDate = currentDate.AddDays(-1);
+		//	}
+		//}
+
+		private void Initialize()
 		{
 			DateTime lastExpenceD;
 			Calendar.SelectedDate = lastExpenceD = DataBase.GetLastExpenceDate();
