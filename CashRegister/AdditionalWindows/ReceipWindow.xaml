@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:CashRegister.AdditionalWindows"
         mc:Ignorable="d"
         Closing="Window_Closing"
+        WindowStartupLocation="CenterScreen"
         Icon="C:\Users\aleks\Source\Repos\BillCollector\CashRegister\Resources\ReceipIcon.png"    
         Title="Receip" Height="600" Width="300">
     <Grid>
