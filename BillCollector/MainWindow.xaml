@@ -11,27 +11,30 @@
         MinWidth="1200"
         WindowState="Maximized"
         DataContext="{Binding RelativeSource={RelativeSource Self}}">
+
     <Grid Background="#2B798F">
         <Grid.RowDefinitions>
             <RowDefinition Height="90"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" Grid.Row="0">
-            <Button x:Name="LoadBillsButton" 
-                    Margin="0"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    Click="LoadBillsButton_Click">
-                <TextBlock Text="Bills" FontSize="50"/>
-            </Button>
-            <Button Name="LoadStatisticButton"
-                    Margin="0"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    Click="LoadStatisticButton_Click">
-                <TextBlock Text="Statistic" FontSize="50"/>
-            </Button>
-        </StackPanel>
+        <Border Grid.Row="0" BorderBrush="#6FD2ED" BorderThickness="0,0,0,1">
+            <StackPanel Orientation="Horizontal"
+                        VerticalAlignment="Stretch"
+                        Margin="1">
+
+                <Button x:Name="LoadBillsButton" 
+                    Style="{StaticResource TransparentButton}"
+                    Click="LoadBillsButton_Click" Content="Bills" Foreground="#A1652B"/>
+                <Button Name="LoadStatisticButton"
+                     Style="{StaticResource TransparentButton}"
+                    Click="LoadStatisticButton_Click"
+                    Content="Statistic"
+                    Foreground="#A1652B"/>
+
+            </StackPanel>
+        </Border>
+       
+
         <Frame Grid.Row="1" Name="PageFrame" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>

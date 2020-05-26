@@ -15,49 +15,51 @@ namespace BillCollector.Pages
 	/// <summary>
 	/// Логика взаимодействия для StatisticPage.xaml
 	/// </summary>
-	public partial class StatisticPage : Page
+	public partial class StatisticPage : Page, IDateManagmentPage
 	{
 		public DateTime StartDareTime { get; } = DateTime.Today;
-		private readonly DateTime InitialDate = new DateTime(2019, 1, 1);
+		private readonly DateTime InitialDate = IDateManagmentPage.InitialDate;
 		public PieDiagram diagram;
 
-		private Func<GoodType, DateTime, DateTime?, IEnumerable<Expence.ExpenceSelection>> dataProvider;
+		private readonly Func<GoodType, DateTime, DateTime?, IEnumerable<Expence.ExpenceSelection>> dataProvider;
 		private readonly SolidColorBrush[] UserBrushes = new SolidColorBrush[] { Brushes.Red, Brushes.Blue, Brushes.Green, Brushes.Purple, Brushes.Cyan, Brushes.Orange };
 
 		public StatisticPage()
 		{
 			InitializeComponent();
 
+			dataProvider = DataBase.SelectAndDistinct;
+
 			Display();
 		}
 
 		private async void Display()
 		{
-			dataProvider = DataBase.SelectAndDistinct;
-
 			Calendar.DisplayDateStart = new DateTime(InitialDate.Year, InitialDate.Month, InitialDate.Day);
 
 			Initialize();
 
-			await Task.Run(() => CrossOutEmptyDates());
+			//await Task.Run(() => CrossOutEmptyDates());
+			//'cause DateRange can be really big
+			await Task.Run(() => ((IDateManagmentPage)this).CrossOutEmptyDatesAsync(Dispatcher, Calendar));			
 		}
 
-		private void CrossOutEmptyDates()
-		{
-			var avaialbleDates = DataBase.GetAvailableDates();
-			var currentDate = DateTime.Today;
-			while (currentDate != InitialDate)
-			{
-				if (avaialbleDates.Count(x => x.Year == currentDate.Year &&
-										x.Month == currentDate.Month &&
-										x.Day == currentDate.Day) == 0)     // if there's no such date
-				{
-					Dispatcher.Invoke(() => Calendar.BlackoutDates.Add(new CalendarDateRange(currentDate)));
-				}
+		//private void CrossOutEmptyDates()
+		//{
+		//	var avaialbleDates = DataBase.GetAvailableDates();
+		//	var currentDate = DateTime.Today;
+		//	while (currentDate != InitialDate)
+		//	{
+		//		if (avaialbleDates.Count(x => x.Year == currentDate.Year &&
+		//								x.Month == currentDate.Month &&
+		//								x.Day == currentDate.Day) == 0)     // if there's no such date
+		//		{
+		//			Dispatcher.Invoke(() => Calendar.BlackoutDates.Add(new CalendarDateRange(currentDate)));
+		//		}
 
-				currentDate = currentDate.AddDays(-1);
-			}
-		}
+		//		currentDate = currentDate.AddDays(-1);
+		//	}
+		//}
 
 		private void Initialize()
 		{
