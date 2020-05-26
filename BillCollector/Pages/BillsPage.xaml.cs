@@ -11,16 +11,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using BillCollector.Pages.PageUIItems;
 
 namespace BillCollector.Pages
 {
 	/// <summary>
 	/// Логика взаимодействия для BillsPage.xaml
 	/// </summary>
-	public partial class BillsPage : Page, IDateManagmentPage
+	public partial class BillsPage : DateManagerBasePage
 	{
-		private readonly DateTime InitialDate = IDateManagmentPage.InitialDate;
-
 		public BillsPage()
 		{
 			InitializeComponent();
@@ -28,19 +27,14 @@ namespace BillCollector.Pages
 			Display();
 		}
 
-		private async void Display()
+		protected override void Initialize()
 		{
-			Calendar.DisplayDateStart = new DateTime(InitialDate.Year, InitialDate.Month, InitialDate.Day);
-
-			Load();
-
-			//'cause DateRange can be really big
-			await Task.Run(() => ((IDateManagmentPage)this).CrossOutEmptyDatesAsync(Dispatcher, Calendar));
+			//load bills
 		}
 
-		private void Load()
+		private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
 		{
-			throw new NotImplementedException();
+
 		}
 	}
 }
