@@ -112,8 +112,12 @@ namespace DataBaseContext.Diagrams
 		public void OutputData(Action<string, string> OutputHandler)
 		{
 			var categories = scopes.Select(x => x.GetTopExpensive());
-			foreach (var category in categories)
+
+			for (int i = 0; i < categories.Count(); i++)
 			{
+				var category = categories.ElementAt(i);
+				OutputHandler?.Invoke(EnumStringValues[i], "");
+
 				foreach (var item in category)
 				{
 					OutputHandler?.Invoke(item.ToString(), item.GetTotal.ToString("C2"));
