@@ -18,80 +18,26 @@ namespace BillCollector
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		public DateTime StartDareTime { get; } = DateTime.Today;
-		private readonly DateTime InitialDate = new DateTime(2019, 1, 1);
-		public PieDiagram diagram;
-
-		private Func<GoodType, DateTime, DateTime?, IEnumerable<Expence.ExpenceSelection>> dataProvider;
-		private readonly SolidColorBrush[] UserBrushes = new SolidColorBrush[] { Brushes.Red, Brushes.Blue, Brushes.Green, Brushes.Purple, Brushes.Cyan, Brushes.Orange };
-
 		//SOLVE: update button
 		//SOLVE: add list of bills
-		//SOLVE: add button to load bill
 		public MainWindow()
 		{
 			InitializeComponent();
 
-			Display();
+			LoadStatisticButton_Click(LoadBillsButton, null);
 		}
 
-		private async void Display()
+		private void LoadStatisticButton_Click(object sender, RoutedEventArgs e)
 		{
-			dataProvider = DataBase.SelectAndDistinct;
-
-			Calendar.DisplayDateStart = new DateTime(InitialDate.Year, InitialDate.Month, InitialDate.Day);
-
-			Initialize();
-
-			await Task.Run(() => CrossOutEmptyDates());
+			var statUri = new Uri(@"Pages\StatisticPage.xaml", UriKind.Relative);
+			PageFrame.Source = statUri;
 		}
 
-		private void CrossOutEmptyDates()
+		private void LoadBillsButton_Click(object sender, RoutedEventArgs e)
 		{
-			var avaialbleDates = DataBase.GetAvailableDates();
-			var currentDate = DateTime.Today;
-			while (currentDate != InitialDate)
-			{
-				if (avaialbleDates.Count(x => x.Year == currentDate.Year &&
-										x.Month == currentDate.Month &&
-										x.Day == currentDate.Day) == 0)     // if there's no such date
-				{
-					Dispatcher.Invoke(() => Calendar.BlackoutDates.Add(new CalendarDateRange(currentDate)));
-				}
-
-				currentDate = currentDate.AddDays(-1);
-			}
-		}
-
-		private void Initialize()
-		{
-			DateTime lastExpenceD;
-			Calendar.SelectedDate = lastExpenceD = DataBase.GetLastExpenceDate();
-			Calendar.DisplayDateEnd = DateTime.Today;
-
-			var sc = new Scopes<GoodType, Expence.ExpenceSelection>(dataProvider, typeof(GoodType), lastExpenceD, null);
-			diagram = new PieDiagram(sc, UserBrushes);
-			Grid.SetRow(diagram, 0);
-			Grid.SetColumn(diagram, 1);
-			mainGrid.Children.Add(diagram);
-		}
-
-		private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
-		{
-			if (diagram != null)
-			{
-				Mouse.Capture(null);
-
-				var dates = Calendar.SelectedDates.OrderBy(x => x.Date);
-				DateTime initial = dates.First();
-				DateTime? final = dates.Last();
-
-				if (initial == final.Value)
-					final = null;
-
-				var sc = new Scopes<GoodType, Expence.ExpenceSelection>(dataProvider, typeof(GoodType), initial, final);
-				diagram.LoadNew(sc);
-			}
+			var billsUri = new Uri(@"Pages\BillsPage.xaml", UriKind.Relative);
+			
+			PageFrame.Source = billsUri;
 		}
 	}
 }

@@ -1,7 +1,10 @@
 ﻿using iText.Kernel.Geom;
 using iText.Kernel.Pdf;
+using iText.Kernel.Pdf.Canvas.Parser;
 using iText.Layout;
 using iText.Layout.Element;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DataBaseContext.OutputTools
@@ -21,10 +24,9 @@ namespace DataBaseContext.OutputTools
 		private const int HeaderFontSize = 20;
 		private const int MainFontSize = 12;
 		private const int TotalSumFontSize = 14;
-		
+
 		private readonly static string Separator = new string('*', 50);
 
-		//SOLVE: tip days with no data
 		//private readonly static string DirPath = @"C:\Users\User\source\repos\BillCollector\DataBaseContext\Bills\";
 		private readonly static string DirPath = @"C:\Users\aleks\Source\Repos\BillCollector\DataBaseContext\Bills\";
 
@@ -72,9 +74,16 @@ namespace DataBaseContext.OutputTools
 			return filePath;
 		}
 
-		//public static async Task ReadAsync(string path)
-		//{
+		public static IEnumerable<string> ReadFile(string path)
+		{
+			var pdfDoc = new PdfDocument(new PdfReader(path));
 
-		//}
+			var pagesAmount = pdfDoc.GetNumberOfPages();
+			for (int pageNum = 1; pageNum <= pagesAmount; pageNum++)
+			{
+				var page = pdfDoc.GetPage(pageNum);
+				yield return PdfTextExtractor.GetTextFromPage(page);
+			}
+		}
 	}
 }

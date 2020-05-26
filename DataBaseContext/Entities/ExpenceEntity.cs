@@ -1,5 +1,4 @@
-﻿using GoodInfo;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -24,6 +23,8 @@ namespace DataBaseContext.Entities
 		public List<ExpenceItemEntity> Goods { get; set; }
 
 		public Guid? IdentityGuid { get; set; } = null;
+
+		public int BillEntityId { get; set; }
 
 		public BillEntity BillEntity { get; set; }
 	}

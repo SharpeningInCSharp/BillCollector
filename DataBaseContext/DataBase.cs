@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DataBaseContext.OutputTools;
+using Org.BouncyCastle.Math.EC.Rfc7748;
 
 namespace DataBaseContext
 {
@@ -24,7 +25,6 @@ namespace DataBaseContext
 
 		public static IEnumerable<Expence> Select(DateTime initialDate, DateTime finalDate)
 		{
-			//DateToPropriateType(ref initialDate);
 			DateToPropriateType(ref finalDate);
 			using var db = new Entities.DataBaseContext();
 			var res = db.Expences.Where(x => x.Date >= initialDate && x.Date <= finalDate).ToList();
@@ -32,21 +32,23 @@ namespace DataBaseContext
 		}
 
 		/// <summary>
-		/// Sets time to the end of day
+		/// Sets time to the end of day - 23:59:59
 		/// </summary>
 		/// <param name="date1">date to be edited</param>
 		private static void DateToPropriateType(ref DateTime date1)
 		{
-			var dH = 24 - date1.Hour;		//hours delta to midnight
-			var dM = 60 - date1.Minute;     //minutes delta to midnight
-			date1 = date1.AddHours(dH).AddMinutes(dM);
+			var dS = 59 - date1.Second;     //seconds delta to minute
+			var dM = 59 - date1.Minute;     //minutes delta to midnight
+			var dH = 23 - date1.Hour;       //hours delta to hour
+
+			date1 = date1.AddHours(dH).AddMinutes(dM).AddSeconds(dS);
 		}
 
 		/// <summary>
 		/// Returns expence dates
 		/// </summary>
 		/// <returns>IEnumerable of uniq dates</returns>
-		public static IEnumerable<DateTime> GetAvailableDates()
+		public static IEnumerable<DateTime> GetAvailableExpenceDates()
 		{
 			using var db = new Entities.DataBaseContext();
 			var res = db.Expences.ToList();
@@ -65,6 +67,33 @@ namespace DataBaseContext
 			}
 
 			return false;
+		}
+
+		public static IEnumerable<Tuple<DateTime, string>> GetBills(DateTime current)
+		{
+			using var db = new Entities.DataBaseContext();
+
+			var res = from e in db.Expences.ToList()
+					  where e.Date == current
+					  join b in db.Bills.ToList() on e.BillEntityId equals b.Id
+					  select new Tuple<DateTime, string>(e.Date, b.DataPath);
+
+			return res;
+		}
+
+		public static IEnumerable<Tuple<DateTime, string>> GetBills(DateTime initial, DateTime final)
+		{
+			using var db = new Entities.DataBaseContext();
+			var items = db.Expences.ToList();
+
+			DateToPropriateType(ref final);
+
+			var res = from e in db.Expences.ToList()
+					  where e.Date >= initial && e.Date <= final
+					  join b in db.Bills.ToList() on e.BillEntityId equals b.Id
+					  select new Tuple<DateTime, string>(e.Date, b.DataPath);
+
+			return res;
 		}
 
 		public static DateTime GetLastExpenceDate()
@@ -98,34 +127,13 @@ namespace DataBaseContext
 		private static List<ExpenceItemEntity> ToEntityGoodList(Dictionary<Good, int> goods)
 		{
 			var result = new List<ExpenceItemEntity>();
-			//using var db = new Entities.DataBaseContext();
 			foreach (var item in goods)
 			{
-				var good = new GoodEntity(item.Key);
-				//if (CheckAdditionalItemsExistance(db, good) != -1)
-				//{
-				//	good = db.GoodEntities.ToList().Single(GoodExistenceCondition(good));
-				//}
-				//else
-				//{
-				//	db.GoodEntities.Add(good);
-				//}
-
-				var dicItem = new ExpenceItemEntity(good, item.Value);
-				//if (CheckAdditionalItemsExistance(db, dicItem) != -1)
-				//{
-				//	dicItem = db.ExpenceItemEntities.ToList().Single(i => i.Amount == dicItem.Amount &&
-				//															AreEqual(i.Good, dicItem.Good) == true);
-				//}
-				//else
-				//{
-				//	db.ExpenceItemEntities.Add(dicItem);
-				//}
+				var dicItem = new ExpenceItemEntity(new GoodEntity(item.Key), item.Value);
 
 				result.Add(dicItem);
 			}
 
-			//db.SaveChanges();
 			return result;
 		}
 
@@ -140,29 +148,6 @@ namespace DataBaseContext
 				_ => throw new ArgumentException(),
 			};
 		}
-
-		//private static int CheckAdditionalItemsExistance<T>(Entities.DataBaseContext db, T data)
-		//{
-		//	if (data is GoodEntity goodEntity)
-		//	{
-		//		var item = db.GoodEntities.ToList().SingleOrDefault(GoodExistenceCondition(goodEntity));
-		//		return item is null ? -1 : item.Id;
-		//	}
-		//	else if (data is ExpenceItemEntity expenceItemEntity)
-		//	{
-		//		var item = db.ExpenceItemEntities.ToList().SingleOrDefault(ExpenceItemCondition(expenceItemEntity));
-		//		return item is null ? -1 : item.Id;
-		//	}
-
-		//	throw new ArgumentException($"Can't find Entity {data}");
-		//}
-
-		//private static Func<ExpenceItemEntity, bool> ExpenceItemCondition(ExpenceItemEntity expenceItemEntity) => i => i.Amount == expenceItemEntity.Amount &&
-		//																											AreEqual(i.Good, expenceItemEntity.Good) == true;
-
-		//private static Func<GoodEntity, bool> GoodExistenceCondition(GoodEntity good2) => g => g.Name == good2.Name && g.Price == good2.Price && g.Type == good2.Type;
-
-		//private static bool AreEqual(GoodEntity good1, GoodEntity good2) => good1.Name == good2.Name && good1.Price == good2.Price && good1.Type == good2.Type;
 
 		public static IEnumerable<Expence.ExpenceSelection> SelectAndDistinct(GoodType goodType, DateTime initialDate, DateTime? finalDate)
 		{
