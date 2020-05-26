@@ -3,25 +3,40 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:BillCollector.Pages.PageUIItems"
-             mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="200">
-    <Grid x:Name="MainGrid" Background="#6FD2ED">
+             mc:Ignorable="d">
+    <Grid x:Name="MainGrid" Background="#6FD2ED"  Margin="4">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TextBlock x:Name="DateTextBlock"   Grid.Column="0"
-                   FontSize="24" Text="Jopa"
+
+        <TextBlock Text="Date: " FontSize="24" Grid.Column="0"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center"/>
+
+        <TextBlock x:Name="DateTextBlock"   Grid.Column="1"
+                   FontSize="24"
                    VerticalAlignment="Center"
-                   HorizontalAlignment="Center"/>
+                   HorizontalAlignment="Left"/>
+
+        <TextBlock Text="Open in browser: " FontSize="24" Grid.Column="2"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center"/>
+
         <Button x:Name="ViewDocButton"
-                Grid.Column="1"
-                Content="Open"
+                Grid.Column="3" 
                 TextBlock.FontSize="20"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left"
+                BorderThickness="0"
+                Background="Transparent"
+                MaxHeight="30"
+                MaxWidth="30"
                 Click="ViewDocButton_Click"
-                Style="{StaticResource TransparentButton}"/>
+                Margin="4">
+            <Image Source="C:\Users\aleks\Source\Repos\BillCollector\BillCollector\Resources\OpenInBrowserIcon.png"/>
+        </Button>
     </Grid>
 </UserControl>

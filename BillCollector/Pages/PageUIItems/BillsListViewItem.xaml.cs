@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
+﻿using DataBaseContext.OutputTools;
+using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BillCollector.Pages.PageUIItems
 {
@@ -20,28 +11,33 @@ namespace BillCollector.Pages.PageUIItems
 	/// </summary>
 	public partial class BillsListViewItem : UserControl
 	{
-		public DateTime Date { get; }
 		public string PathToOpen { get; }
 
 		public BillsListViewItem(DateTime date, string pathToOpen)
 		{
 			InitializeComponent();
-			Date = date;
+			DateTextBlock.Text = date.ToShortDateString();
 			PathToOpen = pathToOpen;
 
-			Initialize();
+			InitializeAsync();
 		}
 
-		private async void Initialize()
+		private void Initialize()
 		{
-			
-			//Tooltip
-			//await Task.Run(() =>);
+			foreach (var item in PdfManager.ReadFile(PathToOpen))
+			{
+				Dispatcher.Invoke(() => MainGrid.ToolTip += item);
+			}
+		}
+
+		private async void InitializeAsync()
+		{
+			await Task.Run(() => Initialize());
 		}
 
 		private void ViewDocButton_Click(object sender, RoutedEventArgs e)
 		{
-			Process.Start(PathToOpen);
+			new WebBrowser().Navigate(PathToOpen);
 		}
 	}
 }

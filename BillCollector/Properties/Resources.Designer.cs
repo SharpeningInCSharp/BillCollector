@@ -59,5 +59,15 @@ namespace BillCollector.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] OpenInBrowserIcon {
+            get {
+                object obj = ResourceManager.GetObject("OpenInBrowserIcon", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

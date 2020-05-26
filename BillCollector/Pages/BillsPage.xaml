@@ -17,7 +17,7 @@
             <RowDefinition Height="60"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        
+
         <Calendar x:Name="Calendar" 
                   Grid.Column="0" Grid.RowSpan ="2"
                   Margin="20,20,0,0"
@@ -31,8 +31,9 @@
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
                    FontSize="40"/>
-        <ListView x:Name="BillsListView"
+        
+        <StackPanel x:Name="BillsListView"
                   Grid.Row="1" Grid.Column="1"
-                   Margin="6,6,6,0"/>
+                  Margin="100,6,100,0"/>
     </Grid>
 </Page>

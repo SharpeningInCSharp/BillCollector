@@ -74,17 +74,12 @@ namespace DataBaseContext.OutputTools
 			return filePath;
 		}
 
-		public static async Task<IEnumerable<string>> ReadAsync(string path)
-		{
-			return await Task.Run(() => ReadFile(path));
-		}
-
-		private static IEnumerable<string> ReadFile(string path)
+		public static IEnumerable<string> ReadFile(string path)
 		{
 			var pdfDoc = new PdfDocument(new PdfReader(path));
 
-			long fileLength = pdfDoc.GetNumberOfPages();
-			for (int pageNum = 1; pageNum < fileLength; pageNum++)
+			var pagesAmount = pdfDoc.GetNumberOfPages();
+			for (int pageNum = 1; pageNum <= pagesAmount; pageNum++)
 			{
 				var page = pdfDoc.GetPage(pageNum);
 				yield return PdfTextExtractor.GetTextFromPage(page);

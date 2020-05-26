@@ -15,10 +15,10 @@ namespace BillCollector.Pages
 	/// <summary>
 	/// Логика взаимодействия для StatisticPage.xaml
 	/// </summary>
-	public partial class StatisticPage : Page, IDateManagmentPage
+	public partial class StatisticPage : Page
 	{
 		public DateTime StartDareTime { get; } = DateTime.Today;
-		private readonly DateTime InitialDate = IDateManagmentPage.InitialDate;
+		private readonly DateTime InitialDate = new DateTime(2019, 1, 1);
 		public PieDiagram diagram;
 
 		private readonly Func<GoodType, DateTime, DateTime?, IEnumerable<Expence.ExpenceSelection>> dataProvider;
@@ -36,36 +36,34 @@ namespace BillCollector.Pages
 		private async void Display()
 		{
 			Calendar.DisplayDateStart = new DateTime(InitialDate.Year, InitialDate.Month, InitialDate.Day);
+			Calendar.DisplayDateEnd = DateTime.Today;
 
 			Initialize();
 
-			//await Task.Run(() => CrossOutEmptyDates());
-			//'cause DateRange can be really big
-			await Task.Run(() => ((IDateManagmentPage)this).CrossOutEmptyDatesAsync(Dispatcher, Calendar));			
+			await Task.Run(() => CrossOutEmptyDatesAsync());			
 		}
 
-		//private void CrossOutEmptyDates()
-		//{
-		//	var avaialbleDates = DataBase.GetAvailableDates();
-		//	var currentDate = DateTime.Today;
-		//	while (currentDate != InitialDate)
-		//	{
-		//		if (avaialbleDates.Count(x => x.Year == currentDate.Year &&
-		//								x.Month == currentDate.Month &&
-		//								x.Day == currentDate.Day) == 0)     // if there's no such date
-		//		{
-		//			Dispatcher.Invoke(() => Calendar.BlackoutDates.Add(new CalendarDateRange(currentDate)));
-		//		}
+		private void CrossOutEmptyDatesAsync()
+		{
+			var avaialbleDates = DataBase.GetAvailableExpenceDates();
+			var currentDate = DateTime.Today;
+			while (currentDate != InitialDate)
+			{
+				if (avaialbleDates.Count(x => x.Year == currentDate.Year &&
+										x.Month == currentDate.Month &&
+										x.Day == currentDate.Day) == 0)     // if there's no such date
+				{
+					Dispatcher.Invoke(() => Calendar.BlackoutDates.Add(new CalendarDateRange(currentDate)));
+				}
 
-		//		currentDate = currentDate.AddDays(-1);
-		//	}
-		//}
+				currentDate = currentDate.AddDays(-1);
+			}
+		}
 
 		private void Initialize()
 		{
 			DateTime lastExpenceD;
 			Calendar.SelectedDate = lastExpenceD = DataBase.GetLastExpenceDate();
-			Calendar.DisplayDateEnd = DateTime.Today;
 
 			var sc = new Scopes<GoodType, Expence.ExpenceSelection>(dataProvider, typeof(GoodType), lastExpenceD, null);
 			diagram = new PieDiagram(sc, UserBrushes);
