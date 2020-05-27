@@ -60,6 +60,10 @@ namespace DataBaseContext
 		{
 			using var db = new BillsDataBaseContext();
 			var user = db.Users.Single(x => x.Login == login);
+
+			if (user.Expences is null)
+				user.Expences = new List<ExpenceEntity>();
+
 			user.Expences.Add(expenceEntity);
 		}
 

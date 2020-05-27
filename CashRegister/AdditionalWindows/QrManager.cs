@@ -1,5 +1,4 @@
-﻿using QRCoder;
-using System;
+﻿using System;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Media.Imaging;
@@ -20,14 +19,14 @@ namespace CashRegister.AdditionalWindows
 		/// <returns>QR as BitmapImage</returns>
 		public static BitmapImage CreateQr(string data)
 		{
-			var qR = new QRCode(new QRCodeGenerator().CreateQrCode(data, QRCodeGenerator.ECCLevel.Q));
-
-			///не костыль! Нужно привести System.Drawing.Bitmap к Syste.Windows.Controls.Image, заумные методы привести не могут. 
-			///поэтому или в ручную по пикселям копировать или сохранить и подгрузить
-			using (var stream = new FileStream(qrPath, FileMode.Create))
+			QRCodeEncoder codeEncoder = new QRCodeEncoder
 			{
-				qR.GetGraphic(50).Save(stream, ImageFormat.Png);
-			}
+				QRCodeErrorCorrect = QRCodeEncoder.ERROR_CORRECTION.H,
+				QRCodeScale = 10
+			};
+
+			var qr = codeEncoder.Encode(data);
+			SaveFile(qr);
 
 			var bitI = new BitmapImage();
 			bitI.BeginInit();
@@ -38,10 +37,16 @@ namespace CashRegister.AdditionalWindows
 			return bitI;
 		}
 
+		private static void SaveFile(Bitmap qr)
+		{
+			using var fs = new FileStream(qrPath, FileMode.Create);
+			qr.Save(fs, ImageFormat.Png);
+		}
+
 		/// <summary>
-		/// Decodes lasr qr
+		/// Decodes last qr
 		/// </summary>
-		/// <returns>string message pf qr</returns>
+		/// <returns>string data of qr</returns>
 		public static string DecodeQr()
 		{
 			var path = Path.Combine(qrDirPath, qrPath);

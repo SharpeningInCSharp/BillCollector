@@ -1,6 +1,5 @@
 ﻿using DataBaseContext;
 using iText.Layout.Renderer;
-using QRCoder;
 using System;
 using System.Drawing.Imaging;
 using System.IO;
