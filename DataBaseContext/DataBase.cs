@@ -4,39 +4,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DataBaseContext.OutputTools;
-using Microsoft.EntityFrameworkCore;
 
 namespace DataBaseContext
 {
 	public static class DataBase
 	{
-		internal static void AddExpenceToAsync(string login, Expence expence)
-		{
-			if (LoginExist(login) == false)
-				throw new ArgumentException($"Can't find {login} user!");
-
-			using var db = new Entities.BillsDataBaseContext();
-			var user = db.Users.First(x => x.Login == login);
-			//SOLVE: how to add that shit
-			//user.Expences.Add();
-			db.SaveChanges();
-		}
-
-		//TODO: think about separated method to add User by login and pass
-
 		public static User UserExist(string login)
 		{
 			using var db = new Entities.BillsDataBaseContext();
 			var item = db.Users.FirstOrDefault(x => x.Login == login);
 
 			return item == null ? null : new User(item);
-		}
-
-		private static bool LoginExist(string login)
-		{
-			using var db = new Entities.BillsDataBaseContext();
-			return db.Users.Count(x => x.Login == login) == 0;
 		}
 
 		public static async Task<bool> AddAsync(Entity data)
@@ -47,7 +25,18 @@ namespace DataBaseContext
 		internal static ExpenceEntity GetExpence(Guid identity)
 		{
 			using var db = new BillsDataBaseContext();
-			var item = db.Expences.SingleOrDefault(x => x.IdentityGuid == identity);
+			var item = (from e in db.Expences
+						 join b in db.Bills on e.BillEntityId equals b.Id
+						 select new ExpenceEntity
+						 {
+							 BillEntity = b,
+							 BillEntityId = e.BillEntityId,
+							 Date = e.Date,
+							 IdentityGuid = e.IdentityGuid,
+							 Goods = e.Goods,
+
+						 }).SingleOrDefault(x => x.IdentityGuid == identity);
+
 			return item;
 		}
 
@@ -56,15 +45,26 @@ namespace DataBaseContext
 			await Task.Run(() => AddExpenceToUser(login, expenceEntity));
 		}
 
+		//НЕ ЛЕЗЬ, УБЬЕТ!
 		private static void AddExpenceToUser(string login, ExpenceEntity expenceEntity)
 		{
 			using var db = new BillsDataBaseContext();
 			var user = db.Users.Single(x => x.Login == login);
 
-			if (user.Expences is null)
-				user.Expences = new List<ExpenceEntity>();
+			var expE = new ExpenceEntity()
+			{
+				Date = expenceEntity.Date,
+				Goods = expenceEntity.Goods,
+				IdentityGuid = expenceEntity.IdentityGuid,
+				BillEntity = expenceEntity.BillEntity,
+			};
 
-			user.Expences.Add(expenceEntity);
+			var tempExpences = new List<ExpenceEntity>(user.Expences)
+			{
+				expE,
+			};
+
+			user.Expences = tempExpences;
 
 			db.SaveChanges();
 		}
@@ -96,17 +96,6 @@ namespace DataBaseContext
 
 			date1 = date1.AddHours(dH).AddMinutes(dM).AddSeconds(dS);
 		}
-
-		/// <summary>
-		/// Returns expence dates
-		/// </summary>
-		/// <returns>IEnumerable of uniq dates</returns>
-		//public static IEnumerable<DateTime> GetAvailableExpenceDates()
-		//{
-		//	using var db = new Entities.BillsDataBaseContext();
-		//	var res = db.Expences.ToList();
-		//	return res.Select(x => x.Date).Distinct();
-		//}
 
 		private static bool Add(Entity data)
 		{
@@ -175,18 +164,6 @@ namespace DataBaseContext
 
 				_ => new ArgumentException(),
 			};
-		}
-
-		private static List<ExpenceEntity> FromExpenceList(List<Expence> expences)
-		{
-			var res = new List<ExpenceEntity>(expences.Count);
-
-			foreach (var item in expences)
-			{
-				res.Add(ToEntityType(item) as ExpenceEntity);
-			}
-
-			return res;
 		}
 
 		private static List<ExpenceItemEntity> ToEntityGoodList(Dictionary<Good, int> goods)

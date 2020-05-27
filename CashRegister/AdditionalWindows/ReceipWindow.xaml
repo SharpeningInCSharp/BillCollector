@@ -21,8 +21,12 @@
         <StackPanel Grid.Row="1" Orientation="Horizontal" 
                     VerticalAlignment="Center" HorizontalAlignment="Right"
                     Margin="0,0,10,0">
-            <TextBlock Text="Total: " FontSize="18" VerticalAlignment="Center"/>
-            <TextBlock x:Name="TotalPriceTB" FontSize="24" VerticalAlignment="Center"/>
+            <TextBlock Text="TOTAL: " FontSize="20"
+                       VerticalAlignment="Center"
+                       Foreground="#EDAD6F"/>
+            <TextBlock x:Name="TotalPriceTB" FontSize="24" 
+                       VerticalAlignment="Center"
+                       Foreground="#EDAD6F"/>
         </StackPanel>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -32,6 +36,7 @@
             <Image Grid.Column="0" x:Name="QrImage" Margin="10,6,6,10"/>
             <TextBlock Grid.Column="1" x:Name="TimeOutTextBlock" 
                        FontSize="60"
+                       Foreground="#EDAD6F"
                        VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Grid>
     </Grid>

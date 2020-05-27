@@ -45,7 +45,7 @@ namespace CashRegister
 			Dispatcher.Invoke(() =>
 			{
 				goodListDataGrid.ItemsSource = Items;
-				TotalPriceTextBlock.Text = expence.Sum.ToString();
+				TotalPriceTextBlock.Text = expence.Sum.ToString("C2");
 			}
 			);
 

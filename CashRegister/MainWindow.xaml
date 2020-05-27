@@ -36,11 +36,12 @@
                     <DataGridTextColumn Header="Item" Binding="{Binding Path=Item}"/>
                     <DataGridTextColumn Header="Amount" Binding="{Binding Path=Amount}"/>
                     <DataGridTextColumn Header="Price" Binding="{Binding Path=Price}"/>
+                    <DataGridTextColumn Header="Total price" Binding="{Binding Path=TotalPrice}"/>
                 </DataGrid.Columns>
             </DataGrid>
             <StackPanel Orientation="Horizontal" Grid.Row="1"
                         VerticalAlignment="Center" HorizontalAlignment="Right">
-                <TextBlock Text="Total price, P:" Style="{StaticResource ItemTitleTextBlock}"/>
+                <TextBlock Text="Total price: " Style="{StaticResource ItemTitleTextBlock}"/>
                 <TextBlock x:Name="TotalPriceTextBlock" Style="{StaticResource ItemTitleTextBlock}"
                            Text="0" Foreground="Black"/>
             </StackPanel>

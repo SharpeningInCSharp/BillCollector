@@ -51,6 +51,7 @@ namespace CashRegister.AdditionalWindows
 			Dispatcher.Invoke(() => Close());
 		}
 
+		//TODO: change "Total" and Count down Foreground 
 		private void CreateQr(string url)
 		{
 			QrImage.Source = QrManager.CreateQr(url);

@@ -64,7 +64,7 @@ namespace DataBaseContext
 		public IEnumerable<ExpenceSelection> SelectAll()
 		{
 			int temp = 0;
-			return Goods.Select(x => new ExpenceSelection(++temp, x.Value, x.Key)); ;
+			return Goods.Select(x => new ExpenceSelection(++temp, x.Value, x.Key));
 		}
 
 		public void Remove(ExpenceSelection expence)
@@ -134,7 +134,6 @@ namespace DataBaseContext
 			}
 		}
 
-		//TODO: what to do with this simular props? (GetTotal and TotalPrice)
 		public partial class ExpenceSelection : IEquatable<ExpenceSelection>, IScopeSelectionItem
 		{
 			public decimal GetTotal => TotalPrice;
