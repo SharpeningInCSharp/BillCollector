@@ -10,6 +10,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Input;
 using System.Threading.Tasks;
+using BillCollector.AdditionalWindows;
 
 namespace BillCollector
 {
@@ -19,12 +20,28 @@ namespace BillCollector
 	public partial class MainWindow : Window
 	{
 		//SOLVE: update button
-		//SOLVE: add list of bills
+		private User user;
+
 		public MainWindow()
 		{
+			var loginWin = new LoginWindow();
+			loginWin.AccessAllowed += InitializeUser;
+			loginWin.ShowDialog();
+
+			if (loginWin.AllowAccess == false)
+			{
+				Close();
+				return;
+			}
+
 			InitializeComponent();
 
 			LoadStatisticButton_Click(LoadBillsButton, null);
+		}
+
+		private void InitializeUser(User user)
+		{
+			this.user = user;
 		}
 
 		private void LoadStatisticButton_Click(object sender, RoutedEventArgs e)

@@ -118,6 +118,15 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="AddUserIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddUserIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="KeyIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\KeyIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="OkIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\OkIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="OpenInBrowserIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\OpenInBrowserIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

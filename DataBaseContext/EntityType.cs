@@ -6,5 +6,6 @@
 		Expence,
 		ExpenceItem,
 		Good,
+		User,
 	}
 }

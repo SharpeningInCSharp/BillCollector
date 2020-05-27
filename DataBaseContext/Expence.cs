@@ -8,7 +8,7 @@ using DataBaseContext.Diagrams;
 
 namespace DataBaseContext
 {
-	public class Expence : IEntity
+	public class Expence : Entity
 	{
 		public decimal Sum => Goods.Sum(x => x.Key.Price * x.Value);
 

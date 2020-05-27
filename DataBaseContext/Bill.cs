@@ -2,7 +2,7 @@
 
 namespace DataBaseContext
 {
-	public class Bill : IEntity
+	public class Bill : Entity
 	{
 		public Bill(string path) : base(EntityType.Bill)
 		{

@@ -63,6 +63,36 @@ namespace BillCollector.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Byte[].
         /// </summary>
+        internal static byte[] AddUserIcon {
+            get {
+                object obj = ResourceManager.GetObject("AddUserIcon", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] KeyIcon {
+            get {
+                object obj = ResourceManager.GetObject("KeyIcon", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] OkIcon {
+            get {
+                object obj = ResourceManager.GetObject("OkIcon", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
         internal static byte[] OpenInBrowserIcon {
             get {
                 object obj = ResourceManager.GetObject("OpenInBrowserIcon", resourceCulture);

@@ -1,11 +1,10 @@
-﻿using GoodInfo;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace DataBaseContext.Entities
 {
-	internal class DataBaseContext : DbContext
+	internal class BillsDataBaseContext : DbContext
 	{
 		internal DbSet<BillEntity> Bills { get; set; }
 		internal DbSet<ExpenceEntity> Expences { get; set; }
@@ -14,7 +13,9 @@ namespace DataBaseContext.Entities
 
 		internal DbSet<GoodEntity> GoodEntities { get; set; }
 
-		public DataBaseContext()
+		internal DbSet<UserEntity> Users { get; set; }
+
+		public BillsDataBaseContext()
 		{
 			Database.EnsureCreated();
 		}
@@ -33,7 +34,7 @@ namespace DataBaseContext.Entities
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=BillCollector_Base;Trusted_Connection=True;");
+			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=BillCollector_DataBase;Trusted_Connection=True;");
 		}
 	}
 }

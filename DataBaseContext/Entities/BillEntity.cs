@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataBaseContext.Entities
 {
-	[Table("Bills")]
+	[Table("Receip")]
 	internal class BillEntity
 	{
 		internal BillEntity()

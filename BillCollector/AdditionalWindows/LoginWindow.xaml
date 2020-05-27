@@ -1,0 +1,74 @@
+﻿<Window x:Class="BillCollector.AdditionalWindows.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        MinHeight="430"
+        MinWidth="430"
+        Icon="C:\Users\aleks\Source\Repos\BillCollector\BillCollector\Resources\KeyIcon.png"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Autorization" Height="430" Width="430">
+
+    <Window.Resources>
+
+        <Style x:Key="PasswordBoxStyle" TargetType="PasswordBox">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="MinWidth" Value="150"/>
+        </Style>
+            
+    </Window.Resources>
+    
+    <Grid Background="#91E7FF"
+          x:Name="MainGrid"
+          Focusable="True"
+          MouseDown="Grid_MouseDown">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height=" 1.75*"/>
+        </Grid.RowDefinitions>
+        <Border Background="#6FD2ED" Grid.Column="0">
+            <TextBlock Text="Bill collector"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Foreground="#A1652B"
+                       FontSize="50"/>
+        </Border>
+        <StackPanel Grid.Row="1">
+            <TextBlock Style="{StaticResource HeadersTextBlocksStyle}"
+                       x:Name="LoginHeaderTextBlock"
+                       Text="Login"/>
+            
+            <TextBox x:Name="LoginTextBox" 
+                     TextChanged="LoginTextBox_TextChanged"
+                     LostFocus="LoginTextBox_LostFocus"
+                     Style="{StaticResource InputTextBox}"/>
+            
+            <TextBlock Style="{StaticResource HeadersTextBlocksStyle}"
+                       x:Name="PassHeaderTextBlock"
+                       Text="Password"/>
+
+            <PasswordBox x:Name="PasswordBox" 
+                         Style="{StaticResource PasswordBoxStyle}"
+                         IsEnabled="True"
+                         PasswordChanged="PasswordBox_PasswordChanged"/>
+
+            <Button x:Name="LogInButton"
+                    Click="LogInButton_Click"
+                    Style="{StaticResource LogInButtonStyle}">
+                <Image Source="C:\Users\aleks\Source\Repos\BillCollector\BillCollector\Resources\KeyIcon.png"/>
+            </Button>
+            
+            <Button x:Name="SignUpButton"
+                    HorizontalAlignment="Right"
+                    Click="SignUpButton_Click"
+                    Style="{StaticResource SignUpButtonStyle}">
+                <TextBlock Text="Sign up" Style="{StaticResource SignUpTextBlockStyle}"/>
+            </Button>
+        </StackPanel>
+
+    </Grid>
+</Window>
