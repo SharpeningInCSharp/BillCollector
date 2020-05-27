@@ -16,7 +16,7 @@ namespace DataBaseContext
 				throw new ArgumentException($"Can't find {login} user!");
 
 			using var db = new Entities.BillsDataBaseContext();
-			var user = db.Users.Single(x => x.Login == login);
+			var user = db.Users.First(x => x.Login == login);
 			//SOLVE: how to add that shit
 			//user.Expences.Add();
 			db.SaveChanges();
@@ -24,10 +24,10 @@ namespace DataBaseContext
 
 		//TODO: think about separated method to add User by login and pass
 
-		internal static User UserExist(string login)
+		public static User UserExist(string login)
 		{
 			using var db = new Entities.BillsDataBaseContext();
-			var item = db.Users.SingleOrDefault(x => x.Login == login);
+			var item = db.Users.FirstOrDefault(x => x.Login == login);
 
 			return item == null ? null : new User(item);
 		}
@@ -151,7 +151,7 @@ namespace DataBaseContext
 				{
 					Login = user.Login,
 					Password = user.Pass,
-					Expences = FromExpenceList(user.Expences),
+					Expences = new List<ExpenceEntity>(),//FromExpenceList(user.Expences),
 				},
 
 				_ => new ArgumentException(),

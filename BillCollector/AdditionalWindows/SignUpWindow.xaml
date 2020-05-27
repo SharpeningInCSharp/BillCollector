@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:BillCollector.AdditionalWindows"
         WindowStartupLocation="CenterScreen"
         Icon="C:\Users\aleks\Source\Repos\BillCollector\BillCollector\Resources\AddUserIcon.png"
-        MinHeight="400"
-        MinWidth="450"
+        MinHeight="450"
+        MinWidth="500"
         mc:Ignorable="d"
-        Title="Sign up" Height="400" Width="450">
+        Title="Sign up" Height="450" Width="500">
 
     <Window.Resources>
 

@@ -38,18 +38,17 @@ namespace BillCollector.AdditionalWindows
 		{
 			if (passValid && loginValid)
 			{
-				//TODO: add processing
-				//SOLVE: check new users addition
+				Close();
 				DataBase.AddAsync(new User(LoginTextBox.Text, PassTextBox.Text, (output) => Dispatcher.Invoke(() => MessageBox.Show(output))));
 			}
 		}
 
-		private void LoginTextBox_LostFocus(object sender, RoutedEventArgs e)
+		private async void LoginTextBox_LostFocus(object sender, RoutedEventArgs e)
 		{
 			var login = LoginTextBox.Text;
 			if (DataValidation.IsLoginValid(login))
 			{
-				if (User.UserExist(login) == null)
+				if (DataBase.UserExist(login) == null)
 				{
 					LoginToNormalView();
 					loginValid = true;

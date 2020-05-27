@@ -1,8 +1,6 @@
 ﻿using DataBaseContext.Entities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace DataBaseContext
 {
@@ -26,7 +24,10 @@ namespace DataBaseContext
 
 		internal User(UserEntity userEntity) : this(userEntity.Login, userEntity.Password)
 		{
-			Expences = userEntity.Expences.Select(x => new Expence(x)).ToList();
+			if (userEntity.Expences is null)
+				Expences = new List<Expence>();
+			else
+				Expences = userEntity.Expences.Select(x => new Expence(x)).ToList();
 		}
 
 		public User(string login, string pass, UserAnouncerHandler anouncerHandler) : this(login, pass)
@@ -64,9 +65,6 @@ namespace DataBaseContext
 
 	public partial class User
 	{
-		public static User UserExist(string login)
-		{
-			return DataBase.UserExist(login);
-		}
+
 	}
 }

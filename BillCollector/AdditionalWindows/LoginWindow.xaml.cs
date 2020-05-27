@@ -67,7 +67,7 @@ namespace BillCollector.AdditionalWindows
 
 		private void LoginTextBox_LostFocus(object sender, RoutedEventArgs e)
 		{
-			potentialUser = User.UserExist(LoginTextBox.Text);
+			potentialUser = DataBase.UserExist(LoginTextBox.Text);
 			if (potentialUser != null)
 			{
 				ValidLogin();
