@@ -1,5 +1,6 @@
 ﻿using BillCollector.Pages.PageUIItems;
 using DataBaseContext;
+using Org.BouncyCastle.Crypto.Tls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CashRegister.AdditionalWindows;
 
 namespace BillCollector.Pages
 {
@@ -36,9 +38,15 @@ namespace BillCollector.Pages
 			Calendar.DisplayDateStart = new DateTime(InitialDate.Year, InitialDate.Month, InitialDate.Day);
 			Calendar.DisplayDateEnd = DateTime.Today;
 
+			//SOLVE: remake like in statistic
+
 			DateTime lastExpenceD;
-			Calendar.SelectedDate = lastExpenceD = DataBase.GetLastExpenceDate();
-			Load(lastExpenceD, null);
+			var d = User.GetLastExpenceDate();
+			if(d.HasValue)
+			{
+				Calendar.SelectedDate = lastExpenceD = d.Value;
+				Load(lastExpenceD, null);
+			}
 
 			//'cause DateRange can be really big
 			await Task.Run(() => CrossOutEmptyDatesAsync());
@@ -46,7 +54,7 @@ namespace BillCollector.Pages
 
 		private void CrossOutEmptyDatesAsync()
 		{
-			var avaialbleDates = DataBase.GetAvailableExpenceDates();
+			var avaialbleDates = User.GetAvailableExpenceDates();
 			var currentDate = DateTime.Today;
 			while (currentDate != InitialDate)
 			{
@@ -100,6 +108,30 @@ namespace BillCollector.Pages
 		private void LoadFreshBill_Click(object sender, RoutedEventArgs e)
 		{
 
+		}
+
+		private void LoadNewBillButton_Click(object sender, RoutedEventArgs e)
+		{
+			var data = QrManager.DecodeQr();
+
+			if(Guid.TryParse(data, out var expenceId))
+			{
+				User.AddExpence(expenceId);
+			}
+			else
+			{
+				MessageBox.Show("Can't decode Qr");
+			}
+		}
+	}
+
+	public partial class BillsPage
+	{
+		private static User User;
+
+		public static void SetUser(User user)
+		{
+			User = user;
 		}
 	}
 }

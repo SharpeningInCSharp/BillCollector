@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -45,7 +46,11 @@ namespace BillCollector.AdditionalWindows
 
 		private async void LoginTextBox_LostFocus(object sender, RoutedEventArgs e)
 		{
-			var login = LoginTextBox.Text;
+			await Task.Run(() => CheckLogin(LoginTextBox.Text));
+		}
+
+		private void CheckLogin(string login)
+		{
 			if (DataValidation.IsLoginValid(login))
 			{
 				if (DataBase.UserExist(login) == null)
@@ -55,22 +60,21 @@ namespace BillCollector.AdditionalWindows
 					return;
 				}
 
-				MessageBox.Show("Such login already exists!");
+				Dispatcher.Invoke(() => MessageBox.Show("Such login already exists!"));
 			}
 
 			LoginToInvalidView();
 			loginValid = false;
-
 		}
 
 		private void LoginToInvalidView()
 		{
-			LoginHeaderTextBlock.Foreground = headerInvalidBrush;
+			Dispatcher.Invoke(() => LoginHeaderTextBlock.Foreground = headerInvalidBrush);
 		}
 
 		private void LoginToNormalView()
 		{
-			LoginHeaderTextBlock.Foreground = headerNormalBrush;
+			Dispatcher.Invoke(() => LoginHeaderTextBlock.Foreground = headerNormalBrush);
 		}
 
 		private void LoginTextBox_TextChanged(object sender, TextChangedEventArgs e)

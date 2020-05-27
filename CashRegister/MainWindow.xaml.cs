@@ -62,22 +62,22 @@ namespace CashRegister
 				expence.CreateGuid();
 
 				//Используется Thread потому что требуется долговременное вычисление с заданием высокого приоритета
-				string path = "";
-				Thread outputThread = new Thread(() => OutputData(expence, out path))
+				string indentity = "";
+				Thread outputThread = new Thread(() => OutputData(expence, out indentity))
 				{
 					Priority = ThreadPriority.Highest,
 				};
 				outputThread.Start();
 
-				Task.Run(() => ShowLoadingAmination(outputThread, ref path));
+				Task.Run(() => ShowLoadingAmination(outputThread, ref indentity));
 			}
 		}
 
-		private void OpenReceipWin(string path)
+		private void OpenReceipWin(string indentity)
 		{
 			Dispatcher.Invoke(() =>
 			{
-				var receipWin = new ReceipWindow(expence, path);
+				var receipWin = new ReceipWindow(expence, indentity);
 				expence = new Expence();
 				receipWin.ShowDialog();
 				Refresh();
@@ -105,12 +105,12 @@ namespace CashRegister
 			OpenReceipWin(path);
 		}
 
-		private void OutputData(Expence expence, out string path)
+		private void OutputData(Expence expence, out string identity)
 		{
 			var fileCreationTask = PdfManager.CreateAsync(this.expence);
 			fileCreationTask.Wait();
 			var updateTask = DataBase.AddAsync(expence);
-			path = this.expence.Bill.Path;
+			identity = this.expence.IdentityGuid.ToString();
 			Task.WaitAll(new Task[] { updateTask });
 		}
 

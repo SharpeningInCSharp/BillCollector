@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using System.Threading.Tasks;
 using BillCollector.AdditionalWindows;
+using BillCollector.Pages;
 
 namespace BillCollector
 {
@@ -36,12 +37,14 @@ namespace BillCollector
 
 			InitializeComponent();
 
-			LoadStatisticButton_Click(LoadBillsButton, null);
+			LoadStatisticButton_Click(null, null);
 		}
 
 		private void InitializeUser(User user)
 		{
 			this.user = user;
+			StatisticPage.SetUser(user);
+			BillsPage.SetUser(user);
 		}
 
 		private void LoadStatisticButton_Click(object sender, RoutedEventArgs e)
@@ -53,7 +56,6 @@ namespace BillCollector
 		private void LoadBillsButton_Click(object sender, RoutedEventArgs e)
 		{
 			var billsUri = new Uri(@"Pages\BillsPage.xaml", UriKind.Relative);
-			
 			PageFrame.Source = billsUri;
 		}
 	}

@@ -8,8 +8,21 @@
       ShowsNavigationUI="False"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="BillsPage">
+
+    <Page.Resources>
+
+        <Style x:Key="AddReceipButtonStyle" TargetType="Button" BasedOn="{StaticResource LogInButtonStyle}">
+            <Setter Property="MaxHeight" Value="70"/>
+            <Setter Property="MinHeight" Value="70"/>
+            <Setter Property="MaxWidth" Value="70"/>
+            <Setter Property="MinWidth" Value="70"/>
+        </Style>
+        
+    </Page.Resources>
+    
     <Grid Background="#2B798F">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
@@ -18,8 +31,15 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
+        <Button x:Name="LoadNewBillButton"
+                Click="LoadNewBillButton_Click"
+                Style="{StaticResource AddReceipButtonStyle}"
+                ToolTip="Add fresh receip">
+            <Image Source="C:\Users\aleks\Source\Repos\BillCollector\BillCollector\Resources\ReceipIcon.png"/>
+        </Button>
+
         <Calendar x:Name="Calendar" 
-                  Grid.Column="0" Grid.RowSpan ="2"
+                  Grid.Column="1" Grid.RowSpan ="2"
                   Margin="20,20,0,0"
                   IsTodayHighlighted ="False"
                   SelectionMode="SingleRange"
@@ -27,11 +47,11 @@
                   Background="#88C9DB"/>
 
         <TextBlock Text="Bills"
-                   Grid.Row="0" Grid.Column="1"
+                   Grid.Row="0" Grid.Column="2"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
                    FontSize="40"/>
-        
+
         <StackPanel x:Name="BillsListView"
                   Grid.Row="1" Grid.Column="1"
                   Margin="100,6,100,0"/>

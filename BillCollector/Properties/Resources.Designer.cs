@@ -99,5 +99,15 @@ namespace BillCollector.Properties {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] ReceipIcon {
+            get {
+                object obj = ResourceManager.GetObject("ReceipIcon", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

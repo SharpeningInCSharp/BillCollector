@@ -33,7 +33,7 @@
 
             </StackPanel>
         </Border>
-       
+
 
         <Frame Grid.Row="1" Name="PageFrame" NavigationUIVisibility="Hidden"/>
     </Grid>

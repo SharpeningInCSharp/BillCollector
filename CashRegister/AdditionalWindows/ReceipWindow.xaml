@@ -9,13 +9,15 @@
         WindowStartupLocation="CenterScreen"
         Icon="C:\Users\aleks\Source\Repos\BillCollector\CashRegister\Resources\ReceipIcon.png"    
         Title="Receip" Height="600" Width="300">
-    <Grid>
+    <Grid Background="#2B798F">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="60"/>
             <RowDefinition Height="150"/>
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" x:Name="receipOutputDataGrid"/>
+        <DataGrid Grid.Row="0" x:Name="receipOutputDataGrid" 
+                  CanUserDeleteRows="False"
+                  Background="#91E7FF"/>
         <StackPanel Grid.Row="1" Orientation="Horizontal" 
                     VerticalAlignment="Center" HorizontalAlignment="Right"
                     Margin="0,0,10,0">
@@ -29,7 +31,7 @@
             </Grid.ColumnDefinitions>
             <Image Grid.Column="0" x:Name="QrImage"/>
             <TextBlock Grid.Column="1" x:Name="TimeOutTextBlock" 
-                       FontSize="60" 
+                       FontSize="60"
                        VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Grid>
     </Grid>

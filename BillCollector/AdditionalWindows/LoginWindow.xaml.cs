@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -65,9 +66,15 @@ namespace BillCollector.AdditionalWindows
 			LoginHeaderTextBlock.Foreground = headerNormalBrush;
 		}
 
-		private void LoginTextBox_LostFocus(object sender, RoutedEventArgs e)
+		private async void LoginTextBox_LostFocus(object sender, RoutedEventArgs e)
 		{
-			potentialUser = DataBase.UserExist(LoginTextBox.Text);
+			var text = LoginTextBox.Text;
+			await Task.Run(() => CheckLogin(text));
+		}
+
+		private void CheckLogin(string text)
+		{
+			potentialUser = DataBase.UserExist(text);
 			if (potentialUser != null)
 			{
 				ValidLogin();
@@ -80,14 +87,20 @@ namespace BillCollector.AdditionalWindows
 
 		private void ValidLogin()
 		{
-			LoginToValidView();
-			PasswordBox.IsEnabled = true;
+			Dispatcher.Invoke(() =>
+			{
+				LoginToValidView();
+				PasswordBox.IsEnabled = true;
+			});
 		}
 
 		private void InvalidLogin()
 		{
-			LoginToInvalidView();
-			PasswordBox.IsEnabled = false;
+			Dispatcher.Invoke(() =>
+			{
+				LoginToInvalidView();
+				PasswordBox.IsEnabled = false;
+			});
 		}
 
 		private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)

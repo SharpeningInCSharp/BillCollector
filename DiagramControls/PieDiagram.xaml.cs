@@ -39,7 +39,7 @@ namespace DiagramControls
 
 			if (Scopes.IsEmpty)
 			{
-				MessageBox.Show("There's no data for this period");
+				//MessageBox.Show("There's no data for this period");
 				return;
 			}
 

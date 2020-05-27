@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CashRegister\CashRegister.csproj" />
     <ProjectReference Include="..\DiagramControls\DiagramControls.csproj" />
   </ItemGroup>
 

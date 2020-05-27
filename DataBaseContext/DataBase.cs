@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DataBaseContext.OutputTools;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataBaseContext
 {
@@ -12,7 +13,7 @@ namespace DataBaseContext
 	{
 		internal static void AddExpenceToAsync(string login, Expence expence)
 		{
-			if (LoginExist(login))
+			if (LoginExist(login) == false)
 				throw new ArgumentException($"Can't find {login} user!");
 
 			using var db = new Entities.BillsDataBaseContext();
@@ -32,7 +33,7 @@ namespace DataBaseContext
 			return item == null ? null : new User(item);
 		}
 
-		public static bool LoginExist(string login)
+		private static bool LoginExist(string login)
 		{
 			using var db = new Entities.BillsDataBaseContext();
 			return db.Users.Count(x => x.Login == login) == 0;
@@ -41,6 +42,25 @@ namespace DataBaseContext
 		public static async Task<bool> AddAsync(Entity data)
 		{
 			return await Task.Run(() => Add(data));
+		}
+
+		internal static ExpenceEntity GetExpence(Guid identity)
+		{
+			using var db = new BillsDataBaseContext();
+			var item = db.Expences.SingleOrDefault(x => x.IdentityGuid == identity);
+			return item;
+		}
+
+		internal static async void AddExpenceToUserAsync(string login, ExpenceEntity expenceEntity)
+		{
+			await Task.Run(() => AddExpenceToUser(login, expenceEntity));
+		}
+
+		private static void AddExpenceToUser(string login, ExpenceEntity expenceEntity)
+		{
+			using var db = new BillsDataBaseContext();
+			var user = db.Users.Single(x => x.Login == login);
+			user.Expences.Add(expenceEntity);
 		}
 
 		public static IEnumerable<Expence> Select(DateTime currentDate)
@@ -75,12 +95,12 @@ namespace DataBaseContext
 		/// Returns expence dates
 		/// </summary>
 		/// <returns>IEnumerable of uniq dates</returns>
-		public static IEnumerable<DateTime> GetAvailableExpenceDates()
-		{
-			using var db = new Entities.BillsDataBaseContext();
-			var res = db.Expences.ToList();
-			return res.Select(x => x.Date).Distinct();
-		}
+		//public static IEnumerable<DateTime> GetAvailableExpenceDates()
+		//{
+		//	using var db = new Entities.BillsDataBaseContext();
+		//	var res = db.Expences.ToList();
+		//	return res.Select(x => x.Date).Distinct();
+		//}
 
 		private static bool Add(Entity data)
 		{
@@ -123,13 +143,6 @@ namespace DataBaseContext
 			return res;
 		}
 
-		public static DateTime GetLastExpenceDate()
-		{
-			using var db = new Entities.BillsDataBaseContext();
-			var items = db.Expences.ToList();
-			return items.Select(x => x.Date).OrderByDescending(x => x).First();
-		}
-
 		private static object ToEntityType(Entity data)
 		{
 			return data.EntityType switch
@@ -147,7 +160,7 @@ namespace DataBaseContext
 					BillEntity = ToEntityType(expence.Bill) as BillEntity,
 				},
 
-				EntityType.User when data is User user=> new UserEntity
+				EntityType.User when data is User user => new UserEntity
 				{
 					Login = user.Login,
 					Password = user.Pass,
@@ -162,7 +175,7 @@ namespace DataBaseContext
 		{
 			var res = new List<ExpenceEntity>(expences.Count);
 
-			foreach(var item in expences)
+			foreach (var item in expences)
 			{
 				res.Add(ToEntityType(item) as ExpenceEntity);
 			}
@@ -198,43 +211,6 @@ namespace DataBaseContext
 
 				_ => throw new ArgumentException(),
 			};
-		}
-
-		public static IEnumerable<Expence.ExpenceSelection> SelectAndDistinct(GoodType goodType, DateTime initialDate, DateTime? finalDate)
-		{
-			IEnumerable<IEnumerable<Expence.ExpenceSelection>> items;
-			if (finalDate.HasValue)
-			{
-				items = Select(initialDate, finalDate.Value).Select(x => x.SelectAll().Where(x => x.Type == goodType));
-			}
-			else
-			{
-				items = Select(initialDate).Select(x => x.SelectAll().Where(x => x.Type == goodType));
-			}
-
-			Distinct(items, out List<Expence.ExpenceSelection> result);
-
-			return result;
-		}
-
-		private static void Distinct(IEnumerable<IEnumerable<Expence.ExpenceSelection>> items, out List<Expence.ExpenceSelection> result)
-		{
-			result = new List<Expence.ExpenceSelection>();
-
-			foreach (var purchase in items)
-			{
-				foreach (var item in purchase)
-				{
-					if (result.Contains(item))
-					{
-						result.GetItem(item).IncreaseAmount(item.Amount);
-					}
-					else
-					{
-						result.Add(item);
-					}
-				}
-			}
 		}
 	}
 }

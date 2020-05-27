@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -28,7 +29,8 @@ namespace BillCollector.Pages
 		{
 			InitializeComponent();
 
-			dataProvider = DataBase.SelectAndDistinct;
+			//dataProvider = DataBase.SelectAndDistinct;
+			dataProvider = User.SelectAndDistinct;
 
 			Display();
 		}
@@ -40,12 +42,13 @@ namespace BillCollector.Pages
 
 			Initialize();
 
-			await Task.Run(() => CrossOutEmptyDatesAsync());			
+			await Task.Run(() => CrossOutEmptyDatesAsync());
 		}
 
 		private void CrossOutEmptyDatesAsync()
 		{
-			var avaialbleDates = DataBase.GetAvailableExpenceDates();
+			//var avaialbleDates = DataBase.GetAvailableExpenceDates();
+			var avaialbleDates = User.GetAvailableExpenceDates();
 			var currentDate = DateTime.Today;
 			while (currentDate != InitialDate)
 			{
@@ -63,13 +66,23 @@ namespace BillCollector.Pages
 		private void Initialize()
 		{
 			DateTime lastExpenceD;
-			Calendar.SelectedDate = lastExpenceD = DataBase.GetLastExpenceDate();
+			//Calendar.SelectedDate = lastExpenceD = DataBase.GetLastExpenceDate();
 
-			var sc = new Scopes<GoodType, Expence.ExpenceSelection>(dataProvider, typeof(GoodType), lastExpenceD, null);
-			diagram = new PieDiagram(sc, UserBrushes);
-			Grid.SetRow(diagram, 0);
-			Grid.SetColumn(diagram, 1);
-			mainGrid.Children.Add(diagram);
+			var d = User.GetLastExpenceDate();
+			if (d.HasValue)
+			{
+				Calendar.SelectedDate = lastExpenceD = d.Value;
+
+				var sc = new Scopes<GoodType, Expence.ExpenceSelection>(dataProvider, typeof(GoodType), lastExpenceD, null);
+
+				diagram = new PieDiagram(sc, UserBrushes);
+				Grid.SetRow(diagram, 0);
+				Grid.SetColumn(diagram, 1);
+				mainGrid.Children.Add(diagram);
+			}
+			//else
+			//	MessageBox.Show("Seems you don't have any data yet!");
+
 		}
 
 		private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
@@ -88,6 +101,23 @@ namespace BillCollector.Pages
 				var sc = new Scopes<GoodType, Expence.ExpenceSelection>(dataProvider, typeof(GoodType), initial, final);
 				diagram.LoadNew(sc);
 			}
+			else
+			{
+				Initialize();
+			}
+		}
+	}
+
+	public partial class StatisticPage
+	{
+		private static User User;
+
+		internal static void SetUser(User user)
+		{
+			if (user is null)
+				throw new ArgumentException("User value can't be null");
+
+			User = user;
 		}
 	}
 }

@@ -9,13 +9,18 @@ using System.Drawing;
 
 namespace CashRegister.AdditionalWindows
 {
-	internal class QrManager
+	public class QrManager
 	{
 		private static readonly string qrPath = "QrImage.png";
-
-		public static BitmapImage CreateQr(string path)
+		private static readonly string qrDirPath = @"C:\Users\aleks\source\repos\BillCollector\CashRegister\bin\Debug\netcoreapp3.1";
+		/// <summary>
+		/// Creates QR using given data and saves it
+		/// </summary>
+		/// <param name="data">data to be Encoded</param>
+		/// <returns>QR as BitmapImage</returns>
+		public static BitmapImage CreateQr(string data)
 		{
-			var qR = new QRCode(new QRCodeGenerator().CreateQrCode(path, QRCodeGenerator.ECCLevel.Q));
+			var qR = new QRCode(new QRCodeGenerator().CreateQrCode(data, QRCodeGenerator.ECCLevel.Q));
 
 			///не костыль! Нужно привести System.Drawing.Bitmap к Syste.Windows.Controls.Image, заумные методы привести не могут. 
 			///поэтому или в ручную по пикселям копировать или сохранить и подгрузить
@@ -33,9 +38,18 @@ namespace CashRegister.AdditionalWindows
 			return bitI;
 		}
 
+		/// <summary>
+		/// Decodes lasr qr
+		/// </summary>
+		/// <returns>string message pf qr</returns>
 		public static string DecodeQr()
 		{
-			return new QRCodeDecoder().Decode(new QRCodeBitmapImage(new Bitmap(qrPath)));
+			var path = Path.Combine(qrDirPath, qrPath);
+			var bitmap = new Bitmap(path);
+			var qrImage = new QRCodeBitmapImage(bitmap);
+
+			return new QRCodeDecoder().Decode(qrImage);
+
 		}
 	}
 }
