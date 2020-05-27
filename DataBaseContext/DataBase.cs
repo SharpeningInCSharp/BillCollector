@@ -65,6 +65,8 @@ namespace DataBaseContext
 				user.Expences = new List<ExpenceEntity>();
 
 			user.Expences.Add(expenceEntity);
+
+			db.SaveChanges();
 		}
 
 		public static IEnumerable<Expence> Select(DateTime currentDate)

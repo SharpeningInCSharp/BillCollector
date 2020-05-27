@@ -1,20 +1,12 @@
 ﻿using BillCollector.Pages.PageUIItems;
 using DataBaseContext;
-using Org.BouncyCastle.Crypto.Tls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using CashRegister.AdditionalWindows;
 
 namespace BillCollector.Pages
@@ -37,8 +29,6 @@ namespace BillCollector.Pages
 		{
 			Calendar.DisplayDateStart = new DateTime(InitialDate.Year, InitialDate.Month, InitialDate.Day);
 			Calendar.DisplayDateEnd = DateTime.Today;
-
-			//SOLVE: remake like in statistic
 
 			DateTime lastExpenceD;
 			var d = User.GetLastExpenceDate();
@@ -117,6 +107,7 @@ namespace BillCollector.Pages
 			if(Guid.TryParse(data, out var expenceId))
 			{
 				User.AddExpence(expenceId);
+				Load(DateTime.Today, null);
 			}
 			else
 			{

@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -29,7 +28,6 @@ namespace BillCollector.Pages
 		{
 			InitializeComponent();
 
-			//dataProvider = DataBase.SelectAndDistinct;
 			dataProvider = User.SelectAndDistinct;
 
 			Display();
@@ -47,7 +45,6 @@ namespace BillCollector.Pages
 
 		private void CrossOutEmptyDatesAsync()
 		{
-			//var avaialbleDates = DataBase.GetAvailableExpenceDates();
 			var avaialbleDates = User.GetAvailableExpenceDates();
 			var currentDate = DateTime.Today;
 			while (currentDate != InitialDate)
@@ -66,7 +63,6 @@ namespace BillCollector.Pages
 		private void Initialize()
 		{
 			DateTime lastExpenceD;
-			//Calendar.SelectedDate = lastExpenceD = DataBase.GetLastExpenceDate();
 
 			var d = User.GetLastExpenceDate();
 			if (d.HasValue)

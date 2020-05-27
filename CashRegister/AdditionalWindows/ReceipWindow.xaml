@@ -29,7 +29,7 @@
                 <ColumnDefinition Width="3*"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Image Grid.Column="0" x:Name="QrImage"/>
+            <Image Grid.Column="0" x:Name="QrImage" Margin="10,6,6,10"/>
             <TextBlock Grid.Column="1" x:Name="TimeOutTextBlock" 
                        FontSize="60"
                        VerticalAlignment="Center" HorizontalAlignment="Center"/>

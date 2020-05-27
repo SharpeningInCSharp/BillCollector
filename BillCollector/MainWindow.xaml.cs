@@ -1,15 +1,6 @@
 ﻿using System.Windows;
-using System.Windows.Media;
 using System;
-using DiagramControls;
-using DataBaseContext.Diagrams;
 using DataBaseContext;
-using GoodInfo;
-using System.Windows.Controls;
-using System.Linq;
-using System.Collections.Generic;
-using System.Windows.Input;
-using System.Threading.Tasks;
 using BillCollector.AdditionalWindows;
 using BillCollector.Pages;
 
