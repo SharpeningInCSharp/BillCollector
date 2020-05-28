@@ -120,7 +120,7 @@ namespace DiagramControls
 			piePieceHeaderTextBlock.Text = $"{curScope.EnumMember}";
 
 			DiagramInfo.Clear();
-			DiagramInfo.Header = $"{Scopes[num].Sum:C2} ({curScope.PerCent: #0.##%})";
+			DiagramInfo.Header = $"{Scopes[num].Sum:C2} ({curScope.Ratio: #0.##%})";
 			Scopes[num].OutputData((col1, col2) => DiagramInfo.Add(col1, col2));
 		}
 

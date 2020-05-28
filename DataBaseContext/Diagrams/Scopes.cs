@@ -77,7 +77,8 @@ namespace DataBaseContext.Diagrams
 		{
 			foreach (var item in scopes)
 			{
-				item.SetPerCent(item.Sum / TotalSum);
+				//item.SetPerCent(item.Sum / TotalSum);
+				item.Ratio = item.Sum / TotalSum;
 			}
 		}
 	}

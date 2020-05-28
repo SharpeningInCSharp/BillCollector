@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 
 namespace DataBaseContext.Diagrams
@@ -14,11 +13,11 @@ namespace DataBaseContext.Diagrams
 				where EType : Enum
 				where DType : IScopeSelectionItem
 	{
-		public decimal Sum { get; private set; } = 0;
+		public decimal Sum => Items.Sum(x => x.GetTotal);
 
-		public decimal PerCent { get; private set; } = 0;
+		public decimal Ratio { get; internal set; } = 0;
 
-		public EType EnumMember { get; private set; }
+		public EType EnumMember { get; internal set; }
 
 		private IEnumerable<DType> Items { get; }
 
@@ -30,7 +29,7 @@ namespace DataBaseContext.Diagrams
 		{
 			Items = items;
 			InitialDate = dateTime;
-			Sum = Items.Sum(x => x.GetTotal);
+			//Sum = Items.Sum(x => x.GetTotal);
 		}
 
 		internal Scope(IEnumerable<DType> items, DateTime initialDate, DateTime finalDate) : this(items, initialDate)
@@ -45,7 +44,7 @@ namespace DataBaseContext.Diagrams
 
 		internal void SetPerCent(decimal perCent)
 		{
-			PerCent = Math.Round(perCent, 3);
+			Ratio = Math.Round(perCent, 3);
 		}
 
 		internal void SetEnumMem(EType eType)
