@@ -65,7 +65,7 @@ namespace DataBaseContext.Diagrams
 					scope = new Scope<EType, DType>(result, InitialDate);
 				}
 
-				scope.SetEnumMem(eType);
+				scope.EnumMember = eType;
 				scopes.Add(scope);
 			}
 
@@ -77,7 +77,6 @@ namespace DataBaseContext.Diagrams
 		{
 			foreach (var item in scopes)
 			{
-				//item.SetPerCent(item.Sum / TotalSum);
 				item.Ratio = item.Sum / TotalSum;
 			}
 		}

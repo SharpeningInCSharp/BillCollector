@@ -29,7 +29,6 @@ namespace DataBaseContext.Diagrams
 		{
 			Items = items;
 			InitialDate = dateTime;
-			//Sum = Items.Sum(x => x.GetTotal);
 		}
 
 		internal Scope(IEnumerable<DType> items, DateTime initialDate, DateTime finalDate) : this(items, initialDate)
@@ -40,16 +39,6 @@ namespace DataBaseContext.Diagrams
 		internal IEnumerable<DType> GetTopExpensive()
 		{
 			return Items.OrderByDescending(x => x.GetTotal).Take(3);
-		}
-
-		internal void SetPerCent(decimal perCent)
-		{
-			Ratio = Math.Round(perCent, 3);
-		}
-
-		internal void SetEnumMem(EType eType)
-		{
-			EnumMember = eType;
 		}
 	}
 
