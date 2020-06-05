@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DiagramControls.DiagramStatInfo">
+    <Position X="4" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BBYAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAFAAAA=</HashCode>
+      <FileName>DiagramStatInfo.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DiagramControls.PieDiagram">
+    <Position X="7" Y="1.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>CAAAAgAAAFQAgGCBAAAAAAQAAAIIAAQAAAAAEAAAAAA=</HashCode>
+      <FileName>PieDiagram.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="piePieces" />
+      <Property Name="Scopes" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DiagramControls.PiePiece">
+    <Position X="10.75" Y="1.25" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="DiagramControls.PiePiece.PiePieceHandler">
+        <TypeIdentifier>
+          <NewMemberFileName>PiePiece.xaml.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>IAAgAAAIAAAAQAAEAQAAAAgAEAAAAIAAAEAAQABIIQA=</HashCode>
+      <FileName>PiePiece.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DataBaseContext.Diagrams.Scope&lt;EType, DType&gt;">
+    <Position X="3.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DiagramControls.PieLegendItem">
+    <Position X="0.5" Y="2" Width="2" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="DiagramControls.PieLegendItem.LegendHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>PieLegendItem.xaml.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>IIACAAEIIAAACESAAQAAAAAAAAAAAAAAAAAAAGAAAAA=</HashCode>
+      <FileName>PieLegendItem.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

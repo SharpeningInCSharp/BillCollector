@@ -22,10 +22,10 @@ namespace DiagramControls
 		private readonly List<PiePiece> piePieces = new List<PiePiece>();
 		private const int FullAngle = 360;
 
-		public Scopes<GoodType, Expence.ExpenceSelection> Scopes { get; private set; }
+		public Scopes<GoodType, ExpenceSelection> Scopes { get; private set; }
 		public SolidColorBrush[] UsersBrushes { get; }
 
-		public PieDiagram(Scopes<GoodType, Expence.ExpenceSelection> scopes, SolidColorBrush[] brushes)
+		public PieDiagram(Scopes<GoodType, ExpenceSelection> scopes, SolidColorBrush[] brushes)
 		{
 			if (scopes.Count() < brushes.Length)
 				throw new ArgumentException($"Amount of {nameof(brushes)} must be not less then amount of members in enum {scopes.EnumType.Name}");
@@ -48,7 +48,7 @@ namespace DiagramControls
 			ShowGeneralInfo();
 		}
 
-		public void LoadNew(Scopes<GoodType, Expence.ExpenceSelection> scopes)
+		public void LoadNew(Scopes<GoodType, ExpenceSelection> scopes)
 		{
 			if (legend.Children.Count == 0)
 				InitializeLegend();
@@ -108,7 +108,7 @@ namespace DiagramControls
 			piePieceHeaderTextBlock.Text = "General info";
 
 			DiagramInfo.Clear();
-			DiagramInfo.Note = "Here is the most expensive items";
+			DiagramInfo.Note = "Here are the most expensive items";
 			DiagramInfo.Header = Scopes.TotalSum.ToString("C2");
 			Scopes.OutputData((col1, col2) => DiagramInfo.Add(col1, col2));
 		}

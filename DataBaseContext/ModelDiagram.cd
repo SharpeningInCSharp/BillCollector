@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DataBaseContext.Bill">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Bill.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DataBaseContext.DataBase">
+    <Position X="4" Y="3.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>IAIAAAAAAAAAAACAAEAAAAEIAIAAAAAIAAQAQEAIAAA=</HashCode>
+      <FileName>DataBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DataBaseContext.Entity">
+    <Position X="12.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entity.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="EntityType" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="DataBaseContext.Expence">
+    <Position X="11" Y="5" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAIAAIAAACAAAAgAAAAEBAAAABAAAAABAAAAAKBAACQ=</HashCode>
+      <FileName>Expence.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Bill" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="DataBaseContext.User">
+    <Position X="7" Y="2.75" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="DataBaseContext.User.UserAnouncerHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>User.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>IAAAQAAAAAQACABBABAAQCAAAAAACAAAAUAQQAAAAAA=</HashCode>
+      <FileName>User.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Expences" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="GoodInfo.Good">
+    <Position X="17.5" Y="5.5" Width="2.25" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="DataBaseContext.ExpenceSelection">
+    <Position X="14.5" Y="4.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>IAAABQQAAQAAAAAEgAQAAACEAAAAQIAAAQAAAAAAAAA=</HashCode>
+      <FileName>ExpenceSelection.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="good" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Enum Name="DataBaseContext.EntityType">
+    <Position X="15.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAIAAAAECAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>EntityType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

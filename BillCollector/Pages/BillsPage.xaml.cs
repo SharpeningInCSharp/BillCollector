@@ -95,11 +95,6 @@ namespace BillCollector.Pages
 			Load(initial, final);
 		}
 
-		private void LoadFreshBill_Click(object sender, RoutedEventArgs e)
-		{
-
-		}
-
 		private void LoadNewBillButton_Click(object sender, RoutedEventArgs e)
 		{
 			var data = QrManager.DecodeQr();

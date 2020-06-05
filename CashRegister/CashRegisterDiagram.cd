@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CashRegister.MainWindow">
+    <Position X="7.75" Y="1" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACABASAEAAhACAAAAAEAEAABAAIAAAIEAAAA=</HashCode>
+      <FileName>MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="expence" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CashRegister.AddGoodWindow">
+    <Position X="3.75" Y="2.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>gQDEAAEAAAAAEABAAAQEAAACgAAAACAgAAIAAAAARCE=</HashCode>
+      <FileName>AddGoodWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Good" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CashRegister.AdditionalWindows.LogEditorWin">
+    <Position X="11" Y="0.75" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="CashRegister.AdditionalWindows.LogEditorWin.LogSelection">
+        <TypeIdentifier>
+          <NewMemberFileName>AdditionalWindows\LogEditorWin.xaml.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>BAAAQIAAAAAAAQAAAAAEAAAAAACCAAAAAAAAAAAAACA=</HashCode>
+      <FileName>AdditionalWindows\LogEditorWin.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="LogItems" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CashRegister.AdditionalWindows.ReceipWindow">
+    <Position X="11" Y="6.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAIAABAAAAAAAAAQAEAAgAAAAAAAAAA=</HashCode>
+      <FileName>AdditionalWindows\ReceipWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CashRegister.AdditionalWindows.QrManager">
+    <Position X="15" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgABAAAAAAAAAAACACAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>AdditionalWindows\QrManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DataBaseContext.Expence">
+    <Position X="7.75" Y="5.75" Width="2" />
+    <NestedTypes>
+      <Class Name="DataBaseContext.Expence.ExpenceSelection" Collapsed="true">
+        <TypeIdentifier />
+        <Lollipop Position="0.2" />
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier />
+  </Class>
+  <Class Name="GoodInfo.Good">
+    <Position X="0.5" Y="3" Width="2.25" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="DataBaseContext.OutputTools.GoodUseFrequence">
+    <Position X="14.75" Y="1.25" Width="2" />
+    <TypeIdentifier />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

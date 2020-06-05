@@ -73,9 +73,9 @@ namespace DataBaseContext
 	/// </summary>
 	public partial class User
 	{
-		public IEnumerable<Expence.ExpenceSelection> SelectAndDistinct(GoodType goodType, DateTime initialDate, DateTime? finalDate)
+		public IEnumerable<ExpenceSelection> SelectAndDistinct(GoodType goodType, DateTime initialDate, DateTime? finalDate)
 		{
-			IEnumerable<IEnumerable<Expence.ExpenceSelection>> items;
+			IEnumerable<IEnumerable<ExpenceSelection>> items;
 			if (finalDate.HasValue)
 			{
 				items = Select(initialDate, finalDate.Value).Select(x => x.SelectAll().Where(x => x.Type == goodType));
@@ -85,14 +85,14 @@ namespace DataBaseContext
 				items = Select(initialDate).Select(x => x.SelectAll().Where(x => x.Type == goodType));
 			}
 
-			Distinct(items, out List<Expence.ExpenceSelection> result);
+			Distinct(items, out List<ExpenceSelection> result);
 
 			return result;
 		}
 
-		private static void Distinct(IEnumerable<IEnumerable<Expence.ExpenceSelection>> items, out List<Expence.ExpenceSelection> result)
+		private static void Distinct(IEnumerable<IEnumerable<ExpenceSelection>> items, out List<ExpenceSelection> result)
 		{
-			result = new List<Expence.ExpenceSelection>();
+			result = new List<ExpenceSelection>();
 
 			foreach (var purchase in items)
 			{

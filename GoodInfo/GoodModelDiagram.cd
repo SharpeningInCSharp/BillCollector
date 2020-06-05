@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="GoodInfo.Good">
+    <Position X="8.25" Y="1" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAQAAAAQAgAAAAAQAAAAAAIAAAQAAAAAAgBA=</HashCode>
+      <FileName>Good.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Type" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Enum Name="GoodInfo.GoodType">
+    <Position X="5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAABAAAAAAAAAAAAAAAAAQAAAAAAAAAAAIAAgAACAA=</HashCode>
+      <FileName>GoodType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

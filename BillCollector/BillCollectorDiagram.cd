@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BillCollector.MainWindow">
+    <Position X="3.75" Y="6.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAEAAAAAAAAAgAAAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="user" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BillCollector.Pages.StatisticPage">
+    <Position X="6.75" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AARBAAAAAAAAAQCAAAAAAQAAAAAAQEAAAAABAAAAAhA=</HashCode>
+      <FileName>Pages\StatisticPage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="diagram" />
+      <Field Name="User" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BillCollector.Pages.BillsPage">
+    <Position X="10.25" Y="5.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBgAAAAAAAAAAAAAAAAQAAAAACAAAAAAADAAAAAhA=</HashCode>
+      <FileName>Pages\BillsPage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="User" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BillCollector.AdditionalWindows.LoginWindow">
+    <Position X="0.5" Y="0.5" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="BillCollector.AdditionalWindows.LoginWindow.AccessAllowedHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>AdditionalWindows\LoginWindow.xaml.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>QAAAAAQAAAAQQAUAAACEQQEAAAAEAgAAAAAQgAAAAoY=</HashCode>
+      <FileName>AdditionalWindows\LoginWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="potentialUser" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="BillCollector.AdditionalWindows.SignUpWindow">
+    <Position X="4" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAEAAAAAQAEAAAAAQCAAAAAEAgAAAAIAEABAQoQ=</HashCode>
+      <FileName>AdditionalWindows\SignUpWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DataBaseContext.User">
+    <Position X="6.75" Y="5.25" Width="2.25" />
+    <NestedTypes>
+      <Class Name="DataBaseContext.User.UserAnouncerHandler" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier />
+  </Class>
+  <Class Name="DiagramControls.PieDiagram">
+    <Position X="10.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

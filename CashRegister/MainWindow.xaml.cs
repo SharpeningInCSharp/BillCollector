@@ -17,7 +17,7 @@ namespace CashRegister
 	public partial class MainWindow : Window
 	{
 		private Expence expence = new Expence();
-		public IEnumerable<Expence.ExpenceSelection> Items { get; private set; }
+		public IEnumerable<ExpenceSelection> Items { get; private set; }
 
 		public MainWindow()
 		{
@@ -172,7 +172,7 @@ namespace CashRegister
 				{
 					foreach (var item in goodListDataGrid.SelectedItems)
 					{
-						if (item is Expence.ExpenceSelection selection)
+						if (item is ExpenceSelection selection)
 						{
 							expence.Remove(selection);
 						}

@@ -40,9 +40,9 @@ namespace DataBaseContext
 			return item;
 		}
 
-		internal static async void AddExpenceToUserAsync(string login, ExpenceEntity expenceEntity)
+		internal static void AddExpenceToUserAsync(string login, ExpenceEntity expenceEntity)
 		{
-			await Task.Run(() => AddExpenceToUser(login, expenceEntity));
+			AddExpenceToUser(login, expenceEntity);
 		}
 
 		//НЕ ЛЕЗЬ, УБЬЕТ!

@@ -21,11 +21,11 @@ namespace DataBaseContext.Diagrams
 		public DateTime? FinalDate { get; }
 		public List<string> EnumStringValues { get; } = new List<string>();
 		public Type EnumType { get; }
-		public decimal TotalSum => scopes.Sum(x => x.Sum);
+		public decimal TotalSum => scopeItems.Sum(x => x.Sum);
 
 		public List<string> TotalInfo { get; private set; }
 
-		private readonly List<Scope<EType, DType>> scopes = new List<Scope<EType, DType>>();
+		private readonly List<Scope<EType, DType>> scopeItems = new List<Scope<EType, DType>>();
 
 		/// <summary>
 		/// Scope for range of dates
@@ -66,7 +66,7 @@ namespace DataBaseContext.Diagrams
 				}
 
 				scope.EnumMember = eType;
-				scopes.Add(scope);
+				scopeItems.Add(scope);
 			}
 
 			if (IsEmpty == false)
@@ -75,7 +75,7 @@ namespace DataBaseContext.Diagrams
 
 		private void SetPerCents()
 		{
-			foreach (var item in scopes)
+			foreach (var item in scopeItems)
 			{
 				item.Ratio = item.Sum / TotalSum;
 			}
@@ -86,23 +86,23 @@ namespace DataBaseContext.Diagrams
 	{
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-			return scopes.GetEnumerator();
+			return scopeItems.GetEnumerator();
 		}
 
 		public Scope<EType, DType> this[int ind]
 		{
 			get
 			{
-				if (ind < 0 || ind >= scopes.Count)
+				if (ind < 0 || ind >= scopeItems.Count)
 					throw new ArgumentOutOfRangeException("Index was out of range");
 
-				return scopes[ind];
+				return scopeItems[ind];
 			}
 		}
 
 		public IEnumerator<Scope<EType, DType>> GetEnumerator()
 		{
-			return scopes.GetEnumerator();
+			return scopeItems.GetEnumerator();
 		}
 
 		/// <summary>
@@ -111,7 +111,7 @@ namespace DataBaseContext.Diagrams
 		/// <param name="OutputHandler">Handler for output</param>
 		public void OutputData(Action<string, string> OutputHandler)
 		{
-			var categories = scopes.Select(x => x.GetTopExpensive());
+			var categories = scopeItems.Select(x => x.GetTopExpensive());
 
 			for (int i = 0; i < categories.Count(); i++)
 			{
