@@ -3,7 +3,7 @@
 	public enum EntityType
 	{
 		Bill,
-		Expence,
+		Expense,
 		ExpenceItem,
 		Good,
 		User,

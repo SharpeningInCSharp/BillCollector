@@ -131,7 +131,7 @@ namespace DataBaseContext.OutputTools
 		}
 
 		//Create file with log-shop name...
-		private static string CreateBillFile(Expence expence)
+		private static string CreateBillFile(Expense expence)
 		{
 			string path = "test.txt";
 

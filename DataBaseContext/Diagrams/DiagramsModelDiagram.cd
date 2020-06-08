@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="DataBaseContext.Diagrams.Scopes&lt;EType, DType&gt;">
-    <Position X="8.5" Y="3" Width="2" />
+    <Position X="7.5" Y="1.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AABAAIAAAAAAAQDAAAAAAAIAABAAAAEAAgAAAAAAAgA=</HashCode>
       <FileName>Diagrams\Scopes.cs</FileName>
@@ -9,7 +9,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="DataBaseContext.Diagrams.Scope&lt;EType, DType&gt;">
-    <Position X="5.25" Y="3" Width="1.5" />
+    <Position X="3.75" Y="1.75" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAIAAAAAACAAAAAAAAAAAAAAAACAAAABAAAAAAgQ=</HashCode>
       <FileName>Diagrams\Scope.cs</FileName>
@@ -17,14 +17,14 @@
     <Lollipop Position="0.2" />
   </Class>
   <Interface Name="DataBaseContext.Diagrams.IStringOutputData">
-    <Position X="12.25" Y="1" Width="1.5" />
+    <Position X="11.5" Y="1.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Diagrams\IStringOutputData.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="DataBaseContext.Diagrams.IScopeSelectionItem">
-    <Position X="12.25" Y="2.75" Width="1.75" />
+    <Position X="11.5" Y="3.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Diagrams\IScopeSelectionItem.cs</FileName>

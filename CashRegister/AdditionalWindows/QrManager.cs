@@ -50,10 +50,15 @@ namespace CashRegister.AdditionalWindows
 		public static string DecodeQr()
 		{
 			var path = Path.Combine(qrDirPath, qrPath);
-			var bitmap = new Bitmap(path);
-			var qrImage = new QRCodeBitmapImage(bitmap);
+			if (File.Exists(path))
+			{
+				var bitmap = new Bitmap(path);
+				var qrImage = new QRCodeBitmapImage(bitmap);
 
-			return new QRCodeDecoder().Decode(qrImage);
+				return new QRCodeDecoder().Decode(qrImage);
+			}
+
+			return string.Empty;
 
 		}
 	}

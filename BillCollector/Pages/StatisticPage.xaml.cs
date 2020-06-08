@@ -21,7 +21,7 @@ namespace BillCollector.Pages
 		private readonly DateTime InitialDate = new DateTime(2019, 1, 1);
 		public PieDiagram diagram;
 
-		private readonly Func<GoodType, DateTime, DateTime?, IEnumerable<ExpenceSelection>> dataProvider;
+		private readonly Func<GoodType, DateTime, DateTime?, IEnumerable<ExpenseSelection>> dataProvider;
 		private readonly SolidColorBrush[] UserBrushes = new SolidColorBrush[] { Brushes.Red, Brushes.Blue, Brushes.Green, Brushes.Purple, Brushes.Cyan, Brushes.Orange };
 
 		public StatisticPage()
@@ -69,7 +69,7 @@ namespace BillCollector.Pages
 			{
 				Calendar.SelectedDate = lastExpenceD = d.Value;
 
-				var sc = new Scopes<GoodType, ExpenceSelection>(dataProvider, typeof(GoodType), lastExpenceD, null);
+				var sc = new Scopes<GoodType, ExpenseSelection>(dataProvider, typeof(GoodType), lastExpenceD, null);
 
 				diagram = new PieDiagram(sc, UserBrushes);
 				Grid.SetRow(diagram, 0);
@@ -94,7 +94,7 @@ namespace BillCollector.Pages
 				if (initial == final.Value)
 					final = null;
 
-				var sc = new Scopes<GoodType, ExpenceSelection>(dataProvider, typeof(GoodType), initial, final);
+				var sc = new Scopes<GoodType, ExpenseSelection>(dataProvider, typeof(GoodType), initial, final);
 				diagram.LoadNew(sc);
 			}
 			else

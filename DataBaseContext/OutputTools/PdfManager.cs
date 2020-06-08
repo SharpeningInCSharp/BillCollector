@@ -30,7 +30,7 @@ namespace DataBaseContext.OutputTools
 		//private readonly static string DirPath = @"C:\Users\User\source\repos\BillCollector\DataBaseContext\Bills\";
 		private readonly static string DirPath = @"C:\Users\aleks\Source\Repos\BillCollector\DataBaseContext\Bills\";
 
-		public static async Task CreateAsync(Expence expence)
+		public static async Task CreateAsync(Expense expence)
 		{
 			var path = await Task.Run(() => Create(expence));
 			expence.CreateBill(path);
@@ -41,7 +41,7 @@ namespace DataBaseContext.OutputTools
 		/// 
 		/// </summary>
 		/// <param name="expence"></param>
-		private static string Create(Expence expence)
+		private static string Create(Expense expence)
 		{
 			var filePath = System.IO.Path.Combine(DirPath, expence.IdentityGuid.ToString() + ".pdf");
 

@@ -22,10 +22,10 @@ namespace DiagramControls
 		private readonly List<PiePiece> piePieces = new List<PiePiece>();
 		private const int FullAngle = 360;
 
-		public Scopes<GoodType, ExpenceSelection> Scopes { get; private set; }
+		public Scopes<GoodType, ExpenseSelection> Scopes { get; private set; }
 		public SolidColorBrush[] UsersBrushes { get; }
 
-		public PieDiagram(Scopes<GoodType, ExpenceSelection> scopes, SolidColorBrush[] brushes)
+		public PieDiagram(Scopes<GoodType, ExpenseSelection> scopes, SolidColorBrush[] brushes)
 		{
 			if (scopes.Count() < brushes.Length)
 				throw new ArgumentException($"Amount of {nameof(brushes)} must be not less then amount of members in enum {scopes.EnumType.Name}");
@@ -48,7 +48,7 @@ namespace DiagramControls
 			ShowGeneralInfo();
 		}
 
-		public void LoadNew(Scopes<GoodType, ExpenceSelection> scopes)
+		public void LoadNew(Scopes<GoodType, ExpenseSelection> scopes)
 		{
 			if (legend.Children.Count == 0)
 				InitializeLegend();

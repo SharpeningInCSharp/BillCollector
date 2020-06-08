@@ -1,20 +1,11 @@
 ﻿using DataBaseContext;
 using DataBaseContext.OutputTools;
 using Microsoft.Win32;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace CashRegister.AdditionalWindows
 {
@@ -59,11 +50,9 @@ namespace CashRegister.AdditionalWindows
 
 		private void LoadNwButton_Click(object sender, RoutedEventArgs e)
 		{
-			OpenFileDialog openFileDialog = new OpenFileDialog
-			{
-				Filter = "*.dat",
-			};
+			OpenFileDialog openFileDialog = new OpenFileDialog();
 			openFileDialog.ShowDialog();
+
 			if (DataValidation.BinaryFileExist(openFileDialog.FileName))
 			{
 				ExpenceLogManager.SetNewPathAsync(openFileDialog.FileName, ReplaceCheckBox.IsChecked.Value, OutputLoadRes);

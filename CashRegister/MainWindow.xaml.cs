@@ -16,8 +16,8 @@ namespace CashRegister
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		private Expence expence = new Expence();
-		public IEnumerable<ExpenceSelection> Items { get; private set; }
+		private Expense expence = new Expense();
+		public IEnumerable<ExpenseSelection> Items { get; private set; }
 
 		public MainWindow()
 		{
@@ -78,7 +78,7 @@ namespace CashRegister
 			Dispatcher.Invoke(() =>
 			{
 				var receipWin = new ReceipWindow(expence, indentity);
-				expence = new Expence();
+				expence = new Expense();
 				receipWin.ShowDialog();
 				Refresh();
 			});
@@ -105,7 +105,7 @@ namespace CashRegister
 			OpenReceipWin(path);
 		}
 
-		private void OutputData(Expence expence, out string identity)
+		private void OutputData(Expense expence, out string identity)
 		{
 			var fileCreationTask = PdfManager.CreateAsync(this.expence);
 			fileCreationTask.Wait();
@@ -172,7 +172,7 @@ namespace CashRegister
 				{
 					foreach (var item in goodListDataGrid.SelectedItems)
 					{
-						if (item is ExpenceSelection selection)
+						if (item is ExpenseSelection selection)
 						{
 							expence.Remove(selection);
 						}

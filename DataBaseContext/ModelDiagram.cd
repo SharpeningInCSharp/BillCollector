@@ -8,7 +8,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="DataBaseContext.DataBase">
-    <Position X="4" Y="3.75" Width="2" />
+    <Position X="3.25" Y="1.75" Width="2" />
     <TypeIdentifier>
       <HashCode>IAIAAAAAAAAAAACAAEAAAAEIAIAAAAAIAAQAQEAIAAA=</HashCode>
       <FileName>DataBase.cs</FileName>
@@ -25,7 +25,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="DataBaseContext.Expence">
-    <Position X="11" Y="5" Width="2.25" />
+    <Position X="10" Y="5.75" Width="2.25" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
@@ -38,7 +38,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="DataBaseContext.User">
-    <Position X="7" Y="2.75" Width="2.25" />
+    <Position X="6.5" Y="2.75" Width="2.25" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
@@ -58,11 +58,11 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="GoodInfo.Good">
-    <Position X="17.5" Y="5.5" Width="2.25" />
+    <Position X="16.75" Y="5.5" Width="2.25" />
     <TypeIdentifier />
   </Class>
   <Class Name="DataBaseContext.ExpenceSelection">
-    <Position X="14.5" Y="4.75" Width="2" />
+    <Position X="13.75" Y="5" Width="2" />
     <TypeIdentifier>
       <HashCode>IAAABQQAAQAAAAAEgAQAAACEAAAAQIAAAQAAAAAAAAA=</HashCode>
       <FileName>ExpenceSelection.cs</FileName>
@@ -71,6 +71,13 @@
       <Field Name="good" />
     </ShowAsAssociation>
     <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DataBaseContext.Entities.BillsDataBaseContext">
+    <Position X="3" Y="6.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AABAACAAAQAAAAAAAAAABAAAEEAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Entities\DataBaseContext.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Enum Name="DataBaseContext.EntityType">
     <Position X="15.25" Y="1.75" Width="1.5" />

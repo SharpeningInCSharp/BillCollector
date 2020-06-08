@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Text.Json.Serialization;
 
 namespace GoodInfo
 {
@@ -60,6 +59,7 @@ namespace GoodInfo
 		{
 			if (obj is Good good)
 				return Equals(good);
+
 			return false;
 		}
 

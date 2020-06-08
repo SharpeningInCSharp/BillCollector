@@ -17,7 +17,7 @@ namespace DataBaseContext
 
 		internal string Pass { get; private set; }
 
-		public List<Expence> Expences { get; private set; }
+		public List<Expense> Expences { get; private set; }
 
 		private User(string login, string pass) : base(EntityType.User)
 		{
@@ -28,9 +28,9 @@ namespace DataBaseContext
 		internal User(UserEntity userEntity) : this(userEntity.Login, userEntity.Password)
 		{
 			if (userEntity.Expences is null)
-				Expences = new List<Expence>();
+				Expences = new List<Expense>();
 			else
-				Expences = userEntity.Expences.Select(x => new Expence(x)).ToList();
+				Expences = userEntity.Expences.Select(x => new Expense(x)).ToList();
 		}
 
 		public User(string login, string pass, UserAnouncerHandler anouncerHandler) : this(login, pass)
@@ -42,11 +42,14 @@ namespace DataBaseContext
 
 		public void AddExpence(Guid identity)
 		{
+			if (Expences.Count(x => x.IdentityGuid == identity) != 0)	//can't exist simular items
+				return;
+
 			var expenceEntity = DataBase.GetExpence(identity);
 
 			if (expenceEntity != null)
 			{
-				Expences.Add(new Expence(expenceEntity));
+				Expences.Add(new Expense(expenceEntity));
 				DataBase.AddExpenceToUserAsync(Login, expenceEntity);
 			}
 		}
@@ -73,9 +76,9 @@ namespace DataBaseContext
 	/// </summary>
 	public partial class User
 	{
-		public IEnumerable<ExpenceSelection> SelectAndDistinct(GoodType goodType, DateTime initialDate, DateTime? finalDate)
+		public IEnumerable<ExpenseSelection> SelectAndDistinct(GoodType goodType, DateTime initialDate, DateTime? finalDate)
 		{
-			IEnumerable<IEnumerable<ExpenceSelection>> items;
+			IEnumerable<IEnumerable<ExpenseSelection>> items;
 			if (finalDate.HasValue)
 			{
 				items = Select(initialDate, finalDate.Value).Select(x => x.SelectAll().Where(x => x.Type == goodType));
@@ -85,14 +88,14 @@ namespace DataBaseContext
 				items = Select(initialDate).Select(x => x.SelectAll().Where(x => x.Type == goodType));
 			}
 
-			Distinct(items, out List<ExpenceSelection> result);
+			Distinct(items, out List<ExpenseSelection> result);
 
 			return result;
 		}
 
-		private static void Distinct(IEnumerable<IEnumerable<ExpenceSelection>> items, out List<ExpenceSelection> result)
+		private static void Distinct(IEnumerable<IEnumerable<ExpenseSelection>> items, out List<ExpenseSelection> result)
 		{
-			result = new List<ExpenceSelection>();
+			result = new List<ExpenseSelection>();
 
 			foreach (var purchase in items)
 			{
@@ -110,12 +113,12 @@ namespace DataBaseContext
 			}
 		}
 
-		public IEnumerable<Expence> Select(DateTime currentDate)
+		public IEnumerable<Expense> Select(DateTime currentDate)
 		{
 			return Expences.Where(x => x.Date.Day == currentDate.Day);
 		}
 
-		public IEnumerable<Expence> Select(DateTime initialDate, DateTime finalDate)
+		public IEnumerable<Expense> Select(DateTime initialDate, DateTime finalDate)
 		{
 			DateToPropriateType(ref finalDate);
 			return Expences.Where(x => x.Date >= initialDate && x.Date <= finalDate);

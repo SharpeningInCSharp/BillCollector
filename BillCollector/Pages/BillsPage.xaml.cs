@@ -81,7 +81,6 @@ namespace BillCollector.Pages
 			{
 				items = DataBase.GetBills(initialDate);
 			}
-
 		}
 
 		private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
@@ -102,7 +101,6 @@ namespace BillCollector.Pages
 			if(Guid.TryParse(data, out var expenceId))
 			{
 				User.AddExpence(expenceId);
-				//DO it onlt when it's expence been added
 				Load(DateTime.Today, null);
 			}
 			else

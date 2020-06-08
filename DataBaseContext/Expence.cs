@@ -7,17 +7,17 @@ using DataBaseContext.Entities;
 
 namespace DataBaseContext
 {
-	public class Expence : Entity
+	public class Expense : Entity
 	{
 		public decimal Sum => Goods.Sum(x => x.Key.Price * x.Value);
 
-		public Expence() : base(EntityType.Expence)
+		public Expense() : base(EntityType.Expense)
 		{
 			Goods = new Dictionary<Good, int>();
 			Date = DateTime.Now;
 		}
 
-		internal Expence(ExpenceEntity expenceEntity) : base(EntityType.Expence)
+		internal Expense(ExpenceEntity expenceEntity) : base(EntityType.Expense)
 		{
 			Goods = new Dictionary<Good, int>();
 
@@ -60,13 +60,13 @@ namespace DataBaseContext
 			ExpenceLogManager.SaveDataAsync(good);
 		}
 
-		public IEnumerable<ExpenceSelection> SelectAll()
+		public IEnumerable<ExpenseSelection> SelectAll()
 		{
 			int temp = 0;
-			return Goods.Select(x => new ExpenceSelection(++temp, x.Value, x.Key));
+			return Goods.Select(x => new ExpenseSelection(++temp, x.Value, x.Key));
 		}
 
-		public void Remove(ExpenceSelection expence)
+		public void Remove(ExpenseSelection expence)
 		{
 			var item = Goods.FirstOrDefault(x => x.Key.Name == expence.Item && x.Key.Price == expence.Price).Key;
 			if (item != null)
@@ -78,9 +78,9 @@ namespace DataBaseContext
 			Goods.Clear();
 		}
 
-		public IEnumerable<ExpenceSelection> GetGoodsByGoodType(GoodType goodType)
+		public IEnumerable<ExpenseSelection> GetGoodsByGoodType(GoodType goodType)
 		{
-			return Goods.Where(x => x.Key.Type == goodType).Select(x => new ExpenceSelection(0, x.Value, x.Key));
+			return Goods.Where(x => x.Key.Type == goodType).Select(x => new ExpenseSelection(0, x.Value, x.Key));
 		}
 
 		public void CreateGuid()

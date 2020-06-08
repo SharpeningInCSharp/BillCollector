@@ -1,15 +1,13 @@
 ﻿using DataBaseContext.Diagrams;
 using GoodInfo;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DataBaseContext
 {
 
-	public partial class ExpenceSelection
+	public partial class ExpenseSelection
 	{
-		internal ExpenceSelection(int num, int amount, Good good)
+		internal ExpenseSelection(int num, int amount, Good good)
 		{
 			Num = num;
 			item = good.Name;
@@ -49,13 +47,13 @@ namespace DataBaseContext
 		}
 	}
 
-	public partial class ExpenceSelection : IEquatable<ExpenceSelection>, IScopeSelectionItem
+	public partial class ExpenseSelection : IEquatable<ExpenseSelection>, IScopeSelectionItem
 	{
 		public decimal GetTotal => TotalPrice;
 
 		public override bool Equals(object obj)
 		{
-			if (obj is ExpenceSelection expence)
+			if (obj is ExpenseSelection expence)
 				return Equals(expence);
 
 			return false;
@@ -71,7 +69,7 @@ namespace DataBaseContext
 			return $"{Amount} x {Item} - {Price}";
 		}
 
-		public bool Equals(ExpenceSelection other)
+		public bool Equals(ExpenseSelection other)
 		{
 			if (other is null)
 				return false;

@@ -19,7 +19,7 @@ namespace CashRegister.AdditionalWindows
 			InitializeComponent();
 		}
 
-		public ReceipWindow(Expence expence, string url) : this()
+		public ReceipWindow(Expense expence, string url) : this()
 		{
 			var items = expence.SelectAll().Select(x => new
 			{

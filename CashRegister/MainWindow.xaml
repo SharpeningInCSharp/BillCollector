@@ -31,6 +31,7 @@
                       AutoGenerateColumns="False"
                       ItemsSource="{Binding Source=Items}"
                       Background="#88C9DB"
+                      IsReadOnly="True"
                       CanUserDeleteRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Item" Binding="{Binding Path=Item}"/>

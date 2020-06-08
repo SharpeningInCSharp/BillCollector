@@ -26,16 +26,16 @@ namespace DataBaseContext
 		{
 			using var db = new BillsDataBaseContext();
 			var item = (from e in db.Expences
-						 join b in db.Bills on e.BillEntityId equals b.Id
-						 select new ExpenceEntity
-						 {
-							 BillEntity = b,
-							 BillEntityId = e.BillEntityId,
-							 Date = e.Date,
-							 IdentityGuid = e.IdentityGuid,
-							 Goods = e.Goods,
+						join b in db.Bills on e.BillEntityId equals b.Id
+						select new ExpenceEntity
+						{
+							BillEntity = b,
+							BillEntityId = e.BillEntityId,
+							Date = e.Date,
+							IdentityGuid = e.IdentityGuid,
+							Goods = e.Goods,
 
-						 }).SingleOrDefault(x => x.IdentityGuid == identity);
+						}).SingleOrDefault(x => x.IdentityGuid == identity);
 
 			return item;
 		}
@@ -69,19 +69,19 @@ namespace DataBaseContext
 			db.SaveChanges();
 		}
 
-		public static IEnumerable<Expence> Select(DateTime currentDate)
+		public static IEnumerable<Expense> Select(DateTime currentDate)
 		{
 			using var db = new Entities.BillsDataBaseContext();
 			var ans = db.Expences.Where(x => x.Date.Day == currentDate.Day).ToList();
-			return ans.Select(x => new Expence(x));
+			return ans.Select(x => new Expense(x));
 		}
 
-		public static IEnumerable<Expence> Select(DateTime initialDate, DateTime finalDate)
+		public static IEnumerable<Expense> Select(DateTime initialDate, DateTime finalDate)
 		{
 			DateToPropriateType(ref finalDate);
 			using var db = new Entities.BillsDataBaseContext();
 			var res = db.Expences.Where(x => x.Date >= initialDate && x.Date <= finalDate).ToList();
-			return res.Select(x => new Expence(x));
+			return res.Select(x => new Expense(x));
 		}
 
 		/// <summary>
@@ -115,10 +115,10 @@ namespace DataBaseContext
 		{
 			using var db = new Entities.BillsDataBaseContext();
 
-			var res = from e in db.Expences.ToList()
-					  where e.Date == current
-					  join b in db.Bills.ToList() on e.BillEntityId equals b.Id
-					  select new Tuple<DateTime, string>(e.Date, b.DataPath);
+			var res = (from e in db.Expences.ToList()
+					   where e.Date.Year == current.Day && e.Date.Month == current.Month && e.Date.Day == current.Day
+					   join b in db.Bills.ToList() on e.BillEntityId equals b.Id
+					   select new Tuple<DateTime, string>(e.Date, b.DataPath)).ToList();
 
 			return res;
 		}
@@ -126,7 +126,6 @@ namespace DataBaseContext
 		public static IEnumerable<Tuple<DateTime, string>> GetBills(DateTime initial, DateTime final)
 		{
 			using var db = new Entities.BillsDataBaseContext();
-			var items = db.Expences.ToList();
 
 			DateToPropriateType(ref final);
 
@@ -147,7 +146,7 @@ namespace DataBaseContext
 					DataPath = bill.Path,
 				},
 
-				EntityType.Expence when data is Expence expence => new ExpenceEntity
+				EntityType.Expense when data is Expense expence => new ExpenceEntity
 				{
 					Date = expence.Date,
 					Goods = ToEntityGoodList(expence.Goods),//expence.Goods,
@@ -186,7 +185,7 @@ namespace DataBaseContext
 				EntityType.Bill when entity is Bill bill =>
 								db.Bills.ToList().Count(b => b.DataPath == bill.Path) == 0,
 
-				EntityType.Expence when entity is Expence expence =>
+				EntityType.Expense when entity is Expense expence =>
 								db.Expences.ToList().Count(e => e.IdentityGuid == expence.IdentityGuid) == 0,
 
 				EntityType.User when entity is User user =>

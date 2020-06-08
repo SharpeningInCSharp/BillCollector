@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="DiagramControls.DiagramStatInfo">
-    <Position X="4" Y="4.75" Width="1.5" />
+    <Position X="3.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BBYAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAFAAAA=</HashCode>
       <FileName>DiagramStatInfo.xaml.cs</FileName>
